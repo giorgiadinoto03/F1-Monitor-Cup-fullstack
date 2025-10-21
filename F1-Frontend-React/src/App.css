@@ -1,0 +1,531 @@
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;700&display=swap');
+
+/* ========== STILI BASE ========== */
+.App {
+  text-align: center;
+  font-family: 'Titillium Web';
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.Header {
+  text-align: center;
+  font-family: 'Titillium Web';
+  background-image: url(https://img.freepik.com/vettori-gratuito/sfondo-di-velocita-bandiera-a-scacchi-da-corsa_1017-23607.jpg);
+  background-size: cover;
+  object-position: top;
+  padding: 15px;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.ButtonNav:hover {
+  background-color: #b81313;
+  transition: background-color 0.25s ease-in-out;
+}
+
+.Filtro {
+  background-color: rgba(42, 78, 33, 0.5);
+  color: white;
+  margin-left: 0;
+}
+
+.Filtro:hover {
+  background-color: #2a713d;
+  transition: background-color 0.25s ease-in-out;
+}
+
+h1, h2, p, h3, h4 {
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  text-align: center;
+}
+
+/* ========== TABELLE ========== */
+table {
+  table-layout: fixed;
+  width: 95%;
+  max-width: 1200px;
+  border-collapse: collapse;
+  margin: 18px auto 32px;
+  border: 2px solid #b81313;
+  overflow-x: auto;
+}
+
+thead th {
+  font-family: 'Titillium Web';
+  font-weight: bold;
+  background-color: #b81313;
+  color: white;
+  padding: 10px;
+  text-align: center;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #282828;
+}
+
+tbody tr td {
+  font-family: 'Titillium Web';
+  font-weight: 500;
+  color: white;
+  padding: 12px;
+  text-align: center;
+  border-bottom: 0.5px solid #b81313;
+  vertical-align: middle;
+}
+
+tbody tr:hover {
+  background-color: rgba(51, 114, 192, 0.33);
+}
+
+/* ========== IMMAGINI PILOTI ========== */
+.PilotiImg {
+  width: 130px;
+  height: 130px;
+  object-fit: cover;
+  object-position: top;
+  border-radius: 50%;
+  border: 1px solid white;
+  image-rendering: auto;
+}
+
+.PilotiBackground {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  margin: 0 auto 10px auto;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.25);
+}
+
+.PilotiImgCard {
+  width: 120px;
+  height: 180px;
+  object-fit: cover;
+  object-position: top;
+  border: 1px solid white;
+}
+
+.PilotiBackgroundCard {
+  width: 120px;
+  height: 180px;
+  margin: 0 auto 10px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.75);
+}
+
+/* ========== LOGO SCUDERIE ========== */
+.LogoBackground {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.TeamLogo {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  display: block;
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.25);
+}
+
+/* ========== LISTA PILOTI ========== */
+.PilotiList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.Pilota {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.PilotiImgTeam {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  object-position: top;
+  border-radius: 50%;
+  border: 1px solid white;
+  background-color: #b8b8b8d1;
+  flex-shrink: 0;
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.25);
+}
+
+.PilotiName {
+  font-family: monospace, 'Titillium Web';
+  font-weight: 500;
+  color: white;
+  flex-grow: 1;
+}
+
+/* ========== GP TABLE ========== */
+.gp-table {
+  table-layout: fixed;
+  width: 95%;
+  max-width: 1200px;
+  border-collapse: collapse;
+  margin: 18px auto;
+}
+
+.gp-table th,
+.gp-table td {
+  padding: 10px;
+  text-align: left;
+}
+
+.gp-table thead {
+  background-color: #f4f4f4;
+  border-bottom: 2px solid #ddd;
+}
+
+.gp-table tbody tr {
+  border-bottom: 1px solid #ddd;
+}
+
+.gp-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.gp-table tbody tr:hover {
+  background-color: rgba(51, 114, 192, 0.33);
+}
+
+/* ========== SESSIONI ========== */
+.session-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 5px;
+  flex-wrap: wrap;
+}
+
+.SessionBott {
+  background-color: #303050;
+}
+
+.session-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 0.9em;
+}
+
+.session-button:hover {
+  background-color: #0056b3;
+}
+
+/* ========== HOMEPAGE LAYOUT ========== */
+.SideImage-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  min-height: calc(100vh - 200px);
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.side-image {
+  width: 230px;
+  min-height: 100vh;
+  padding: 10px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;}
+
+/* Miglioramenti SideImage */
+.side-image img {
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  object-fit: cover;
+  object-position: center; /* Cambiato da top a center */
+  border: 5px solid rgb(0, 0, 0);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+}
+
+/* Per mobile - migliora la visualizzazione */
+@media (max-width: 768px) {
+  .side-image img {
+    object-position: center;
+    min-height: 150px;
+    max-height: 200px;
+  }
+}
+
+.main-content {
+  flex-grow: 1;
+  text-align: center;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 100%;
+}
+
+.main-content h1 {
+  font-size: 2.5em;
+  margin-bottom: 10px;
+}
+
+.main-content img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ========== FOOTER ========== */
+.Footer {
+  font-family: 'Titillium Web';
+  width: 100%;
+  background-color: #303050;
+  padding: 20px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  margin-top: auto;
+}
+
+/* ========== MEDIA QUERIES - RESPONSIVE ========== */
+
+/* Tablet (fino a 1024px) */
+@media (max-width: 1024px) {
+  .side-image {
+    width: 150px;
+  }
+
+  table,
+  .gp-table {
+    width: 98%;
+  }
+
+  .main-content h1 {
+    font-size: 2em;
+  }
+
+  .PilotiImg,
+  .PilotiBackground {
+    width: 100px;
+    height: 100px;
+  }
+
+  .PilotiImgCard,
+  .PilotiBackgroundCard {
+    width: 100px;
+    height: 150px;
+  }
+}
+
+/* Tablet piccoli e smartphone orizzontale (fino a 768px) */
+@media (max-width: 768px) {
+  .SideImage-container {
+    flex-direction: column;
+    min-height: auto;
+    gap: 10px;
+  }
+
+  .side-image {
+    width: 100%;
+    min-height: 150px;
+    padding: 5px;
+  }
+
+
+
+  .main-content {
+    padding: 15px;
+  }
+
+  .main-content h1 {
+    font-size: 1.8em;
+  }
+
+  .main-content h2 {
+    font-size: 1.3em;
+  }
+
+  .main-content p {
+    font-size: 0.95em;
+  }
+
+  table,
+  .gp-table {
+    width: 100%;
+    font-size: 0.9em;
+  }
+
+  tbody tr td {
+    padding: 8px;
+  }
+
+  .PilotiImg,
+  .PilotiBackground {
+    width: 80px;
+    height: 80px;
+  }
+
+  .PilotiImgCard,
+  .PilotiBackgroundCard {
+    width: 80px;
+    height: 120px;
+  }
+
+  .PilotiImgTeam {
+    width: 50px;
+    height: 50px;
+  }
+
+  .TeamLogo,
+  .LogoBackground {
+    width: 35px;
+    height: 35px;
+  }
+
+  .Pilota {
+    gap: 8px;
+  }
+
+  .PilotiName {
+    font-size: 0.9em;
+  }
+
+  /* Header responsive */
+  .Header {
+    padding: 5px;
+  }
+
+  .Footer {
+    padding: 15px 10px;
+    font-size: 0.9em;
+  }
+}
+
+/* Smartphone (fino a 480px) */
+@media (max-width: 480px) {
+  .main-content h1 {
+    font-size: 1.5em;
+  }
+
+  .main-content h2 {
+    font-size: 1.1em;
+  }
+
+  .main-content h3 {
+    font-size: 1em;
+  }
+
+  .main-content p {
+    font-size: 0.85em;
+  }
+
+/* Smartphone (fino a 480px) */
+@media (max-width: 480px) {
+  .table-container {
+    margin: 8px 0;
+  }
+  
+  table {
+    min-width: 850px;
+  }
+  
+  .gp-table {
+    min-width: 950px;
+  }
+}
+
+  tbody tr td {
+    padding: 6px;
+  }
+
+  thead th {
+    padding: 8px 4px;
+    font-size: 0.85em;
+  }
+
+  .PilotiImg,
+  .PilotiBackground {
+    width: 60px;
+    height: 60px;
+  }
+
+  .PilotiImgCard,
+  .PilotiBackgroundCard {
+    width: 70px;
+    height: 105px;
+  }
+
+  .PilotiImgTeam {
+    width: 40px;
+    height: 40px;
+  }
+
+  .TeamLogo,
+  .LogoBackground {
+    width: 30px;
+    height: 30px;
+  }
+
+  .session-button {
+    font-size: 0.8em;
+    padding: 4px 8px;
+  }
+
+
+  .Footer {
+    font-size: 0.8em;
+    padding: 10px 5px;
+  }
+}
+
+/* Smartphone molto piccoli (fino a 360px) */
+@media (max-width: 360px) {
+  .main-content h1 {
+    font-size: 1.3em;
+  }
+
+  .main-content h2 {
+    font-size: 1em;
+  }
+
+  tbody tr td {
+    padding: 4px;
+    font-size: 0.75em;
+  }
+
+  .PilotiImg,
+  .PilotiBackground {
+    width: 50px;
+    height: 50px;
+  }
+
+  .PilotiImgTeam {
+    width: 35px;
+    height: 35px;
+  }
+}
