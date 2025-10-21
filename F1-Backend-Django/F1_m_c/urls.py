@@ -28,11 +28,11 @@ router.register(r'drivers', DriverViewSet)
 router.register(r'races', RaceViewSet)
 router.register(r'sessions', SessionViewSet)
 router.register(r'results', ResultViewSet)
+router.register(r'races/next', RaceViewSet, basename='next_race')
+
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)), #
-]
-
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -45,7 +45,7 @@ class Race(models.Model):
     country_name = models.CharField(max_length=100)
     location = models.CharField(max_length=100)
     year = models.IntegerField()
-    circuit_image = models.ImageField(upload_to='circuit_images/', null=True, blank=True)
+    circuit_image = models.CharField(max_length=255, blank=True, null=True)
     circuit_key = models.IntegerField(blank=True, null=True)
 
     def __str__(self):

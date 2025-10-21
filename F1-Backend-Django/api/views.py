@@ -32,7 +32,6 @@ class DriverViewSet(viewsets.ModelViewSet):
     ordering_fields = ['full_name', 'points', 'number']
     pagination_class = DefaultPagination # Apply pagination
 
-
 class RaceViewSet(viewsets.ModelViewSet):
     queryset = Race.objects.annotate(date_start=Min('sessions__date_start')).order_by('date_start')
     serializer_class = RaceSerializer
@@ -42,6 +41,7 @@ class RaceViewSet(viewsets.ModelViewSet):
     ordering_fields = ['date_start', 'meeting_name', 'location']
     pagination_class = DefaultPagination
 
+    # 🔥 QUESTA FUNZIONE DEVE STARE DENTRO LA CLASSE RaceViewSet
     @action(detail=False, methods=['get'], url_path='next')
     def next_race(self, request):
         today = now().date()
@@ -51,8 +51,77 @@ class RaceViewSet(viewsets.ModelViewSet):
             .order_by('date_start')
             .first()
         )
+        
+        # 🔥 FALLBACK: Se non trova gare future, cerca nei JSON
+        if not race:
+            import json
+            import os
+            from django.utils.dateparse import parse_datetime
+            from datetime import datetime
+            
+            try:
+                # Carica dal tuo JSON gp2025.json
+                file_path = os.path.join('data', 'gp2025.json')
+                with open(file_path, 'r', encoding='utf-8') as file:
+                    gp_data = json.load(file)
+                
+                # Trova la prossima gara (prima gara con data futura)
+                next_gp = None
+                current_date = datetime.now().date()
+                
+                for gp in gp_data:
+                    date_str = gp.get('date_start')
+                    if date_str:
+                        # Converti la stringa data in datetime
+                        gp_date = parse_datetime(date_str)
+                        if gp_date and gp_date.date() >= current_date:
+                            if not next_gp or gp_date < parse_datetime(next_gp['date_start']):
+                                next_gp = gp
+                
+                if next_gp:
+                    # Fix per l'URL dell'immagine
+                    image_url = next_gp.get('circuit_image', '')
+                    if image_url and image_url.startswith('../public/'):
+                        image_url = image_url.replace('../public/', '')
+                    
+                    return Response({
+                        "meeting_key": next_gp.get("meeting_key"),
+                        "meeting_name": next_gp.get("meeting_name"),
+                        "meeting_official_name": next_gp.get("meeting_official_name"),
+                        "location": next_gp.get("location"), 
+                        "country_name": next_gp.get("country_name"),
+                        "date_start": next_gp.get("date_start"),
+                        "date_end": next_gp.get("date_start"),  # Per semplicità
+                        "image_url": image_url,
+                        "year": 2025,
+                        "circuit_key": next_gp.get("circuit_key")
+                    })
+                    
+            except Exception as e:
+                print(f"Errore fallback JSON: {e}")
+                # Se c'è errore, prova a restituire almeno una gara dai JSON
+                try:
+                    if gp_data:
+                        first_gp = gp_data[0]
+                        image_url = first_gp.get('circuit_image', '').replace('../public/', '')
+                        return Response({
+                            "meeting_key": first_gp.get("meeting_key"),
+                            "meeting_name": first_gp.get("meeting_name"),
+                            "meeting_official_name": first_gp.get("meeting_official_name"),
+                            "location": first_gp.get("location"), 
+                            "country_name": first_gp.get("country_name"),
+                            "date_start": first_gp.get("date_start"),
+                            "date_end": first_gp.get("date_start"),
+                            "image_url": image_url,
+                            "year": 2025,
+                            "circuit_key": first_gp.get("circuit_key")
+                        })
+                except:
+                    pass
+        
         if not race:
             return Response({'detail': 'Non ci sono gare in programma'}, status=404)
+        
         serializer = self.get_serializer(race)
         return Response(serializer.data)
 

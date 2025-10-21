@@ -44,56 +44,36 @@ class DriverSerializer(serializers.ModelSerializer):
             return request.build_absolute_uri(url) if request else url
         return None
 
+# api/serializers.py - modifica RaceSerializer
+# api/serializers.py - RaceSerializer aggiornato
 class RaceSerializer(serializers.ModelSerializer):
-    date_start = serializers.SerializerMethodField()
-    date_end = serializers.SerializerMethodField()
-    image_url = serializers.SerializerMethodField()
-
+    circuit_image_url = serializers.SerializerMethodField()
+    start_date = serializers.SerializerMethodField()
+    meeting_official_name = serializers.SerializerMethodField()
+    
+    def get_circuit_image_url(self, obj):
+        if obj.circuit_image:
+            request = self.context.get('request')
+            if request:
+                return request.build_absolute_uri(f'/media/{obj.circuit_image}')
+            return f'/media/{obj.circuit_image}'
+        return None
+    
+    def get_start_date(self, obj):
+        first_session = obj.sessions.order_by('date_start').first()
+        return first_session.date_start if first_session else None
+    
+    def get_meeting_official_name(self, obj):
+        # Puoi personalizzare questo se necessario
+        return f"FORMULA 1 {obj.meeting_name.upper()} {obj.year}"
+    
     class Meta:
         model = Race
         fields = [
-            "meeting_key",
-            "meeting_name",
-            "location",
-            "country_name",
-            "date_start",
-            "date_end",
-            "image_url",
-            "year",
-            "circuit_key",
+            'meeting_key', 'meeting_name', 'meeting_official_name',
+            'location', 'country_name', 'year', 'circuit_key',
+            'circuit_image_url', 'start_date'
         ]
-
-    def get_date_start(self, obj):
-        value = getattr(obj, "first_session_date", None)
-        if value is None:
-            value = obj.sessions.aggregate(v=Min("date_start"))["v"]
-        return value
-
-    def get_date_end(self, obj):
-        value = getattr(obj, "last_session_date", None)
-        if value is None:
-            value = obj.sessions.aggregate(v=Max("date_start"))["v"]
-        return value
-
-    def get_image_url(self, obj):
-        # 1) URL esterno o campo diretto
-        value = getattr(obj, "image_url", None) or getattr(obj, "image", None)
-        if value and isinstance(value, str):
-            return value
-        # 2) ImageField locale (es. circuit_image)
-        image_field = getattr(obj, "circuit_image", None)
-        if image_field:
-            if hasattr(image_field, "url"):
-                request = self.context.get("request")
-                url = image_field.url
-                return request.build_absolute_uri(url) if request else url
-            # Caso: nel DB solo nome file
-            filename = str(image_field)
-            if filename:
-                request = self.context.get("request")
-                base = request.build_absolute_uri("/") if request else "/"
-                return f"{base.rstrip('/')}/media/circuit_images/{filename.lstrip('/')}"
-        return None
 
 class SessionSerializer(serializers.ModelSerializer):
     meeting_key = serializers.IntegerField(source="race.meeting_key", read_only=True)
