@@ -31,7 +31,7 @@ router.register(r'results', ResultViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include(router.urls)), #voglio dichiarla come rotta di default perchè altrimenti non funziona
+    path('api/', include(router.urls)), #
 ]
 
 if settings.DEBUG:

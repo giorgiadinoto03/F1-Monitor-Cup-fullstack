@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,7 +29,8 @@ SECRET_KEY = 'django-insecure-8f98$9umb=^4z-4)+bi6ru+95%)q7%bpa=*)pns-y7#2p(#!uh
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(
+    ",") # consente di specificare gli host ammessi tramite variabile d'ambiente
 
 
 # Application definition
@@ -35,6 +39,7 @@ INSTALLED_APPS = [
     'api', #in questo modo aggiungo l'applicazione api al mio progetto
     'rest_framework', # in questo modo l'applicazione ha importato rest_framework che è una libreria per la creazione di API
     'django_filters', # in questo modo l'applicazione ha importato django_filters che permette di creare filtri per le API
+    'corsheaders', # in questo modo l'applicazione ha importato corsheaders che permette di gestire le CORS
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -44,6 +49,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware', # in questo modo l'applicazione ha importato il middleware per gestire le CORS
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -53,13 +59,24 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+# questo permette di specificare quali origini sono permesse per le richieste CORS
+CORS_ALLOWED_ORIGINS = os.environ.get("CORS_ALLOWED_ORIGINS", "http://localhost:5173").split(",")
+
+# questo permette di specificare quali metodi sono permessi per le richieste CORS (ovvero quelli che il backend accetta)
+CSRF_TRUSTED_ORIGINS = os.environ.get("CSRF_TRUSTED_ORIGINS", "http://localhost:5173").split(",")
+
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': [ 
         'rest_framework.filters.OrderingFilter',
         'django_filters.rest_framework.DjangoFilterBackend',
     ],
-    'DEFAULT_PAGINATION_CLASS': 'api.pagination.DefaultPagination', # paginazione con page_size configurabile
-    'PAGE_SIZE': 20, # default page size
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination', # paginazione con page_size configurabile
+    'PAGE_SIZE': int(os.environ.get("PAGE_SIZE", 20)), # numero di elementi per pagina, configurabile tramite variabile d'ambiente
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle',],# limita le richieste anonime
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '60/minute'}, # limita le richieste anonime a 60 al minuto
+
 }
 
 SESSION_ORDER = {
@@ -102,7 +119,7 @@ DATABASES = {
 }
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = BASE_DIR / 'media'
 
 
 # Password validation

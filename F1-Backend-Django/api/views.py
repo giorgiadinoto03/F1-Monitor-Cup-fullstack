@@ -1,6 +1,8 @@
 from rest_framework import viewsets, filters
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from django.utils.timezone import now
+from django.db.models import Min
 from .models import *
 from .serializers import *
 from .filters import ResultFilter, RaceFilter, SessionFilter
@@ -32,14 +34,27 @@ class DriverViewSet(viewsets.ModelViewSet):
 
 
 class RaceViewSet(viewsets.ModelViewSet):
-    queryset = Race.objects.all()
+    queryset = Race.objects.annotate(date_start=Min('sessions__date_start')).order_by('date_start')
     serializer_class = RaceSerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     filterset_class = RaceFilter
     search_fields = ['meeting_name', 'location', 'country_name']
-    ordering_fields = ['meeting_name', 'location']
-    pagination_class = DefaultPagination # Apply pagination
+    ordering_fields = ['date_start', 'meeting_name', 'location']
+    pagination_class = DefaultPagination
 
+    @action(detail=False, methods=['get'], url_path='next')
+    def next_race(self, request):
+        today = now().date()
+        race = (
+            self.get_queryset()
+            .filter(date_start__gte=today)
+            .order_by('date_start')
+            .first()
+        )
+        if not race:
+            return Response({'detail': 'Non ci sono gare in programma'}, status=404)
+        serializer = self.get_serializer(race)
+        return Response(serializer.data)
 
 class SessionViewSet(viewsets.ModelViewSet):
     queryset = Session.objects.select_related('race').all()
