@@ -24,21 +24,37 @@ const fetchAPI = async (endpoint, options = {}) => {
   return handleResponse(response);
 };
 
-// Funzioni specifiche per ogni endpoint
 export const api = {
-  // Drivers
+
+  // Drivers con filtri avanzati
   getDrivers: (params = {}) => {
     const query = new URLSearchParams(params).toString();
     return fetchAPI(`/api/drivers/?${query}`);
   },
 
-  getDriverByNumber: (number) => {
-    return fetchAPI(`/api/drivers/${number}/`);
+  // Filtri specifici per classifica piloti
+  getDriversByPoints: () => {
+    return fetchAPI('/api/drivers/?ordering=-points');
   },
 
-  // Teams
-  getTeams: (ordering = '-points') => {
-    return fetchAPI(`/api/teams/?ordering=${ordering}`);
+  getDriversByTeam: (teamName) => {
+    return fetchAPI(`/api/drivers/?team__team_name=${teamName}`);
+  },
+
+  // Filtri per nazione
+  getDriversByCountry: (countryCode) => {
+    return fetchAPI(`/api/drivers/?country_code=${countryCode}`);
+  },
+
+ // Teams con filtri
+  getTeams: (params = {}) => {
+    const query = new URLSearchParams(params).toString();
+    return fetchAPI(`/api/teams/?${query}`);
+  },
+
+  // Drivers per team specifico
+  getDriversByTeam: (teamName) => {
+    return fetchAPI(`/api/drivers/?team__team_name=${teamName}`);
   },
 
   // Races

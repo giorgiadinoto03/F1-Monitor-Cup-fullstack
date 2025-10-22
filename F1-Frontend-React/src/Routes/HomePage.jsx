@@ -81,7 +81,6 @@ export default function HomePage() {
                             <br />
                             <i>{nextGp.meeting_official_name}</i>
                         </h3>
-
                         <h4>
                             <small>
                                 Inizio weekend: <br /> {formatDateTime(nextGp.date_start)}
@@ -89,7 +88,7 @@ export default function HomePage() {
                         </h4>
                     </>
                 ) : (
-                    <h3>Nessun GP in programma</h3>
+                    <h3>Nessun GP in programma </h3>
                 )}
             </div>
 

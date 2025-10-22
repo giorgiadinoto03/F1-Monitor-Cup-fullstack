@@ -1,13 +1,34 @@
-import React, { useState } from 'react';
-import { BrowserRouter, Route, Routes, Link } from 'react-router-dom';
-import DriversData from '../data/piloti.json';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { api } from '../services/api';
 import PilotiCard from '../components/PilotiCard';
 import SideImage from '../components/SideImage';
 
 export function ClassificaPiloti() {
-    const [drivers] = useState(
-        [...DriversData].sort((a, b) => a.season_position - b.season_position)
-    );
+    const [drivers, setDrivers] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchClassifica = async () => {
+            try {
+                setLoading(true);
+                // Ordina per punti discendenti
+                const data = await api.getDrivers({ ordering: '-points' });
+                setDrivers(data.results || data);
+            } catch (err) {
+                setError(err.message);
+                console.error("Errore nel fetch classifica:", err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchClassifica();
+    }, []);
+
+    if (loading) return <div className="main-content"><h2>Caricamento classifica...</h2></div>;
+    if (error) return <div className="main-content"><h2>Errore: {error}</h2></div>;
 
     return (
         <div className="SideImage-container">
@@ -18,16 +39,13 @@ export function ClassificaPiloti() {
             />
             
             <div className="Piloti">
-                <h1>Benvenuto nella sezione Piloti</h1>
-                <h2>Informazioni sui piloti di Formula 1</h2>
-                <p>Qui potrai trovare tutte le informazioni sulla stagione di Formula 1 2025 </p>
-                <p> Usa la barra di navigazione in alto per esplorare le diverse sezioni dell'app.</p>
-                <p>Buona navigazione!</p>
+                <h1>Classifica Piloti 2025</h1>
+                <h2>La classifica ufficiale dei piloti di Formula 1</h2>
 
-                {/*Bottone per vedere in base al numero del pilota*/}
+                {/* Bottone per tornare alla vista per numero */}
                 <div className="filtro-container">
                     <Link to="/piloti">
-                        <button className='Filtro'>Filtra per Numero Piloti</button>
+                        <button className='Filtro'>Vedi per Numero Pilota</button>
                     </Link>
                 </div>
 
@@ -35,20 +53,20 @@ export function ClassificaPiloti() {
                     <table className="piloti-table">
                         <thead>
                             <tr>
-                                <th>Classifica Piloti</th>
-                                <th>  </th>
+                                <th>Pos.</th>
+                                <th></th>
                                 <th>Acronimo</th>
                                 <th>Nome Completo</th>
                                 <th>Team</th>
-                                <th>Numero del pilota</th>
+                                <th>Numero Pilota</th>
                                 <th>Nazione</th>
-                                <th>Punti Stagione 2025</th>
+                                <th>Punti</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {drivers.map((driver) => (
-                                <tr key={driver.broadcast_name}>
-                                    <td>{driver.season_position}</td>
+                            {drivers.map((driver, index) => (
+                                <tr key={driver.number}>
+                                    <td>{index + 1}</td>
                                     <td>
                                         <div
                                             className="PilotiBackground"
@@ -58,20 +76,22 @@ export function ClassificaPiloti() {
                                                 className="PilotiImg"
                                                 src={driver.headshot_url}
                                                 alt={driver.full_name}
+                                                onError={(e) => {
+                                                    e.target.src = 'https://via.placeholder.com/50x50/333333/FFFFFF?text=DRIVER';
+                                                }}
                                             />
                                         </div>
                                     </td>
-                                    <td>{driver.name_acronym}</td>
-                                    <td className='PilotiName' >{driver.first_name } {driver.last_name}
-                                        <br></br>
+                                    <td>{driver.acronym}</td>
+                                    <td className='PilotiName'>
+                                        {driver.first_name} {driver.last_name}
+                                        <br />
                                         <PilotiCard driver={driver} />
                                     </td>
-                                    <td>
-                                        {driver.team_name}
-                                    </td>
-                                    <td>{driver.driver_number}</td>
+                                    <td>{driver.team_name}</td>
+                                    <td>{driver.number}</td>
                                     <td>{driver.country_code}</td>
-                                    <td>{driver.season_point}</td>
+                                    <td><strong>{driver.points}</strong></td>
                                 </tr>
                             ))}
                         </tbody>
