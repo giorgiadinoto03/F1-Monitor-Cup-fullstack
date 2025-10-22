@@ -10,57 +10,68 @@ const handleResponse = async (response) => {
   return response.json();
 };
 
+// Funzione generica per le fetch
+const fetchAPI = async (endpoint, options = {}) => {
+  const url = `${API_URL}${endpoint}`;
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    ...options,
+  };
+
+  const response = await fetch(url, config);
+  return handleResponse(response);
+};
+
+// Funzioni specifiche per ogni endpoint
 export const api = {
   // Drivers
-  getDrivers: async (params = {}) => {
+  getDrivers: (params = {}) => {
     const query = new URLSearchParams(params).toString();
-    const res = await fetch(`${API_URL}/api/drivers/?${query}`);
-    return handleResponse(res);
+    return fetchAPI(`/api/drivers/?${query}`);
   },
 
-  getDriverByNumber: async (number) => {
-    const res = await fetch(`${API_URL}/api/drivers/?number=${number}`);
-    const data = await handleResponse(res);
-    return data.results[0];
+  getDriverByNumber: (number) => {
+    return fetchAPI(`/api/drivers/${number}/`);
   },
 
   // Teams
-  getTeams: async (ordering = '-points') => {
-    const res = await fetch(`${API_URL}/api/teams/?ordering=${ordering}`);
-    return handleResponse(res);
+  getTeams: (ordering = '-points') => {
+    return fetchAPI(`/api/teams/?ordering=${ordering}`);
   },
 
   // Races
-  getRaces: async (year = 2025) => {
-    const res = await fetch(`${API_URL}/api/races/?year=${year}`);
-    return handleResponse(res);
+  getRaces: (year = 2025) => {
+    return fetchAPI(`/api/races/?year=${year}`);
   },
 
-  getNextRace: async () => {
-    const res = await fetch(`${API_URL}/api/races/next/`);
-    return handleResponse(res);
+  getNextRace: () => {
+    return fetchAPI('/api/races/next/');
+  },
+
+  getRaceById: (id) => {
+    return fetchAPI(`/api/races/${id}/`);
   },
 
   // Sessions
-  getSessions: async (weekend) => {
-    const res = await fetch(`${API_URL}/api/sessions/?weekend=${weekend}`);
-    return handleResponse(res);
+  getSessions: (weekend) => {
+    return fetchAPI(`/api/sessions/?weekend=${weekend}`);
   },
 
   // Results
-  getResults: async (filters = {}) => {
+  getResults: (filters = {}) => {
     const query = new URLSearchParams(filters).toString();
-    const res = await fetch(`${API_URL}/api/results/?${query}`);
-    return handleResponse(res);
+    return fetchAPI(`/api/results/?${query}`);
   },
 
-  getQualifyingResults: async (weekend) => {
-    const res = await fetch(`${API_URL}/api/results/qualify/?weekend=${weekend}`);
-    return handleResponse(res);
+  getQualifyingResults: (weekend) => {
+    return fetchAPI(`/api/results/qualify/?weekend=${weekend}`);
   },
 
-  getRaceResults: async (weekend) => {
-    const res = await fetch(`${API_URL}/api/results/race/?weekend=${weekend}`);
-    return handleResponse(res);
+  getRaceResults: (weekend) => {
+    return fetchAPI(`/api/results/race/?weekend=${weekend}`);
   },
 };
+
+export default api;

@@ -1,6 +1,5 @@
 // src/HomePage.jsx
 import React, { useState, useEffect } from "react";
-import { api } from "../services/api";  // 🔥 Importa l'API service
 import SideImage from "../components/SideImage";
 import "../App.css";
 
@@ -64,9 +63,9 @@ export default function HomePage() {
 
                 {nextGp ? (
                     <>
-                        {nextGp.circuit_image_url && (
+                        {nextGp.circuit_image && (  // CAMBIA circuit_image_url → circuit_image
                             <img
-                                src={nextGp.circuit_image_url}
+                                src={nextGp.circuit_image}  // CAMBIA QUI
                                 alt={nextGp.meeting_name}
                                 style={{
                                     width: "300px",

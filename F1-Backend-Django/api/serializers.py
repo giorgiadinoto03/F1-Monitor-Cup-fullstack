@@ -32,16 +32,9 @@ class DriverSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def get_headshot_url(self, obj):
-        # 1) URL esterno (dai JSON originari)
-        external = getattr(obj, "circuit_image", None) or getattr(obj, "headshot_url", None)
-        if external:
-            return external
-        # 2) ImageField locale
-        image_field = getattr(obj, "image", None) or getattr(obj, "headshot", None)
-        if image_field and hasattr(image_field, "url"):
-            request = self.context.get("request")
-            url = image_field.url
-            return request.build_absolute_uri(url) if request else url
+        # CORREGGI: usa headshot_url dal modello
+        if obj.headshot_url:
+            return obj.headshot_url
         return None
 
 # api/serializers.py - MODIFICA RaceSerializer
