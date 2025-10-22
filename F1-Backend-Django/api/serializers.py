@@ -33,7 +33,7 @@ class DriverSerializer(serializers.ModelSerializer):
 
     def get_headshot_url(self, obj):
         # 1) URL esterno (dai JSON originari)
-        external = getattr(obj, "image_url", None) or getattr(obj, "headshot_url", None)
+        external = getattr(obj, "circuit_image", None) or getattr(obj, "headshot_url", None)
         if external:
             return external
         # 2) ImageField locale
@@ -87,18 +87,18 @@ class RaceSerializer(serializers.ModelSerializer):
         ]
 
 class NextRaceSerializer(serializers.ModelSerializer):
-    image_url = serializers.SerializerMethodField()
+    circuit_image = serializers.SerializerMethodField()
     
     class Meta:
         model = Race
         fields = [
             'meeting_key', 'meeting_name', 'meeting_official_name',
             'location', 'country_name', 'date_start', 'date_end', 
-            'image_url', 'year', 'circuit_key'
+            'circuit_image', 'year', 'circuit_key'
         ]
     
-    def get_image_url(self, obj):
-        # Usa circuit_image_url come sorgente per image_url
+    def get_circuit_image(self, obj):
+        # Usa circuit_image_url come sorgente per circuit_image
         if obj.circuit_image_url:
             request = self.context.get('request')
             if request and not obj.circuit_image_url.startswith('http'):
@@ -135,7 +135,7 @@ class ResultSerializer(serializers.ModelSerializer):
     full_name = serializers.CharField(source="driver.full_name", read_only=True)
     team_name = serializers.CharField(source="driver.team.team_name", read_only=True)
     team_colour = serializers.CharField(source="driver.team.team_colour", read_only=True)
-    headshot_url = serializers.CharField(source="driver.image_url", read_only=True)
+    headshot_url = serializers.CharField(source="driver.circuit_image", read_only=True)
     meeting_key = serializers.IntegerField(source="session.race.meeting_key", read_only=True)
     session_key = serializers.IntegerField(source="session.session_key", read_only=True)
 

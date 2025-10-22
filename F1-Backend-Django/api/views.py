@@ -80,9 +80,9 @@ class RaceViewSet(viewsets.ModelViewSet):
                 
                 if next_gp:
                     # Fix per l'URL dell'immagine
-                    image_url = next_gp.get('circuit_image', '')
-                    if image_url and image_url.startswith('../media/'):
-                        image_url = image_url.replace('../media/', '/media/')
+                    circuit_image = next_gp.get('circuit_image', '')
+                    if circuit_image and circuit_image.startswith('../media/'):
+                        circuit_image = circuit_image.replace('../media/', '/media/')
                     
                     return Response({
                         "meeting_key": next_gp.get("meeting_key"),
@@ -92,7 +92,7 @@ class RaceViewSet(viewsets.ModelViewSet):
                         "country_name": next_gp.get("country_name"),
                         "date_start": next_gp.get("date_start"),
                         "date_end": next_gp.get("date_start"),  # Per semplicità
-                        "image_url": image_url,
+                        "circuit_image": circuit_image,
                         "year": 2025,
                         "circuit_key": next_gp.get("circuit_key")
                     })
@@ -103,7 +103,7 @@ class RaceViewSet(viewsets.ModelViewSet):
                 try:
                     if gp_data:
                         first_gp = gp_data[0]
-                        image_url = first_gp.get('circuit_image', '').replace('../media/', '/media/')
+                        circuit_image = first_gp.get('circuit_image', '').replace('../media/', '/media/')
                         return Response({
                             "meeting_key": first_gp.get("meeting_key"),
                             "meeting_name": first_gp.get("meeting_name"),
@@ -112,7 +112,7 @@ class RaceViewSet(viewsets.ModelViewSet):
                             "country_name": first_gp.get("country_name"),
                             "date_start": first_gp.get("date_start"),
                             "date_end": first_gp.get("date_start"),
-                            "image_url": image_url,
+                            "circuit_image": circuit_image,
                             "year": 2025,
                             "circuit_key": first_gp.get("circuit_key")
                         })

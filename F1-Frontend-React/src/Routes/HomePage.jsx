@@ -26,10 +26,12 @@ export default function HomePage() {
     useEffect(() => {
         const fetchNextGp = async () => {
             try {
-                const data = await api.getNextRace(); // 🔥 Chiamata API backend
+                const response = await fetch('http://localhost:8000/api/races/next/');
+                const data = await response.json();
+                console.log('🚨 DATI RICEVUTI:', data); // DEBUG
                 setNextGp(data);
             } catch (err) {
-                console.error("Errore nel fetch della prossima gara:", err);
+                console.error("Errore nel fetch:", err);
                 setError(err.message);
             } finally {
                 setLoading(false);

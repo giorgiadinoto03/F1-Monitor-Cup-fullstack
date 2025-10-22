@@ -36,7 +36,7 @@ class Command(BaseCommand):
                     'team': team_obj,
                     'first_name': item.get('first_name', ''),
                     'last_name': item.get('last_name', ''),
-                    'image_url': item.get('headshot_url', ''),
+                    'circuit_image': item.get('headshot_url', ''),
                     'country_code': item.get('country_code', ''),
                     'country_name': item.get('country_name', ''),
                     'gp_count': item.get('gp_count', 0),

@@ -63,7 +63,7 @@ class Migration(migrations.Migration):
                 ('acronym', models.CharField(max_length=50)),
                 ('first_name', models.CharField(max_length=100)),
                 ('last_name', models.CharField(max_length=100)),
-                ('image_url', models.URLField(blank=True, null=True)),
+                ('circuit_image', models.URLField(blank=True, null=True)),
                 ('country_code', models.CharField(blank=True, max_length=10, null=True)),
                 ('country_name', models.CharField(blank=True, max_length=50, null=True)),
                 ('gp_count', models.IntegerField(default=0)),

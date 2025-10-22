@@ -20,7 +20,7 @@ class Driver(models.Model):
     team = models.ForeignKey('Team', on_delete=models.SET_NULL, related_name='drivers', blank=True, null=True)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
-    image_url = models.URLField(blank=True, null=True)
+    circuit_image = models.URLField(blank=True, null=True)
     country_code = models.CharField(max_length=10, blank=True, null=True)
     country_name = models.CharField(max_length=50, blank=True, null=True)
     gp_count = models.IntegerField(default=0)
