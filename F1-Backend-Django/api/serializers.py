@@ -44,14 +44,21 @@ class DriverSerializer(serializers.ModelSerializer):
             return request.build_absolute_uri(url) if request else url
         return None
 
-# api/serializers.py - modifica RaceSerializer
-# api/serializers.py - RaceSerializer aggiornato
+# api/serializers.py - MODIFICA RaceSerializer
 class RaceSerializer(serializers.ModelSerializer):
     circuit_image_url = serializers.SerializerMethodField()
     start_date = serializers.SerializerMethodField()
     meeting_official_name = serializers.SerializerMethodField()
-    
+
     def get_circuit_image_url(self, obj):
+        # Prima prova con circuit_image_url
+        if obj.circuit_image_url:
+            request = self.context.get('request')
+            if request and not obj.circuit_image_url.startswith('http'):
+                return request.build_absolute_uri(obj.circuit_image_url)
+            return obj.circuit_image_url
+        
+        # Fallback su circuit_image
         if obj.circuit_image:
             request = self.context.get('request')
             if request:
@@ -60,11 +67,15 @@ class RaceSerializer(serializers.ModelSerializer):
         return None
     
     def get_start_date(self, obj):
+        # 🔥 CORREGGI: usa l'annotazione first_session_date invece di fare una query
+        if hasattr(obj, 'date_start'):
+            return obj.date_start
+        
+        # Fallback: query tradizionale
         first_session = obj.sessions.order_by('date_start').first()
-        return first_session.date_start if first_session else None
+        return first_session.date_start if first_session else obj.date_start
     
     def get_meeting_official_name(self, obj):
-        # Puoi personalizzare questo se necessario
         return f"FORMULA 1 {obj.meeting_name.upper()} {obj.year}"
     
     class Meta:
@@ -74,6 +85,33 @@ class RaceSerializer(serializers.ModelSerializer):
             'location', 'country_name', 'year', 'circuit_key',
             'circuit_image_url', 'start_date'
         ]
+
+class NextRaceSerializer(serializers.ModelSerializer):
+    image_url = serializers.SerializerMethodField()
+    
+    class Meta:
+        model = Race
+        fields = [
+            'meeting_key', 'meeting_name', 'meeting_official_name',
+            'location', 'country_name', 'date_start', 'date_end', 
+            'image_url', 'year', 'circuit_key'
+        ]
+    
+    def get_image_url(self, obj):
+        # Usa circuit_image_url come sorgente per image_url
+        if obj.circuit_image_url:
+            request = self.context.get('request')
+            if request and not obj.circuit_image_url.startswith('http'):
+                return request.build_absolute_uri(obj.circuit_image_url)
+            return obj.circuit_image_url
+        
+        # Fallback su circuit_image
+        if obj.circuit_image:
+            request = self.context.get('request')
+            if request:
+                return request.build_absolute_uri(f'/media/{obj.circuit_image}')
+            return f'/media/{obj.circuit_image}'
+        return None
 
 class SessionSerializer(serializers.ModelSerializer):
     meeting_key = serializers.IntegerField(source="race.meeting_key", read_only=True)

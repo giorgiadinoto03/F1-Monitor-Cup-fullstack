@@ -30,10 +30,10 @@ class DriverViewSet(viewsets.ModelViewSet):
     }
     search_fields = ['full_name', 'acronym', 'team__team_name']
     ordering_fields = ['full_name', 'points', 'number']
-    pagination_class = DefaultPagination # Apply pagination
+    pagination_class = DefaultPagination 
 
 class RaceViewSet(viewsets.ModelViewSet):
-    queryset = Race.objects.annotate(date_start=Min('sessions__date_start')).order_by('date_start')
+    queryset = Race.objects.all().order_by('date_start')  # Usa direttamente il campo
     serializer_class = RaceSerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     filterset_class = RaceFilter
@@ -41,7 +41,7 @@ class RaceViewSet(viewsets.ModelViewSet):
     ordering_fields = ['date_start', 'meeting_name', 'location']
     pagination_class = DefaultPagination
 
-    # 🔥 QUESTA FUNZIONE DEVE STARE DENTRO LA CLASSE RaceViewSet
+    
     @action(detail=False, methods=['get'], url_path='next')
     def next_race(self, request):
         today = now().date()
@@ -52,7 +52,7 @@ class RaceViewSet(viewsets.ModelViewSet):
             .first()
         )
         
-        # 🔥 FALLBACK: Se non trova gare future, cerca nei JSON
+        # Se non trova gare future, cerca nei JSON
         if not race:
             import json
             import os
@@ -81,8 +81,8 @@ class RaceViewSet(viewsets.ModelViewSet):
                 if next_gp:
                     # Fix per l'URL dell'immagine
                     image_url = next_gp.get('circuit_image', '')
-                    if image_url and image_url.startswith('../public/'):
-                        image_url = image_url.replace('../public/', '')
+                    if image_url and image_url.startswith('../media/'):
+                        image_url = image_url.replace('../media/', '/media/')
                     
                     return Response({
                         "meeting_key": next_gp.get("meeting_key"),
@@ -103,7 +103,7 @@ class RaceViewSet(viewsets.ModelViewSet):
                 try:
                     if gp_data:
                         first_gp = gp_data[0]
-                        image_url = first_gp.get('circuit_image', '').replace('../public/', '')
+                        image_url = first_gp.get('circuit_image', '').replace('../media/', '/media/')
                         return Response({
                             "meeting_key": first_gp.get("meeting_key"),
                             "meeting_name": first_gp.get("meeting_name"),
@@ -122,7 +122,7 @@ class RaceViewSet(viewsets.ModelViewSet):
         if not race:
             return Response({'detail': 'Non ci sono gare in programma'}, status=404)
         
-        serializer = self.get_serializer(race)
+        serializer = NextRaceSerializer(race, context={'request': request})
         return Response(serializer.data)
 
 class SessionViewSet(viewsets.ModelViewSet):

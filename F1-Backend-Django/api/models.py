@@ -41,12 +41,16 @@ class Driver(models.Model):
 class Race(models.Model):
     meeting_key = models.IntegerField(unique=True)
     meeting_name = models.CharField(max_length=200)
+    meeting_official_name = models.CharField(max_length=200, blank=True, null=True)  # Aggiungi questo
     country_code = models.CharField(max_length=50, blank=True, null=True)
     country_name = models.CharField(max_length=100)
     location = models.CharField(max_length=100)
     year = models.IntegerField()
-    circuit_image = models.CharField(max_length=255, blank=True, null=True)
+    circuit_image = models.ImageField(upload_to='circuit_images/', blank=True, null=True)
+    circuit_image_url = models.CharField(max_length=255, blank=True, null=True)
     circuit_key = models.IntegerField(blank=True, null=True)
+    date_start = models.DateTimeField(blank=True, null=True)  # Aggiungi per races/next
+    date_end = models.DateTimeField(blank=True, null=True)  # Aggiungi per races/next
 
     def __str__(self):
         return f"{self.meeting_name} ({self.year})"

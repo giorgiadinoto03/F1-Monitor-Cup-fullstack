@@ -1,3 +1,4 @@
+# api/management/commands/import_openf1_races.py - MODIFICA
 from django.core.management.base import BaseCommand
 from api.models import Race
 import requests
@@ -10,32 +11,32 @@ class Command(BaseCommand):
         data = requests.get(url).json()
 
         for item in data:
+            circuit_image_raw = item.get("circuit_image", "")
+
+            # Processa il percorso dell'immagine
+            if circuit_image_raw.startswith("../media/circuit_images/"):
+                circuit_name_with_ext = circuit_image_raw.split('/')[-1]
+            else:
+                circuit_name_with_ext = circuit_image_raw
+                
+            # Assicurati che abbia l'estensione .png
+            if circuit_name_with_ext and not circuit_name_with_ext.endswith('.png'):
+                circuit_name_with_ext = f"{circuit_name_with_ext}.png"
+
             race, created = Race.objects.update_or_create(
-            meeting_key=item["meeting_key"],
-            defaults={
-                "meeting_name": item.get("meeting_official_name", ""),
-                "country_code": item.get("country_code", ""),
-                "country_name": item.get("country_name", ""),
-                "location": item.get("location", ""),
-                "year": item.get("year", 2025),
-                "circuit_image": item.get("circuit_image", "")
-            }
-        )
-        circuit_image_raw = item.get("circuit_image", "")
+                meeting_key=item["meeting_key"],
+                defaults={
+                    "meeting_name": item.get("meeting_official_name", ""),
+                    "meeting_official_name": item.get("meeting_official_name", ""),
+                    "country_code": item.get("country_code", ""),
+                    "country_name": item.get("country_name", ""),
+                    "location": item.get("location", ""),
+                    "year": item.get("year", 2025),
+                    "circuit_image": circuit_name_with_ext,
+                    "circuit_image_url": item.get("circuit_image", ""),  # Salva anche l'URL originale
+                    "circuit_key": item.get("circuit_key", None),
+                    "date_start": item.get("date_start", None)
+                }
+            )
 
-        # Se il valore inizia con "../media/circuit_images/", estrai solo il nome del file.
-        # Altrimenti, usalo così com'è, presumendo sia già un nome file pulito.
-        if circuit_image_raw.startswith("../media/circuit_images/"):
-            circuit_name_with_ext = circuit_image_raw.split('/')[-1] # Ottiene "Sakhir.png"
-        else:
-            circuit_name_with_ext = circuit_image_raw # Potrebbe essere già "Sakhir" o "Sakhir.png"
-            
-        # Assicurati che abbia l'estensione .png, se non è già presente
-        if not circuit_name_with_ext.endswith('.png'):
-            circuit_name_with_ext = f"{circuit_name_with_ext}.png"
-            
-        race.circuit_image = circuit_name_with_ext # Salva il nome file nel database
-        race.save()
-
-        
         self.stdout.write(self.style.SUCCESS("✅ Gran Premi importati"))
