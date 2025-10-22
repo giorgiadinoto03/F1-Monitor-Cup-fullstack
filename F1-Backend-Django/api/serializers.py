@@ -4,8 +4,7 @@ from .models import Team, Driver, Race, Session, Result
 
 class TeamSerializer(serializers.ModelSerializer):
     logo_url = serializers.SerializerMethodField()
-    livrea = serializers.CharField(source='team_colour', read_only=True)
-
+    livrea = serializers.SerializerMethodField()
     class Meta:
         model = Team
         fields = "__all__"
@@ -22,10 +21,23 @@ class TeamSerializer(serializers.ModelSerializer):
         # Altrimenti è una stringa o URL esterno
         return value
 
+    # AGGIUNGI: metodo per gestire il campo livrea
+    def get_livrea(self, obj):
+        value = getattr(obj, "livrea", None)
+        if not value:
+            return None
+        # Se è un ImageField locale
+        if hasattr(value, "url"):
+            request = self.context.get("request")
+            url = value.url
+            return request.build_absolute_uri(url) if request else url
+        # Altrimenti è una stringa o URL esterno
+        return value
+    
 class DriverSerializer(serializers.ModelSerializer):
     team_name = serializers.CharField(source="team.team_name", read_only=True)
     team_colour = serializers.CharField(source="team.team_colour", read_only=True)
-    headshot_url = serializers.SerializerMethodField()
+    headshot_url = serializers.URLField(read_only=True)
 
     class Meta:
         model = Driver
@@ -128,7 +140,8 @@ class ResultSerializer(serializers.ModelSerializer):
     full_name = serializers.CharField(source="driver.full_name", read_only=True)
     team_name = serializers.CharField(source="driver.team.team_name", read_only=True)
     team_colour = serializers.CharField(source="driver.team.team_colour", read_only=True)
-    headshot_url = serializers.CharField(source="driver.circuit_image", read_only=True)
+    # CORREGGI: usa headshot_url invece di circuit_image
+    headshot_url = serializers.CharField(source="driver.headshot_url", read_only=True)
     meeting_key = serializers.IntegerField(source="session.race.meeting_key", read_only=True)
     session_key = serializers.IntegerField(source="session.session_key", read_only=True)
 
@@ -141,7 +154,7 @@ class ResultSerializer(serializers.ModelSerializer):
             "full_name",
             "team_name",
             "team_colour",
-            "headshot_url",
+            "headshot_url",  # Ora punta al campo corretto
             "position",
             "duration",
             "gap_to_leader",

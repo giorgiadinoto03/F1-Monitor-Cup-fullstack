@@ -63,9 +63,9 @@ export default function HomePage() {
 
                 {nextGp ? (
                     <>
-                        {nextGp.circuit_image && (  // CAMBIA circuit_image_url → circuit_image
+                        {nextGp.circuit_image_url && (  
                             <img
-                                src={nextGp.circuit_image}  // CAMBIA QUI
+                                src={nextGp.circuit_image_url}  
                                 alt={nextGp.meeting_name}
                                 style={{
                                     width: "300px",
