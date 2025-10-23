@@ -1,11 +1,10 @@
 from django.core.management.base import BaseCommand
 from api.models import Race, Session
 import requests
-from django.conf import settings
-import json # Importa il modulo json per una migliore gestione degli errori
+import json
 
 class Command(BaseCommand):
-    help = "Importa tutte le sessioni OpenF1 per ogni meeting salvato"
+    help = "Importa tutte le sessioni OpenF1 per ogni gara salvata, comprese le Sprint"
 
     def handle(self, *args, **kwargs):
 
@@ -16,67 +15,71 @@ class Command(BaseCommand):
 
         for race in races:
             url = f"https://api.openf1.org/v1/sessions?meeting_key={race.meeting_key}"
-            self.stdout.write(self.style.MIGRATE_HEADING(f"Tentativo di importare sessioni per la gara: {race.meeting_name} (Meeting Key: {race.meeting_key})"))
+            self.stdout.write(self.style.MIGRATE_HEADING(f"Tentativo di importare sessioni per la gara: {race.meeting_name}"))
 
             try:
-                response = requests.get(url, timeout=10) # Aggiungi un timeout per evitare che la richiesta si blocchi indefinitamente
-                response.raise_for_status() # Solleva un'eccezione per errori HTTP (4xx o 5xx)
-
+                response = requests.get(url, timeout=10)
+                response.raise_for_status()
                 data = response.json()
 
-                # Assicurati che 'data' sia una lista di dizionari
                 if not isinstance(data, list):
-                    self.stdout.write(self.style.ERROR(f"Errore: La risposta dell'API per meeting_key {race.meeting_key} non è un elenco. Contenuto: {data}"))
-                    continue # Passa alla prossima gara
+                    self.stdout.write(self.style.ERROR(f"Errore: la risposta API non è una lista. Contenuto: {data}"))
+                    continue
 
                 if not data:
-                    self.stdout.write(self.style.WARNING(f"Nessuna sessione trovata per la gara: {race.meeting_name} (Meeting Key: {race.meeting_key})."))
+                    self.stdout.write(self.style.WARNING(f"Nessuna sessione trovata per {race.meeting_name}"))
                     continue
 
                 for item in data:
-                    # Verifica che 'item' sia un dizionario prima di accedervi con chiavi stringa
                     if not isinstance(item, dict):
-                        self.stdout.write(self.style.ERROR(f"Errore: Un elemento nella risposta dell'API non è un dizionario. Contenuto: {item}"))
-                        continue # Salta questo elemento e continua con il prossimo
-
-                    session_key = item.get("session_key")  # Usa .get() per gestire chiavi mancanti
-                    session_type = item.get("session_type")
-
-                    if session_key is None or session_type is None:
-                        self.stdout.write(self.style.WARNING(f"Skipping session due to missing 'session_key' or 'session_type' in item: {item}"))
+                        self.stdout.write(self.style.ERROR(f"Elemento non valido nell'API: {item}"))
                         continue
 
-                    # Il campo session_key nel tuo modello Session è un IntegerField.
-                    # Assicurati che il valore sia un intero prima di passarlo.
+                    session_key = item.get("session_key")
+                    session_type = item.get("session_type")
+                    session_name = item.get("session_name", "")
+
+                    if session_key is None or session_type is None:
+                        self.stdout.write(self.style.WARNING(f"Skipping session per dati incompleti: {item}"))
+                        continue
+
                     try:
                         session_key = int(session_key)
                     except ValueError:
-                        self.stdout.write(self.style.ERROR(f"Errore: 'session_key' non è un intero valido per l'item: {item}"))
+                        self.stdout.write(self.style.ERROR(f"'session_key' non è un intero: {item}"))
                         continue
+
+                    # Gestione Sprint
+                    if session_name.lower().startswith("sprint"):
+                        # Determina il tipo corretto
+                        if "qualifying" in session_type.lower():
+                            session_type_db = "SPRINT_QUALIFYING"
+                            session_name_db = "Sprint Qualifying"
+                        else:
+                            session_type_db = "SPRINT_RACE"
+                            session_name_db = "Sprint Race"
+                    else:
+                        session_type_db = session_type
+                        session_name_db = session_name
 
                     Session.objects.update_or_create(
                         session_key=session_key,
                         defaults={
                             "race": race,
-                            "session_name": item.get("session_name", ""),
-                            "session_type": item.get("session_type", ""),
-                            "date_start": item.get("date_start")or None,
-                            "circuit_short_name": item.get("circuit_short_name", ""),
+                            "session_name": session_name_db,
+                            "session_type": session_type_db,
+                            "date_start": item.get("date_start") or None,
+                            "circuit_short_name": item.get("circuit_short_name", "")
                         }
                     )
-                    self.stdout.write(self.style.SUCCESS(f"  ✅ Sessione '{item.get('session_name', 'N/A')}' (Key: {session_key}) importata/aggiornata per {race.meeting_name}."))
 
-            except requests.exceptions.HTTPError as e:
-                self.stdout.write(self.style.ERROR(f"Errore HTTP durante il recupero delle sessioni per {race.meeting_name}: {e}"))
-            except requests.exceptions.ConnectionError as e:
-                self.stdout.write(self.style.ERROR(f"Errore di connessione durante il recupero delle sessioni per {race.meeting_name}: {e}"))
-            except requests.exceptions.Timeout:
-                self.stdout.write(self.style.ERROR(f"Timeout durante il recupero delle sessioni per {race.meeting_name} dall'API OpenF1."))
+                    self.stdout.write(self.style.SUCCESS(f"  ✅ Sessione '{session_name_db}' ({session_type_db}) importata/aggiornata"))
+
             except requests.exceptions.RequestException as e:
-                self.stdout.write(self.style.ERROR(f"Errore generale della richiesta durante il recupero delle sessioni per {race.meeting_name}: {e}"))
+                self.stdout.write(self.style.ERROR(f"Errore fetch sessioni per {race.meeting_name}: {e}"))
             except json.JSONDecodeError as e:
-                self.stdout.write(self.style.ERROR(f"Errore di decodifica JSON per {race.meeting_name}: {e}. La risposta non era JSON valida."))
+                self.stdout.write(self.style.ERROR(f"Errore decodifica JSON per {race.meeting_name}: {e}"))
             except Exception as e:
-                self.stdout.write(self.style.ERROR(f"Errore inatteso durante l'importazione delle sessioni per {race.meeting_name}: {e}"))
+                self.stdout.write(self.style.ERROR(f"Errore inatteso import session per {race.meeting_name}: {e}"))
 
-        self.stdout.write(self.style.SUCCESS("✅ Tutte le sessioni OpenF1 importate/aggiornate per le gare processate!"))
+        self.stdout.write(self.style.SUCCESS("✅ Tutte le sessioni OpenF1 importate/aggiornate!"))

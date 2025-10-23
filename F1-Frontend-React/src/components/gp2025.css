@@ -1,0 +1,161 @@
+/* ========== GP2025 - STILE BASE E VARIABILI ========== */
+
+:root {
+    --f1-red: #e10600;
+    --f1-dark: #0d0d0d;
+    --f1-gray: #1c1c1c;
+    --f1-light-gray: #f5f5f5;
+    --f1-accent: #ff2e2e;
+    --f1-shadow: rgba(0, 0, 0, 0.6);
+    /* Puoi aggiungere qui altri colori comuni come il colore principale del testo per il tuo progetto */
+}
+
+body {
+    background: radial-gradient(circle at top, #161616, #0a0a0a);
+    color: white;
+    font-family: 'F1', 'Roboto Condensed', 'Segoe UI', sans-serif;
+    letter-spacing: 0.3px;
+}
+
+/* ========== TABELLA SCUDERIE - STILI PRINCIPALI ========== */
+.scuderie-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: linear-gradient(180deg, #121212 0%, #1e1e1e 100%);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 30px var(--f1-shadow);
+    color: #eaeaea;
+}
+
+.scuderie-table th {
+    background: linear-gradient(90deg, var(--f1-red), #8a0f0f);
+    color: white;
+    padding: 14px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    border-bottom: 2px solid #000;
+    letter-spacing: 1px;
+}
+
+.scuderie-table td {
+    padding: 12px 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    vertical-align: middle;
+    background: linear-gradient(180deg, #111 0%, #0c0c0c 100%);
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.team-row:hover {
+    background: rgba(225, 6, 0, 0.08);
+    transform: scale(1.01);
+}
+
+/* === CELLE SCUDERIE SPECIFICHE === */
+.position-cell {
+    text-align: center;
+    width: 70px;
+}
+
+.position-badge {
+    background: var(--f1-red);
+    color: white;
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-weight: bold;
+    font-size: 1.1em;
+    display: inline-block;
+    box-shadow: 0 0 8px rgba(225, 6, 0, 0.5);
+}
+
+.team-name-cell {
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 0 4px rgba(255, 255, 255, 0.2);
+}
+
+.logo-cell {
+    width: 90px;
+    text-align: center;
+}
+
+.LogoBackground {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    border-radius: 500px;
+    box-shadow: 0 0 10px rgba(225, 6, 0, 0.3);
+    transition: transform 0.2s ease;
+}
+
+.LogoBackground:hover {
+    transform: scale(1.1);
+}
+
+.TeamLogo {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+}
+
+.drivers-cell {
+    min-width: 250px;
+}
+
+/* === PUNTI E LIVREA === */
+.points-cell {
+    text-align: center;
+    width: 100px;
+}
+
+.points-badge {
+    background: var(--f1-red);
+    color: white;
+    padding: 8px 18px;
+    border-radius: 50px;
+    font-weight: bold;
+    font-size: 1.2em;
+    display: inline-block;
+    box-shadow: 0 0 10px rgba(225, 6, 0, 0.6);
+}
+
+.livrea-cell {
+    text-align: center;
+}
+
+.livrea-img {
+    width: 100px;
+    height: 50px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    object-fit: cover;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.livrea-img:hover {
+    transform: scale(1.6);
+    box-shadow: 0 0 15px rgba(225, 6, 0, 0.5);
+    z-index: 10;
+}
+
+.no-livrea {
+    color: #999;
+    font-style: italic;
+}
+
+/* === RESPONSIVE TABLES === */
+@media (max-width: 1024px) {
+    .scuderie-table {
+        font-size: 0.9em;
+    }
+}
+
+@media (max-width: 768px) {
+    .scuderie-table {
+        display: block;
+        overflow-x: auto;
+    }
+}
+

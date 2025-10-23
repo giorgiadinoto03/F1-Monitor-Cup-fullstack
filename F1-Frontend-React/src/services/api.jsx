@@ -10,34 +10,29 @@ const handleResponse = async (response) => {
   return response.json();
 };
 
+// Funzione generica per le fetch API
 const fetchAPI = async (endpoint, options = {}) => {
-  const url = `${API_URL}${endpoint}`;
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    ...options,
-  };
-
   try {
+    const url = `${API_URL}${endpoint}`;
+    const config = {
+      headers: { 'Content-Type': 'application/json' },
+      ...options,
+    };
+    
     const response = await fetch(url, config);
     
     if (!response.ok) {
-      // Se è un 429, gestiscilo diversamente
-      if (response.status === 429) {
-        throw new Error('Troppe richieste. Riprova tra qualche secondo.');
-      }
       throw new Error(`HTTP ${response.status}: ${response.statusText}`);
     }
     
     return await response.json();
   } catch (error) {
     console.error(`API Error ${endpoint}:`, error);
-    throw error; // Rilancia l'errore per gestirlo nei componenti
+    throw error;
   }
 };
-export const api = {
 
+export const api = {
   // Drivers con filtri avanzati
   getDrivers: (params = {}) => {
     const query = new URLSearchParams(params).toString();
@@ -49,25 +44,28 @@ export const api = {
     return fetchAPI('/api/drivers/?ordering=-points');
   },
 
+  getDriversByTeam: (teamName) => {
+    return fetchAPI(`/api/drivers/?team__team_name=${teamName}`);
+  },
+
   // Filtri per nazione
   getDriversByCountry: (countryCode) => {
     return fetchAPI(`/api/drivers/?country_code=${countryCode}`);
   },
 
- // Teams con filtri
+  // Teams con filtri
   getTeams: (params = {}) => {
     const query = new URLSearchParams(params).toString();
     return fetchAPI(`/api/teams/?${query}`);
   },
 
-  // Drivers per team specifico
-  getDriversByTeam: (teamName) => {
-    return fetchAPI(`/api/drivers/?team__team_name=${teamName}`);
-  },
-
-  // Races
+  // Races - CORRETTO: gestione corretta del parametro year
   getRaces: (year = 2025) => {
-    return fetchAPI(`/api/races/?year=${year}`);
+    // Estrai il valore year se è un oggetto con proprietà year
+    const actualYear = year && typeof year === 'object' && year.year ? year.year : year;
+    // Converti in stringa e pulisci il valore
+    const yearParam = String(actualYear).replace(/[^0-9]/g, '') || '2025';
+    return fetchAPI(`/api/races/?year=${yearParam}`);
   },
 
   getNextRace: () => {

@@ -46,7 +46,6 @@ class Race(models.Model):
     country_name = models.CharField(max_length=100)
     location = models.CharField(max_length=100)
     year = models.IntegerField()
-    circuit_image = models.ImageField(upload_to='circuit_images/', blank=True, null=True)
     circuit_image_url = models.CharField(max_length=255, blank=True, null=True)
     circuit_key = models.IntegerField(blank=True, null=True)
     date_start = models.DateTimeField(blank=True, null=True)  # Aggiungi per races/next

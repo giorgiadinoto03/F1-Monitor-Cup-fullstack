@@ -1,4 +1,4 @@
-# api/management/commands/associate_circuit_images.py
+# api/management/commands/associate_circuit_images.py - CORRETTO
 from django.core.management.base import BaseCommand
 from api.models import Race
 import os
@@ -7,13 +7,13 @@ class Command(BaseCommand):
     help = "Associa immagini locali ai circuiti delle Race"
 
     def handle(self, *args, **kwargs):
-        img_dir = 'circuit_images'  # Cartella relativa dentro media
+        img_dir = 'circuit_images'
         
         circuit_map = {
             "BAHRAIN": "Sakhir",
             "SAUDI": "Jeddah",
             "AUSTRALIAN": "Melbourne", 
-            "JAPANESE": "Sazuka",
+            "JAPANESE": "Suzuka",
             "CHINESE": "Shanghai",
             "MIAMI": "Miami",
             "EMILIA-ROMAGNA": "Imola",
@@ -49,8 +49,8 @@ class Command(BaseCommand):
                         break
 
             if matched_file:
-                # Salva solo il percorso, non il file
-                race.circuit_image = matched_file
+                # CORRETTO: usa circuit_image_url
+                race.circuit_image_url = f"/media/{matched_file}"
                 race.save()
                 self.stdout.write(self.style.SUCCESS(f"✅ Immagine associata a {race.meeting_name} → {matched_file}"))
             else:

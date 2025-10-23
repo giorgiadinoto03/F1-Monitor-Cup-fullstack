@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;700&display=swap');
 
-/* ========== STILI BASE ========== */
+/* ========== STILI BASE E GENERALI (rimasti) ========== */
 .App {
   text-align: center;
   font-family: 'Titillium Web';
@@ -9,16 +9,9 @@
   flex-direction: column;
 }
 
-.Header {
-  text-align: center;
-  font-family: 'Titillium Web';
-  background-image: url(https://img.freepik.com/vettori-gratuito/sfondo-di-velocita-bandiera-a-scacchi-da-corsa_1017-23607.jpg);
-  background-size: cover;
-  object-position: top;
-  padding: 15px;
-  color: white;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-}
+/* * .Header è stato spostato in header-footer.css
+* .Footer è stato spostato in header-footer.css 
+*/
 
 .ButtonNav:hover {
   background-color: #b81313;
@@ -42,7 +35,7 @@ h1, h2, p, h3, h4 {
   text-align: center;
 }
 
-/* ========== TABELLE ========== */
+/* ========== TABELLE (Generiche e GP) ========== */
 table {
   table-layout: fixed;
   width: 95%;
@@ -80,105 +73,11 @@ tbody tr:hover {
   background-color: rgba(51, 114, 192, 0.33);
 }
 
-/* ========== IMMAGINI PILOTI ========== */
-.PilotiImg {
-  width: 130px;
-  height: 130px;
-  object-fit: cover;
-  object-position: top;
-  border-radius: 50%;
-  border: 1px solid white;
-  image-rendering: auto;
-}
 
-.PilotiBackground {
-  width: 130px;
-  height: 130px;
-  border-radius: 50%;
-  margin: 0 auto 10px auto;
-  padding: 2px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.25);
-}
+/* * Gli stili PilotiImg, PilotiBackground, LogoBackground, TeamLogo, PilotiList, Pilota, PilotiImgTeam, PilotiName
+* sono stati spostati in Piloti.css (o _pilots-media.css se hai seguito il suggerimento precedente)
+*/
 
-.PilotiImgCard {
-  width: 120px;
-  height: 180px;
-  object-fit: cover;
-  object-position: top;
-  border: 1px solid white;
-}
-
-.PilotiBackgroundCard {
-  width: 120px;
-  height: 180px;
-  margin: 0 auto 10px auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.75);
-}
-
-/* ========== LOGO SCUDERIE ========== */
-.LogoBackground {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.TeamLogo {
-  width: 40px;
-  height: 40px;
-  object-fit: contain;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  display: block;
-  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.25);
-}
-
-/* ========== LISTA PILOTI ========== */
-.PilotiList {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-}
-
-.Pilota {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  justify-content: flex-start;
-  width: 100%;
-}
-
-.PilotiImgTeam {
-  width: 70px;
-  height: 70px;
-  object-fit: cover;
-  object-position: top;
-  border-radius: 50%;
-  border: 1px solid white;
-  background-color: #b8b8b8d1;
-  flex-shrink: 0;
-  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.25);
-}
-
-.PilotiName {
-  font-family: monospace, 'Titillium Web';
-  font-weight: 500;
-  color: white;
-  flex-grow: 1;
-}
 
 /* ========== GP TABLE ========== */
 .gp-table {
@@ -256,7 +155,8 @@ tbody tr:hover {
   box-sizing: border-box;
   display: flex;
   justify-content: center;
-  align-items: center;}
+  align-items: center;
+}
 
 /* Miglioramenti SideImage */
 .side-image img {
@@ -269,14 +169,7 @@ tbody tr:hover {
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
 }
 
-/* Per mobile - migliora la visualizzazione */
-@media (max-width: 768px) {
-  .side-image img {
-    object-position: center;
-    min-height: 150px;
-    max-height: 200px;
-  }
-}
+/* Per mobile - migliora la visualizzazione (rimosso, spostato sotto) */
 
 .main-content {
   flex-grow: 1;
@@ -299,20 +192,11 @@ tbody tr:hover {
   height: auto;
 }
 
-/* ========== FOOTER ========== */
-.Footer {
-  font-family: 'Titillium Web';
-  width: 100%;
-  background-color: #303050;
-  padding: 20px 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  margin-top: auto;
-}
-
 /* ========== MEDIA QUERIES - RESPONSIVE ========== */
+/* * Gli stili specifici Piloti/Team/Header/Footer/Filtri sono stati rimossi da qui, 
+* in quanto le loro versioni complete sono nei file dedicati. 
+* Manteniamo solo quelli per Layout/Tabelle.
+*/
 
 /* Tablet (fino a 1024px) */
 @media (max-width: 1024px) {
@@ -327,18 +211,6 @@ tbody tr:hover {
 
   .main-content h1 {
     font-size: 2em;
-  }
-
-  .PilotiImg,
-  .PilotiBackground {
-    width: 100px;
-    height: 100px;
-  }
-
-  .PilotiImgCard,
-  .PilotiBackgroundCard {
-    width: 100px;
-    height: 150px;
   }
 }
 
@@ -356,7 +228,12 @@ tbody tr:hover {
     padding: 5px;
   }
 
-
+  /* Miglioramenti SideImage (spostato qui per chiarezza) */
+  .side-image img {
+    object-position: center;
+    min-height: 150px;
+    max-height: 200px;
+  }
 
   .main-content {
     padding: 15px;
@@ -383,47 +260,6 @@ tbody tr:hover {
   tbody tr td {
     padding: 8px;
   }
-
-  .PilotiImg,
-  .PilotiBackground {
-    width: 80px;
-    height: 80px;
-  }
-
-  .PilotiImgCard,
-  .PilotiBackgroundCard {
-    width: 80px;
-    height: 120px;
-  }
-
-  .PilotiImgTeam {
-    width: 50px;
-    height: 50px;
-  }
-
-  .TeamLogo,
-  .LogoBackground {
-    width: 35px;
-    height: 35px;
-  }
-
-  .Pilota {
-    gap: 8px;
-  }
-
-  .PilotiName {
-    font-size: 0.9em;
-  }
-
-  /* Header responsive */
-  .Header {
-    padding: 5px;
-  }
-
-  .Footer {
-    padding: 15px 10px;
-    font-size: 0.9em;
-  }
 }
 
 /* Smartphone (fino a 480px) */
@@ -444,20 +280,18 @@ tbody tr:hover {
     font-size: 0.85em;
   }
 
-/* Smartphone (fino a 480px) */
-@media (max-width: 480px) {
+  /* Correzione per la tabella (incluso il blocco media query interno) */
   .table-container {
     margin: 8px 0;
   }
-  
+
   table {
     min-width: 850px;
   }
-  
+
   .gp-table {
     min-width: 950px;
   }
-}
 
   tbody tr td {
     padding: 6px;
@@ -468,38 +302,9 @@ tbody tr:hover {
     font-size: 0.85em;
   }
 
-  .PilotiImg,
-  .PilotiBackground {
-    width: 60px;
-    height: 60px;
-  }
-
-  .PilotiImgCard,
-  .PilotiBackgroundCard {
-    width: 70px;
-    height: 105px;
-  }
-
-  .PilotiImgTeam {
-    width: 40px;
-    height: 40px;
-  }
-
-  .TeamLogo,
-  .LogoBackground {
-    width: 30px;
-    height: 30px;
-  }
-
   .session-button {
     font-size: 0.8em;
     padding: 4px 8px;
-  }
-
-
-  .Footer {
-    font-size: 0.8em;
-    padding: 10px 5px;
   }
 }
 
@@ -516,16 +321,5 @@ tbody tr:hover {
   tbody tr td {
     padding: 4px;
     font-size: 0.75em;
-  }
-
-  .PilotiImg,
-  .PilotiBackground {
-    width: 50px;
-    height: 50px;
-  }
-
-  .PilotiImgTeam {
-    width: 35px;
-    height: 35px;
   }
 }

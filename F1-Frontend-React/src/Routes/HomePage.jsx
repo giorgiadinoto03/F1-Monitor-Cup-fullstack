@@ -1,6 +1,6 @@
-// src/HomePage.jsx
 import React, { useState, useEffect } from "react";
 import SideImage from "../components/SideImage";
+import { api } from "../services/api";
 import "../App.css";
 
 export default function HomePage() {
@@ -25,9 +25,8 @@ export default function HomePage() {
     useEffect(() => {
         const fetchNextGp = async () => {
             try {
-                const response = await fetch('http://localhost:8000/api/races/next/');
-                const data = await response.json();
-                console.log('🚨 DATI RICEVUTI:', data); // DEBUG
+                const data = await api.getNextRace();
+                console.log('🚨 DATI RICEVUTI:', data);
                 setNextGp(data);
             } catch (err) {
                 console.error("Errore nel fetch:", err);
@@ -63,15 +62,18 @@ export default function HomePage() {
 
                 {nextGp ? (
                     <>
-                        {nextGp.circuit_image_url && (  
+                        {nextGp.circuit_image && (  
                             <img
-                                src={nextGp.circuit_image_url}  
+                                src={nextGp.circuit_image}
                                 alt={nextGp.meeting_name}
                                 style={{
                                     width: "300px",
                                     maxWidth: "100%",
                                     borderRadius: "12px",
                                     boxShadow: "0 4px 12px rgba(4, 78, 152, 0.3)"
+                                }}
+                                onError={(e) => {
+                                    e.target.style.display = 'none';
                                 }}
                             />
                         )}
@@ -88,7 +90,7 @@ export default function HomePage() {
                         </h4>
                     </>
                 ) : (
-                    <h3>Nessun GP in programma </h3>
+                    <h3>Nessun GP in programma</h3>
                 )}
             </div>
 

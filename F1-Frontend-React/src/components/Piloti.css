@@ -1,3 +1,103 @@
+/* ========== IMMAGINI PILOTI ========== */
+.PilotiImg {
+width: 130px;
+height: 130px;
+object-fit: cover;
+object-position: top;
+border-radius: 50%;
+border: 1px solid white;
+image-rendering: auto;
+}
+
+.PilotiBackground {
+width: 130px;
+height: 130px;
+border-radius: 50%;
+margin: 0 auto 10px auto;
+padding: 2px;
+display: flex;
+align-items: center;
+justify-content: center;
+box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.25);
+}
+
+.PilotiImgCard {
+width: 120px;
+height: 180px;
+object-fit: cover;
+object-position: top;
+border: 1px solid white;
+}
+
+.PilotiBackgroundCard {
+width: 120px;
+height: 180px;
+margin: 0 auto 10px auto;
+display: flex;
+align-items: center;
+justify-content: center;
+box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.75);
+}
+
+/* ========== LOGO SCUDERIE ========== */
+.LogoBackground {
+width: 40px;
+height: 40px;
+border-radius: 50%;
+margin: 0 auto;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
+.TeamLogo {
+width: 40px;
+height: 40px;
+object-fit: contain;
+border-radius: 50%;
+border: 1px solid rgba(255, 255, 255, 0.6);
+display: block;
+box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.25);
+}
+
+/* ========== LISTA PILOTI ========== */
+.PilotiList {
+list-style: none;
+margin: 0;
+padding: 0;
+display: flex;
+flex-direction: column;
+align-items: center;
+gap: 10px;
+}
+
+.Pilota {
+display: flex;
+align-items: center;
+gap: 12px;
+justify-content: flex-start;
+width: 100%;
+}
+
+.PilotiImgTeam {
+width: 70px;
+height: 70px;
+object-fit: cover;
+object-position: top;
+border-radius: 50%;
+border: 1px solid white;
+background-color: #b8b8b8d1;
+flex-shrink: 0;
+box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.25);
+}
+
+.PilotiName {
+font-family: monospace, 'Titillium Web';
+font-weight: 500;
+color: white;
+flex-grow: 1;
+}
+
 /* Layout griglia per filtri */
 .filtri-grid {
     display: grid;

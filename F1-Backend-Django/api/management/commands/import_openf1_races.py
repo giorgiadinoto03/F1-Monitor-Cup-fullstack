@@ -1,4 +1,4 @@
-# api/management/commands/import_openf1_races.py - MODIFICA
+# api/management/commands/import_openf1_races.py - CORRETTO
 from django.core.management.base import BaseCommand
 from api.models import Race
 import requests
@@ -8,35 +8,53 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         url = "https://api.openf1.org/v1/meetings?year=2025"
-        data = requests.get(url).json()
+        
+        try:
+            response = requests.get(url, timeout=10)
+            response.raise_for_status()
+            data = response.json()
+        except Exception as e:
+            self.stdout.write(self.style.ERROR(f"❌ Errore nel fetch dati: {e}"))
+            return
+
+        if not data:
+            self.stdout.write(self.style.WARNING("⚠️ Nessun dato ricevuto dall'API"))
+            return
 
         for item in data:
-            circuit_image_raw = item.get("circuit_image", "")
-
-            # Processa il percorso dell'immagine
-            if circuit_image_raw.startswith("../media/circuit_images/"):
-                circuit_name_with_ext = circuit_image_raw.split('/')[-1]
-            else:
-                circuit_name_with_ext = circuit_image_raw
+            try:
+                # Processa il percorso dell'immagine - CORRETTO per il modello attuale
+                circuit_image_url = item.get("circuit_image", "")
                 
-            # Assicurati che abbia l'estensione .png
-            if circuit_name_with_ext and not circuit_name_with_ext.endswith('.png'):
-                circuit_name_with_ext = f"{circuit_name_with_ext}.png"
+                # Pulisci il percorso se necessario
+                if circuit_image_url.startswith("../media/"):
+                    circuit_image_url = circuit_image_url.replace("../media/", "/media/")
 
-            race, created = Race.objects.update_or_create(
-                meeting_key=item["meeting_key"],
-                defaults={
-                    "meeting_name": item.get("meeting_official_name", ""),
-                    "meeting_official_name": item.get("meeting_official_name", ""),
-                    "country_code": item.get("country_code", ""),
-                    "country_name": item.get("country_name", ""),
-                    "location": item.get("location", ""),
-                    "year": item.get("year", 2025),
-                    "circuit_image": circuit_name_with_ext,
-                    "circuit_image_url": item.get("circuit_image", ""),  # Salva anche l'URL originale
-                    "circuit_key": item.get("circuit_key", None),
-                    "date_start": item.get("date_start", None)
-                }
-            )
+                # Crea o aggiorna la gara usando SOLO i campi del modello
+                race, created = Race.objects.update_or_create(
+                    meeting_key=item["meeting_key"],
+                    defaults={
+                        "meeting_name": item.get("meeting_name", ""),
+                        "meeting_official_name": item.get("meeting_official_name", ""),
+                        "country_code": item.get("country_code", ""),
+                        "country_name": item.get("country_name", ""),
+                        "location": item.get("location", ""),
+                        "year": item.get("year", 2025),
+                        "circuit_image_url": circuit_image_url,  # CORRETTO: usa circuit_image_url
+                        "circuit_key": item.get("circuit_key", None),
+                        "date_start": item.get("date_start", None),
+                        "date_end": item.get("date_end", None)
+                    }
+                )
 
-        self.stdout.write(self.style.SUCCESS("✅ Gran Premi importati"))
+                action = "importata" if created else "aggiornata"
+                self.stdout.write(self.style.SUCCESS(f"✅ Gara {action}: {race.meeting_name}"))
+
+            except KeyError as e:
+                self.stdout.write(self.style.ERROR(f"❌ Campo mancante in dati API: {e}"))
+                continue
+            except Exception as e:
+                self.stdout.write(self.style.ERROR(f"❌ Errore nell'importazione gara: {e}"))
+                continue
+
+        self.stdout.write(self.style.SUCCESS("✅ Importazione Gran Premi completata!"))

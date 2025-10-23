@@ -1,0 +1,24 @@
+    /* ========== HEADER ========== */
+    .Header {
+    text-align: center;
+    font-family: 'Titillium Web';
+    background-image: url(https://img.freepik.com/vettori-gratuito/sfondo-di-velocita-bandiera-a-scacchi-da-corsa_1017-23607.jpg);
+    background-size: cover;
+    object-position: top;
+    padding: 15px;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    /* ========== FOOTER ========== */
+    .Footer {
+    font-family: 'Titillium Web';
+    width: 100%;
+    background-color: #303050;
+    padding: 20px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    margin-top: auto;
+    }

@@ -1,8 +1,8 @@
+# api/serializers.py - MIGLIORATO
 from django.db.models import Min, Max
 from rest_framework import serializers
 from .models import Team, Driver, Race, Session, Result
 
-# api/serializers.py
 class TeamSerializer(serializers.ModelSerializer):
     logo_url = serializers.SerializerMethodField()
     livrea = serializers.SerializerMethodField()
@@ -14,7 +14,7 @@ class TeamSerializer(serializers.ModelSerializer):
     def get_logo_url(self, obj):
         if obj.logo_url:
             request = self.context.get('request')
-            if request and not obj.logo_url.startswith(('http', '/')):
+            if request and not obj.logo_url.startswith(('http', '/')):  
                 return request.build_absolute_uri(f'/media/{obj.logo_url}')
             return obj.logo_url
         return None
@@ -23,34 +23,33 @@ class TeamSerializer(serializers.ModelSerializer):
         value = getattr(obj, "livrea", None)
         if not value:
             return None
-        # Se è un ImageField locale
         if hasattr(value, "url"):
             request = self.context.get("request")
             url = value.url
             return request.build_absolute_uri(url) if request else url
-        # Altrimenti è una stringa o URL esterno
         return value
 
 class DriverSerializer(serializers.ModelSerializer):
     team_name = serializers.CharField(source="team.team_name", read_only=True)
     team_colour = serializers.CharField(source="team.team_colour", read_only=True)
     headshot_url = serializers.URLField(read_only=True)
+    # Aggiungi campi per compatibilità con frontend
+    driver_number = serializers.IntegerField(source='number', read_only=True)
+    name_acronym = serializers.CharField(source='acronym', read_only=True)
+    season_point = serializers.IntegerField(source='points', read_only=True)
 
     class Meta:
         model = Driver
         fields = "__all__"
+        # Aggiungi campi extra per compatibilità
+        extra_fields = ['team_name', 'team_colour', 'driver_number', 'name_acronym', 'season_point']
 
-    def get_headshot_url(self, obj):
-        # CORREGGI: usa headshot_url dal modello
-        if obj.headshot_url:
-            return obj.headshot_url
-        return None
-
-# api/serializers.py - MODIFICA RaceSerializer
 class RaceSerializer(serializers.ModelSerializer):
     circuit_image_url = serializers.SerializerMethodField()
     start_date = serializers.SerializerMethodField()
     meeting_official_name = serializers.SerializerMethodField()
+    # Aggiungi per compatibilità con frontend
+    circuit_image = serializers.SerializerMethodField()
 
     def get_circuit_image_url(self, obj):
         # Prima prova con circuit_image_url
@@ -61,23 +60,28 @@ class RaceSerializer(serializers.ModelSerializer):
             return obj.circuit_image_url
         
         # Fallback su circuit_image
-        if obj.circuit_image:
+        if obj.circuit_image_url:
             request = self.context.get('request')
             if request:
-                return request.build_absolute_uri(f'/media/{obj.circuit_image}')
-            return f'/media/{obj.circuit_image}'
+                return request.build_absolute_uri(f'/media/{obj.circuit_image_url}')
+            return f'/media/{obj.circuit_image_url}'
         return None
     
+    def get_circuit_image(self, obj):
+        # Alias per circuit_image_url per compatibilità frontend
+        return self.get_circuit_image_url(obj)
+    
     def get_start_date(self, obj):
-        # 🔥 CORREGGI: usa l'annotazione first_session_date invece di fare una query
-        if hasattr(obj, 'date_start'):
+        if hasattr(obj, 'date_start') and obj.date_start:
             return obj.date_start
         
         # Fallback: query tradizionale
         first_session = obj.sessions.order_by('date_start').first()
-        return first_session.date_start if first_session else obj.date_start
+        return first_session.date_start if first_session else None
     
     def get_meeting_official_name(self, obj):
+        if obj.meeting_official_name:
+            return obj.meeting_official_name
         return f"FORMULA 1 {obj.meeting_name.upper()} {obj.year}"
     
     class Meta:
@@ -85,7 +89,7 @@ class RaceSerializer(serializers.ModelSerializer):
         fields = [
             'meeting_key', 'meeting_name', 'meeting_official_name',
             'location', 'country_name', 'year', 'circuit_key',
-            'circuit_image_url', 'start_date'
+            'circuit_image_url', 'circuit_image', 'start_date', 'date_start', 'date_end'
         ]
 
 class NextRaceSerializer(serializers.ModelSerializer):
@@ -100,14 +104,12 @@ class NextRaceSerializer(serializers.ModelSerializer):
         ]
     
     def get_circuit_image(self, obj):
-        # Usa circuit_image_url come sorgente per circuit_image
         if obj.circuit_image_url:
             request = self.context.get('request')
             if request and not obj.circuit_image_url.startswith('http'):
                 return request.build_absolute_uri(obj.circuit_image_url)
             return obj.circuit_image_url
         
-        # Fallback su circuit_image
         if obj.circuit_image:
             request = self.context.get('request')
             if request:
@@ -137,7 +139,6 @@ class ResultSerializer(serializers.ModelSerializer):
     full_name = serializers.CharField(source="driver.full_name", read_only=True)
     team_name = serializers.CharField(source="driver.team.team_name", read_only=True)
     team_colour = serializers.CharField(source="driver.team.team_colour", read_only=True)
-    # CORREGGI: usa headshot_url invece di circuit_image
     headshot_url = serializers.CharField(source="driver.headshot_url", read_only=True)
     meeting_key = serializers.IntegerField(source="session.race.meeting_key", read_only=True)
     session_key = serializers.IntegerField(source="session.session_key", read_only=True)
@@ -151,7 +152,7 @@ class ResultSerializer(serializers.ModelSerializer):
             "full_name",
             "team_name",
             "team_colour",
-            "headshot_url",  # Ora punta al campo corretto
+            "headshot_url",
             "position",
             "duration",
             "gap_to_leader",
@@ -169,6 +170,9 @@ class ResultListSerializer(serializers.ModelSerializer):
     team_colour = serializers.CharField(source="driver.team.team_colour", read_only=True)
     meeting_key = serializers.IntegerField(source="session.race.meeting_key", read_only=True)
     session_key = serializers.IntegerField(source="session.session_key", read_only=True)
+    # Aggiungi campi mancanti per il frontend
+    name_acronym = serializers.CharField(source="driver.acronym", read_only=True)
+    headshot_url = serializers.CharField(source="driver.headshot_url", read_only=True)
 
     class Meta:
         model = Result
@@ -176,10 +180,15 @@ class ResultListSerializer(serializers.ModelSerializer):
             "meeting_key",
             "session_key",
             "driver_number",
+            "name_acronym",
             "full_name",
             "team_name",
             "team_colour",
+            "headshot_url",
             "position",
             "duration",
             "gap_to_leader",
+            "q1",
+            "q2",
+            "q3",
         ]

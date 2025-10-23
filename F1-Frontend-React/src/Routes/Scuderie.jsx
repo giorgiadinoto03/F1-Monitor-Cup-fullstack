@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { api } from '../services/api.jsx';
 import SideImage from "../components/SideImage";
+import "../App.css";
 import "../components/Scuderie.css";
 
 export function Scuderie() {
@@ -13,12 +14,12 @@ export function Scuderie() {
     });
 
     // 🔹 Fallback in caso di errore nel fetch
-    const useLocalFallback = () => {
+    const localFallback = () => {
         console.warn("⚠️ Backend non disponibile");
         setTeams([]); // Invece di usare dati locali, mostra array vuoto
         setDrivers({});
         setError("Backend non disponibile. Riprova più tardi.");
-        };
+    };
 
     // 🔹 Fetch teams dal backend
     const fetchTeams = async (filters) => {
@@ -29,7 +30,7 @@ export function Scuderie() {
         } catch (err) {
             setError(err.message);
             console.error("Errore nel fetch teams:", err);
-            useLocalFallback();
+            localFallback();
         } finally {
             setLoading(false);
         }
