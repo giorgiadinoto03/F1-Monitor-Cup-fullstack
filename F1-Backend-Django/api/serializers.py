@@ -2,26 +2,23 @@ from django.db.models import Min, Max
 from rest_framework import serializers
 from .models import Team, Driver, Race, Session, Result
 
+# api/serializers.py
 class TeamSerializer(serializers.ModelSerializer):
     logo_url = serializers.SerializerMethodField()
     livrea = serializers.SerializerMethodField()
+    
     class Meta:
         model = Team
         fields = "__all__"
 
     def get_logo_url(self, obj):
-        value = getattr(obj, "logo_url", None) or getattr(obj, "logo", None)
-        if not value:
-            return None
-        # Se è un ImageField locale
-        if hasattr(value, "url"):
-            request = self.context.get("request")
-            url = value.url
-            return request.build_absolute_uri(url) if request else url
-        # Altrimenti è una stringa o URL esterno
-        return value
+        if obj.logo_url:
+            request = self.context.get('request')
+            if request and not obj.logo_url.startswith(('http', '/')):
+                return request.build_absolute_uri(f'/media/{obj.logo_url}')
+            return obj.logo_url
+        return None
 
-    # AGGIUNGI: metodo per gestire il campo livrea
     def get_livrea(self, obj):
         value = getattr(obj, "livrea", None)
         if not value:
@@ -33,7 +30,7 @@ class TeamSerializer(serializers.ModelSerializer):
             return request.build_absolute_uri(url) if request else url
         # Altrimenti è una stringa o URL esterno
         return value
-    
+
 class DriverSerializer(serializers.ModelSerializer):
     team_name = serializers.CharField(source="team.team_name", read_only=True)
     team_colour = serializers.CharField(source="team.team_colour", read_only=True)

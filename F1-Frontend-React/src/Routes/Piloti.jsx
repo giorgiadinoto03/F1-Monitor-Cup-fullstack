@@ -19,16 +19,21 @@ export function Piloti() {
 
     // Fetch drivers dal backend
     const fetchDrivers = async (filters) => {
-        try {
-            setLoading(true);
-            const data = await api.getDrivers(filters);
-            setDrivers(data.results || data);
-        } catch (err) {
-            setError(err.message);
-            console.error("Errore nel fetch:", err);
-        } finally {
-            setLoading(false);
-        }
+    try {
+        setLoading(true);
+        // Pulisci i filtri vuoti
+        const cleanFilters = Object.fromEntries(
+        Object.entries(filters).filter(([_, v]) => v !== '' && v !== null)
+        );
+        
+        const data = await api.getDrivers(cleanFilters);
+        setDrivers(data.results || data);
+    } catch (err) {
+        setError(err.message);
+        console.error("Errore nel fetch:", err);
+    } finally {
+        setLoading(false);
+    }
     };
 
     // Fetch teams per il dropdown

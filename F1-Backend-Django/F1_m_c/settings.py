@@ -75,7 +75,7 @@ REST_FRAMEWORK = {
     'DEFAULT_THROTTLE_CLASSES': [
         'rest_framework.throttling.AnonRateThrottle',],# limita le richieste anonime
     'DEFAULT_THROTTLE_RATES': {
-        'anon': '60/minute'}, # limita le richieste anonime a 60 al minuto
+        'anon': '100/minute'}, # limita le richieste anonime a 100 al minuto
 
 }
 

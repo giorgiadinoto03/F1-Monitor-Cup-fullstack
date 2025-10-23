@@ -10,7 +10,6 @@ const handleResponse = async (response) => {
   return response.json();
 };
 
-// Funzione generica per le fetch
 const fetchAPI = async (endpoint, options = {}) => {
   const url = `${API_URL}${endpoint}`;
   const config = {
@@ -20,10 +19,23 @@ const fetchAPI = async (endpoint, options = {}) => {
     ...options,
   };
 
-  const response = await fetch(url, config);
-  return handleResponse(response);
+  try {
+    const response = await fetch(url, config);
+    
+    if (!response.ok) {
+      // Se è un 429, gestiscilo diversamente
+      if (response.status === 429) {
+        throw new Error('Troppe richieste. Riprova tra qualche secondo.');
+      }
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    }
+    
+    return await response.json();
+  } catch (error) {
+    console.error(`API Error ${endpoint}:`, error);
+    throw error; // Rilancia l'errore per gestirlo nei componenti
+  }
 };
-
 export const api = {
 
   // Drivers con filtri avanzati
@@ -35,10 +47,6 @@ export const api = {
   // Filtri specifici per classifica piloti
   getDriversByPoints: () => {
     return fetchAPI('/api/drivers/?ordering=-points');
-  },
-
-  getDriversByTeam: (teamName) => {
-    return fetchAPI(`/api/drivers/?team__team_name=${teamName}`);
   },
 
   // Filtri per nazione

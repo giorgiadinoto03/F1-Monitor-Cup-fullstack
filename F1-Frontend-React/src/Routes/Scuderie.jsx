@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { api } from '../services/api.jsx';
 import SideImage from "../components/SideImage";
-import DriversData from "../data/piloti.json";
-import TeamData from "../data/scuderie.json";
 import "../components/Scuderie.css";
 
-function Scuderie() {
+export function Scuderie() {
     const [teams, setTeams] = useState([]);
     const [drivers, setDrivers] = useState({});
     const [loading, setLoading] = useState(true);
@@ -16,17 +14,11 @@ function Scuderie() {
 
     // 🔹 Fallback in caso di errore nel fetch
     const useLocalFallback = () => {
-        console.warn("⚠️ Backend non disponibile, uso dati locali");
-        const sortedLocalTeams = [...TeamData].sort((a, b) => b.season_point - a.season_point);
-        const driversData = {};
-        sortedLocalTeams.forEach(team => {
-            driversData[team.team_name] = DriversData.filter(
-                d => d.team_name === team.team_name
-            );
-        });
-        setTeams(sortedLocalTeams);
-        setDrivers(driversData);
-    };
+        console.warn("⚠️ Backend non disponibile");
+        setTeams([]); // Invece di usare dati locali, mostra array vuoto
+        setDrivers({});
+        setError("Backend non disponibile. Riprova più tardi.");
+        };
 
     // 🔹 Fetch teams dal backend
     const fetchTeams = async (filters) => {
@@ -223,6 +215,6 @@ function Scuderie() {
             />
         </div>
     );
-}
 
+}
 export default Scuderie;

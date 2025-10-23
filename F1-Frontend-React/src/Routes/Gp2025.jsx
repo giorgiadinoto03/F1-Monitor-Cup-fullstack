@@ -1,62 +1,66 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react"; // Aggiungi useRef
 import SessionCard from "../components/SessionCard";
 import "../App.css";
-import GpData from "../data/gp2025.json";
+import { api } from "../services/api";
 import SideImage from "../components/SideImage";
 
 export function Gp2025() {
-    const [GranPremio, setGranPremio] = useState([]);
-    const [Sessioni, setSessioni] = useState({});
+    const [races, setRaces] = useState([]);
+    const [sessions, setSessions] = useState({});
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [Gpimage, setGpimage] = useState([]); // Sposta qui
+
+    // Aggiungi useRef per prevenire loop
+    const hasFetched = useRef(false);
+
+    useEffect(() => {
+        const fetchData = async () => {
+        // Previeni fetch multipli
+        if (hasFetched.current) return;
+        hasFetched.current = true;
+
+        try {
+            setLoading(true);
+            
+            // Fetch races dal backend
+            const racesData = await api.getRaces({ year: 2025 });
+            const racesList = racesData.results || racesData;
+            setRaces(racesList);
+            
+            // Fetch sessions per ogni race (ma con limiti)
+            const sessionsMap = {};
+            // Limita a max 5 gare per evitare troppe richieste
+            const limitedRaces = racesList.slice(0, 5);
+            
+            for (const race of limitedRaces) {
+            try {
+                const sessionData = await api.getSessions({ weekend: race.meeting_key });
+                sessionsMap[race.meeting_key] = sessionData.results || sessionData;
+            } catch (sessionError) {
+                console.warn(`Errore sessioni per ${race.meeting_name}:`, sessionError);
+                sessionsMap[race.meeting_key] = [];
+            }
+            }
+            
+            setSessions(sessionsMap);
+        } catch (error) {
+            console.error("Errore fetch dati:", error);
+            setError(error.message);
+        } finally {
+            setLoading(false);
+        }
+        };
+        
+        fetchData();
+    }, []);
 
     const fixImagePath = (path) => {
         if (!path) return null;
         return path.replace('../public', '');
     };
 
-    useEffect(() => {
-        const fetchGranPremio = async () => {
-            try {
-                const response = await fetch('https://api.openf1.org/v1/meetings?year=2025');
-                const data = await response.json();
-                setGranPremio(data);
-                fetchSessioni(data);
-            } catch (error) {
-                console.error("Errore durante il fetch dei dati dei meeting:", error);
-            }
-        };
-
-        const fetchSessioni = async () => {
-            try {
-                const responseGp = await fetch('https://api.openf1.org/v1/sessions?year=2025');
-                const data = await responseGp.json();
-
-                const sessioniPerMeeting = {};
-                data.forEach((session) => {
-                    const key = session.meeting_key;
-                    if (!sessioniPerMeeting[key]) {
-                        sessioniPerMeeting[key] = { practice: [], qualifying: [], race: [] };
-                    }
-
-                    if (session.session_type === "Practice") {
-                        sessioniPerMeeting[key].practice.push(session);
-                    } else if (session.session_type === "Qualifying") {
-                        sessioniPerMeeting[key].qualifying.push(session);
-                    } else if (session.session_type === "Race") {
-                        sessioniPerMeeting[key].race.push(session);
-                    }
-                });
-
-                setSessioni(sessioniPerMeeting);
-            } catch (error) {
-                console.error("Errore durante il fetch dei dati delle sessioni:", error);
-            }
-        };
-
-        fetchGranPremio();
-    }, []);
-
-    const [Gpimage, setGpimage] = useState(GpData);
-
+    // CORREGGI: usa races invece di GranPremio
     return (
         <div className="SideImage-container">
             <SideImage 
@@ -66,11 +70,16 @@ export function Gp2025() {
             />
             
             <div className="Gp2025">
-                <h1>GP eseguiti nel 2025</h1>
-                <h2>Elenco dei Gran Premi</h2>
-                <p>Qui potrai trovare tutte le informazioni sulla stagione di Formula 1 2025.</p>
+                <h1>GP del 2025</h1>
+                <p>Qui potrai trovare tutte le informazioni sulla stagione di Formula 1 2025.
+                    <br />Per ogni Gran Premio, tutte le sessioni e le prestazioni per ogni pilota.
+                    <br />(Prove Libere, Qualifiche, Gara e Sprint)
+                </p>
                 <p>Seleziona un Gran Premio per vedere i dettagli delle sessioni.</p>
-                <h3>L'elenco di GP 2025 mostra SOLO i GP di Formula 1 GIA' PASSATI</h3>
+                <h3><u>L'elenco di GP 2025 mostra SOLO i GP di Formula 1 GIA' PASSATI</u></h3>
+                
+                {loading && <div>Caricamento...</div>}
+                {error && <div>Errore: {error}</div>}
                 
                 <div className="table-container">
                     <table className="gp-table">
@@ -86,7 +95,7 @@ export function Gp2025() {
                             </tr>
                         </thead>
                         <tbody>
-                        {GranPremio.map((gp, index) => {
+                        {races.map((gp, index) => { // CORREGGI: usa races
                             const gpLocal = Gpimage.find((item) => item.meeting_key === gp.meeting_key);
 
                             return (
@@ -118,8 +127,8 @@ export function Gp2025() {
                                 <td>{gp.location}</td>
 
                                 <td>
-                                {Sessioni[gp.meeting_key]?.practice.length > 0 ? (
-                                    Sessioni[gp.meeting_key].practice.map((session, i) => (
+                                {sessions[gp.meeting_key]?.practice?.length > 0 ? (
+                                    sessions[gp.meeting_key].practice.map((session, i) => (
                                     <div key={i} className="session-item">
                                         <SessionCard
                                         sessionKey={session.session_key}
@@ -135,8 +144,8 @@ export function Gp2025() {
                                 </td>
 
                                 <td>
-                                {Sessioni[gp.meeting_key]?.qualifying.length > 0 ? (
-                                    Sessioni[gp.meeting_key].qualifying.map((session, i) => (
+                                {sessions[gp.meeting_key]?.qualifying?.length > 0 ? (
+                                    sessions[gp.meeting_key].qualifying.map((session, i) => (
                                     <div key={i} className="session-item">
                                         <SessionCard
                                         sessionKey={session.session_key}
@@ -152,8 +161,8 @@ export function Gp2025() {
                                 </td>
 
                                 <td>
-                                {Sessioni[gp.meeting_key]?.race.length > 0 ? (
-                                    Sessioni[gp.meeting_key].race.map((session, i) => (
+                                {sessions[gp.meeting_key]?.race?.length > 0 ? (
+                                    sessions[gp.meeting_key].race.map((session, i) => (
                                     <div key={i} className="session-item">
                                         <SessionCard
                                         sessionKey={session.session_key}
@@ -182,6 +191,6 @@ export function Gp2025() {
             />
         </div>
     );
-};
+}
 
 export default Gp2025;

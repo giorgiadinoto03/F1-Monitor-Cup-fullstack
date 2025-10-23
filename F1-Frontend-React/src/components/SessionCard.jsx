@@ -1,23 +1,13 @@
 import React, { useState } from "react";
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  Button,
-  Typography,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-} from "@mui/material";
-import DriversData from "../data/piloti.json";
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, Table, TableHead, TableRow, TableCell, TableBody,} from "@mui/material";
+import { api } from "../services/api";
 
 export default function SessionCard({ sessionKey, label, meetingName, dateStart }) {
   const [open, setOpen] = useState(false);
   const [positions, setPositions] = useState([]);
   const [loading, setLoading] = useState(false);
+  const resultMap = {};
+  const resultData = [];
 
   const sessionLabels = {
     R: "Gara",
@@ -40,31 +30,26 @@ export default function SessionCard({ sessionKey, label, meetingName, dateStart 
       .padStart(3, "0")}`;
   };
 
-  const handleOpen = async () => {
-    setOpen(true);
-    setLoading(true);
-    try {
-      // Fetch posizioni
-      const resPos = await fetch(`https://api.openf1.org/v1/position?session_key=${sessionKey}`);
-      const posData = await resPos.json();
-
-      // Fetch risultati
-      const resResult = await fetch(`https://api.openf1.org/v1/session_result?session_key=${sessionKey}`);
-      const resultData = await resResult.json();
-
-      // Mappa risultati per driver_number
-      const resultMap = resultData.reduce((acc, r) => {
-        acc[r.driver_number] = r;
-        return acc;
-      }, {});
-
-      // Ultima posizione per pilota
-      const latestPositions = Object.values(
-        posData.reduce((acc, pos) => {
-          acc[pos.driver_number] = pos;
-          return acc;
-        }, {})
-      );
+// Modifica handleOpen per usare il tuo backend
+const handleOpen = async () => {
+  setOpen(true);
+  setLoading(true);
+  
+  try {
+    // Usa il tuo endpoint results invece di OpenF1 diretto
+    const results = await api.getResults({ 
+      session: sessionKey,
+      ordering: 'position' 
+    });
+    
+    setPositions(results.results || results);
+  } catch (err) {
+    console.error("Errore fetch risultati:", err);
+    // Fallback a OpenF1 se necessario
+  } finally {
+    setLoading(false);
+  }
+};
 
 // Arricchisci con dati locali + duration/gap/q1/q2/q3
 const enriched = latestPositions
@@ -113,15 +98,7 @@ const enriched = latestPositions
   .filter(Boolean);
 
 
-      // Ordina per posizione
-      const ordered = enriched.sort((a, b) => a.position - b.position);
-      setPositions(ordered);
-    } catch (err) {
-      console.error("Errore fetch griglia:", err);
-    } finally {
-      setLoading(false);
-    }
-  };
+
 
   const handleClose = () => {
     setOpen(false);
