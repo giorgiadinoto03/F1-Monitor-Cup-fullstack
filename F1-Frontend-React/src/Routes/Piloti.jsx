@@ -17,24 +17,31 @@ export function Piloti() {
         country: ''
     });
 
-    // Fetch drivers dal backend
-    const fetchDrivers = async (filters) => {
-    try {
-        setLoading(true);
-        // Pulisci i filtri vuoti
-        const cleanFilters = Object.fromEntries(
-        Object.entries(filters).filter(([_, v]) => v !== '' && v !== null)
-        );
-        
-        const data = await api.getDrivers(cleanFilters);
-        setDrivers(data.results || data);
-    } catch (err) {
-        setError(err.message);
-        console.error("Errore nel fetch:", err);
-    } finally {
-        setLoading(false);
-    }
+    // 🔹 Fallback in caso di errore nel fetch
+    const localFallback = () => {
+        console.warn("⚠️ Errore di connessione al backend. Riprova più tardi.");
+        setDrivers([]);
+        setError("Backend non disponibile. Riprova più tardi.");
     };
+
+    // 🔹 Fetch drivers dal backend
+    const fetchDrivers = async (filters) => {
+        try {
+            setLoading(true);
+            const cleanFilters = Object.fromEntries(
+                Object.entries(filters).filter(([_, v]) => v !== '' && v !== null)
+            );
+            const data = await api.getDrivers(cleanFilters);
+            setDrivers(data.results || data);
+        } catch (err) {
+            console.error("Errore nel fetch:", err);
+            setError(err.message);
+            localFallback();
+        } finally {
+            setLoading(false);
+        }
+    };
+
 
     // Fetch teams per il dropdown
     const fetchTeams = async () => {
@@ -73,7 +80,8 @@ export function Piloti() {
     };
 
     if (loading) return <div className="main-content"><h2>Caricamento piloti...</h2></div>;
-    if (error) return <div className="main-content"><h2>Errore: {error}</h2></div>;
+    if (error && drivers.length === 0) return <div className="main-content"><h2>Errore: {error}</h2></div>;
+
 
     return (
         <div className="SideImage-container">

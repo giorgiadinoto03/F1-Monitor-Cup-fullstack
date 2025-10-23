@@ -49,7 +49,7 @@ class RaceSerializer(serializers.ModelSerializer):
     start_date = serializers.SerializerMethodField()
     meeting_official_name = serializers.SerializerMethodField()
     # Aggiungi per compatibilità con frontend
-    circuit_image = serializers.SerializerMethodField()
+    circuit_image_url = serializers.SerializerMethodField()
 
     def get_circuit_image_url(self, obj):
         # Prima prova con circuit_image_url
@@ -89,12 +89,12 @@ class RaceSerializer(serializers.ModelSerializer):
         fields = [
             'meeting_key', 'meeting_name', 'meeting_official_name',
             'location', 'country_name', 'year', 'circuit_key',
-            'circuit_image_url', 'circuit_image', 'start_date', 'date_start', 'date_end'
+            'circuit_image_url', 'start_date', 'date_start', 'date_end'
         ]
 
 class NextRaceSerializer(serializers.ModelSerializer):
-    circuit_image = serializers.SerializerMethodField()
-    
+    circuit_image_url = serializers.SerializerMethodField()
+
     class Meta:
         model = Race
         fields = [

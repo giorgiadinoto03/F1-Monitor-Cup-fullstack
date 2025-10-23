@@ -18,7 +18,7 @@ export function Scuderie() {
         console.warn("⚠️ Backend non disponibile");
         setTeams([]); // Invece di usare dati locali, mostra array vuoto
         setDrivers({});
-        setError("Backend non disponibile. Riprova più tardi.");
+        setError("Backend al momento non disponibile. Riprova più tardi.");
     };
 
     // 🔹 Fetch teams dal backend

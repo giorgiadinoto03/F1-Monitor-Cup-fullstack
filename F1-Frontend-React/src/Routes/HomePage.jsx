@@ -3,6 +3,7 @@ import SideImage from "../components/SideImage";
 import { api } from "../services/api";
 import "../App.css";
 
+
 export default function HomePage() {
     const [nextGp, setNextGp] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -62,9 +63,9 @@ export default function HomePage() {
 
                 {nextGp ? (
                     <>
-                        {nextGp.circuit_image && (  
+                        {nextGp.circuit_image_url && (  
                             <img
-                                src={nextGp.circuit_image}
+                                src={nextGp.circuit_image_url}
                                 alt={nextGp.meeting_name}
                                 style={{
                                     width: "300px",

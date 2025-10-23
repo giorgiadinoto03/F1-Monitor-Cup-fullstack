@@ -6,6 +6,8 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
+import "../App.css";
+import "./header-footer.css";
 
 // Logo F1 personalizzato nell header
 const f1Logo = "/F1-monitor-cup-logo1.png";

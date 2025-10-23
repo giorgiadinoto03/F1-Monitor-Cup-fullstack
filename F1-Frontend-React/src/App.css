@@ -2,324 +2,251 @@
 
 /* ========== STILI BASE E GENERALI (rimasti) ========== */
 .App {
-  text-align: center;
-  font-family: 'Titillium Web';
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+    text-align: center;
+    font-family: 'Titillium Web';
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
-/* * .Header è stato spostato in header-footer.css
-* .Footer è stato spostato in header-footer.css 
-*/
-
+/* Pulsanti Navigazione */
 .ButtonNav:hover {
-  background-color: #b81313;
-  transition: background-color 0.25s ease-in-out;
+    background-color: #b81313;
+    transition: background-color 0.25s ease-in-out;
 }
 
+/* Filtro Generico */
 .Filtro {
-  background-color: rgba(42, 78, 33, 0.5);
-  color: white;
-  margin-left: 0;
+    background-color: rgba(42, 78, 33, 0.5);
+    color: white;
+    margin-left: 0;
 }
 
 .Filtro:hover {
-  background-color: #2a713d;
-  transition: background-color 0.25s ease-in-out;
+    background-color: #2a713d;
+    transition: background-color 0.25s ease-in-out;
 }
 
 h1, h2, p, h3, h4 {
-  color: white;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-  text-align: center;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    text-align: center;
 }
 
-/* ========== TABELLE (Generiche e GP) ========== */
+/* ========== TABELLE (Generiche) ========== */
 table {
-  table-layout: fixed;
-  width: 95%;
-  max-width: 1200px;
-  border-collapse: collapse;
-  margin: 18px auto 32px;
-  border: 2px solid #b81313;
-  overflow-x: auto;
+    table-layout: fixed;
+    width: 95%;
+    max-width: 1200px;
+    border-collapse: collapse;
+    margin: 18px auto 32px;
+    border: 2px solid #b81313;
+    overflow-x: auto;
 }
 
 thead th {
-  font-family: 'Titillium Web';
-  font-weight: bold;
-  background-color: #b81313;
-  color: white;
-  padding: 10px;
-  text-align: center;
+    font-family: 'Titillium Web';
+    font-weight: bold;
+    background-color: #b81313;
+    color: white;
+    padding: 10px;
+    text-align: center;
 }
 
 tbody tr:nth-child(even) {
-  background-color: #282828;
+    background-color: #282828;
 }
 
 tbody tr td {
-  font-family: 'Titillium Web';
-  font-weight: 500;
-  color: white;
-  padding: 12px;
-  text-align: center;
-  border-bottom: 0.5px solid #b81313;
-  vertical-align: middle;
+    font-family: 'Titillium Web';
+    font-weight: 500;
+    color: white;
+    padding: 12px;
+    text-align: center;
+    border-bottom: 0.5px solid #b81313;
+    vertical-align: middle;
 }
 
 tbody tr:hover {
-  background-color: rgba(51, 114, 192, 0.33);
-}
-
-
-/* * Gli stili PilotiImg, PilotiBackground, LogoBackground, TeamLogo, PilotiList, Pilota, PilotiImgTeam, PilotiName
-* sono stati spostati in Piloti.css (o _pilots-media.css se hai seguito il suggerimento precedente)
-*/
-
-
-/* ========== GP TABLE ========== */
-.gp-table {
-  table-layout: fixed;
-  width: 95%;
-  max-width: 1200px;
-  border-collapse: collapse;
-  margin: 18px auto;
-}
-
-.gp-table th,
-.gp-table td {
-  padding: 10px;
-  text-align: left;
-}
-
-.gp-table thead {
-  background-color: #f4f4f4;
-  border-bottom: 2px solid #ddd;
-}
-
-.gp-table tbody tr {
-  border-bottom: 1px solid #ddd;
-}
-
-.gp-table tbody tr:last-child {
-  border-bottom: none;
-}
-
-.gp-table tbody tr:hover {
-  background-color: rgba(51, 114, 192, 0.33);
-}
-
-/* ========== SESSIONI ========== */
-.session-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 5px;
-  flex-wrap: wrap;
-}
-
-.SessionBott {
-  background-color: #303050;
-}
-
-.session-button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  padding: 5px 10px;
-  cursor: pointer;
-  font-size: 0.9em;
-}
-
-.session-button:hover {
-  background-color: #0056b3;
+    background-color: rgba(51, 114, 192, 0.33);
 }
 
 /* ========== HOMEPAGE LAYOUT ========== */
 .SideImage-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: stretch;
-  min-height: calc(100vh - 200px);
-  padding: 0;
-  box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    min-height: calc(100vh - 200px); /* Assumendo Header/Footer di circa 200px totali */
+    padding: 0;
+    box-sizing: border-box;
 }
 
 .side-image {
-  width: 230px;
-  min-height: 100vh;
-  padding: 10px;
-  box-sizing: border-box;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    width: 230px;
+    min-height: 100vh;
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* Miglioramenti SideImage */
 .side-image img {
-  width: 100%;
-  height: 100%;
-  min-height: 100vh;
-  object-fit: cover;
-  object-position: center; /* Cambiato da top a center */
-  border: 5px solid rgb(0, 0, 0);
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+    width: 100%;
+    height: 100%;
+    min-height: 100vh;
+    object-fit: cover;
+    object-position: center;
+    border: 5px solid rgb(0, 0, 0);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
 }
 
-/* Per mobile - migliora la visualizzazione (rimosso, spostato sotto) */
-
 .main-content {
-  flex-grow: 1;
-  text-align: center;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  max-width: 100%;
+    flex-grow: 1;
+    text-align: center;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 100%;
 }
 
 .main-content h1 {
-  font-size: 2.5em;
-  margin-bottom: 10px;
+    font-size: 2.5em;
+    margin-bottom: 10px;
 }
 
 .main-content img {
-  max-width: 100%;
-  height: auto;
+    max-width: 100%;
+    height: auto;
 }
 
 /* ========== MEDIA QUERIES - RESPONSIVE ========== */
-/* * Gli stili specifici Piloti/Team/Header/Footer/Filtri sono stati rimossi da qui, 
-* in quanto le loro versioni complete sono nei file dedicati. 
-* Manteniamo solo quelli per Layout/Tabelle.
-*/
 
 /* Tablet (fino a 1024px) */
 @media (max-width: 1024px) {
-  .side-image {
-    width: 150px;
-  }
+    .side-image {
+        width: 150px;
+    }
 
-  table,
-  .gp-table {
-    width: 98%;
-  }
+    table {
+        width: 98%;
+    }
 
-  .main-content h1 {
-    font-size: 2em;
-  }
+    .main-content h1 {
+        font-size: 2em;
+    }
 }
 
 /* Tablet piccoli e smartphone orizzontale (fino a 768px) */
 @media (max-width: 768px) {
-  .SideImage-container {
-    flex-direction: column;
-    min-height: auto;
-    gap: 10px;
-  }
+    /* Layout a colonna per SideImage-container */
+    .SideImage-container {
+        flex-direction: column;
+        min-height: auto;
+        gap: 10px;
+    }
 
-  .side-image {
-    width: 100%;
-    min-height: 150px;
-    padding: 5px;
-  }
+    .side-image {
+        width: 100%;
+        min-height: 150px;
+        padding: 5px;
+    }
 
-  /* Miglioramenti SideImage (spostato qui per chiarezza) */
-  .side-image img {
-    object-position: center;
-    min-height: 150px;
-    max-height: 200px;
-  }
+    /* Miglioramenti SideImage */
+    .side-image img {
+        object-position: center;
+        min-height: 150px;
+        max-height: 200px;
+    }
 
-  .main-content {
-    padding: 15px;
-  }
+    .main-content {
+        padding: 15px;
+    }
 
-  .main-content h1 {
-    font-size: 1.8em;
-  }
+    /* Riduci titoli */
+    .main-content h1 {
+        font-size: 1.8em;
+    }
 
-  .main-content h2 {
-    font-size: 1.3em;
-  }
+    .main-content h2 {
+        font-size: 1.3em;
+    }
 
-  .main-content p {
-    font-size: 0.95em;
-  }
+    .main-content p {
+        font-size: 0.95em;
+    }
 
-  table,
-  .gp-table {
-    width: 100%;
-    font-size: 0.9em;
-  }
+    /* Riduci tabelle generiche */
+    table {
+        width: 100%;
+        font-size: 0.9em;
+    }
 
-  tbody tr td {
-    padding: 8px;
-  }
+    tbody tr td {
+        padding: 8px;
+    }
 }
 
 /* Smartphone (fino a 480px) */
 @media (max-width: 480px) {
-  .main-content h1 {
-    font-size: 1.5em;
-  }
+    /* Riduci titoli */
+    .main-content h1 {
+        font-size: 1.5em;
+    }
 
-  .main-content h2 {
-    font-size: 1.1em;
-  }
+    .main-content h2 {
+        font-size: 1.1em;
+    }
 
-  .main-content h3 {
-    font-size: 1em;
-  }
+    .main-content h3 {
+        font-size: 1em;
+    }
 
-  .main-content p {
-    font-size: 0.85em;
-  }
+    .main-content p {
+        font-size: 0.85em;
+    }
 
-  /* Correzione per la tabella (incluso il blocco media query interno) */
-  .table-container {
-    margin: 8px 0;
-  }
+    /* Fix per lo scroll delle tabelle su mobile */
+    .table-container {
+        margin: 8px 0;
+    }
 
-  table {
-    min-width: 850px;
-  }
+    table {
+        min-width: 850px; /* Assicurare lo scroll orizzontale */
+    }
 
-  .gp-table {
-    min-width: 950px;
-  }
+    tbody tr td {
+        padding: 6px;
+    }
 
-  tbody tr td {
-    padding: 6px;
-  }
+    thead th {
+        padding: 8px 4px;
+        font-size: 0.85em;
+    }
 
-  thead th {
-    padding: 8px 4px;
-    font-size: 0.85em;
-  }
-
-  .session-button {
-    font-size: 0.8em;
-    padding: 4px 8px;
-  }
+    .session-button { /* Mantenuto se usato altrove */
+        font-size: 0.8em;
+        padding: 4px 8px;
+    }
 }
 
 /* Smartphone molto piccoli (fino a 360px) */
 @media (max-width: 360px) {
-  .main-content h1 {
-    font-size: 1.3em;
-  }
+    /* Riduci titoli */
+    .main-content h1 {
+        font-size: 1.3em;
+    }
 
-  .main-content h2 {
-    font-size: 1em;
-  }
+    .main-content h2 {
+        font-size: 1em;
+    }
 
-  tbody tr td {
-    padding: 4px;
-    font-size: 0.75em;
-  }
+    /* Riduci padding e font size della tabella */
+    tbody tr td {
+        padding: 4px;
+        font-size: 0.75em;
+    }
 }

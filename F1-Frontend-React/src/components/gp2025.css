@@ -1,161 +1,244 @@
-/* ========== GP2025 - STILE BASE E VARIABILI ========== */
+/* ========== GP2025 - STILE CLASSICO + DIMENSIONI OTTIMIZZATE ========== */
 
-:root {
-    --f1-red: #e10600;
-    --f1-dark: #0d0d0d;
-    --f1-gray: #1c1c1c;
-    --f1-light-gray: #f5f5f5;
-    --f1-accent: #ff2e2e;
-    --f1-shadow: rgba(0, 0, 0, 0.6);
-    /* Puoi aggiungere qui altri colori comuni come il colore principale del testo per il tuo progetto */
+.table-container {
+    overflow-x: auto;
+    margin-top: 20px;
 }
 
-body {
-    background: radial-gradient(circle at top, #161616, #0a0a0a);
-    color: white;
-    font-family: 'F1', 'Roboto Condensed', 'Segoe UI', sans-serif;
-    letter-spacing: 0.3px;
-}
-
-/* ========== TABELLA SCUDERIE - STILI PRINCIPALI ========== */
-.scuderie-table {
+.gp-table {
     width: 100%;
     border-collapse: collapse;
-    background: linear-gradient(180deg, #121212 0%, #1e1e1e 100%);
+    background: linear-gradient(180deg, #0d0d0d 0%, #1a1a1a 100%);
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 0 30px var(--f1-shadow);
-    color: #eaeaea;
+    color: #f0f0f0;
+    table-layout: fixed;
 }
 
-.scuderie-table th {
-    background: linear-gradient(90deg, var(--f1-red), #8a0f0f);
-    color: white;
-    padding: 14px;
-    font-size: 0.9rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    border-bottom: 2px solid #000;
-    letter-spacing: 1px;
-}
-
-.scuderie-table td {
-    padding: 12px 10px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+/* Celle base */
+.gp-table th,
+.gp-table td {
+    padding: 8px 6px;
+    text-align: center;
     vertical-align: middle;
-    background: linear-gradient(180deg, #111 0%, #0c0c0c 100%);
-    transition: background 0.2s ease, transform 0.2s ease;
+    border-bottom: 1px solid #2c2c2c;
 }
 
-.team-row:hover {
-    background: rgba(225, 6, 0, 0.08);
-    transform: scale(1.01);
+/* Colonne */
+.gp-table th:nth-child(1),
+.gp-table td:nth-child(1) {
+    width: 120px; /* Circuito */
 }
 
-/* === CELLE SCUDERIE SPECIFICHE === */
-.position-cell {
-    text-align: center;
-    width: 70px;
+.gp-table th:nth-child(2),
+.gp-table td:nth-child(2) {
+    width: 25%; /* Nome GP */
 }
 
-.position-badge {
-    background: var(--f1-red);
-    color: white;
-    padding: 6px 14px;
-    border-radius: 50px;
+.gp-table th:nth-child(3),
+.gp-table td:nth-child(3),
+.gp-table th:nth-child(4),
+.gp-table td:nth-child(4) {
+    width: 8%; /* Paese e Location */
+    font-size: 0.9em;
+    color: #ccc;
+}
+
+.gp-table th:nth-child(5),
+.gp-table td:nth-child(5) {
+    width: 45%; /* Sessioni */
+    padding: 4px;
+}
+
+/* Immagini circuito */
+.gp-table img {
+    width: 110px !important;
+    height: auto;
+    border-radius: 6px;
+    border: 2px solid var(--f1-red);
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.gp-table img:hover {
+    transform: scale(1.04);
+    border-color: #ff3b30;
+}
+
+/* Nomi GP */
+.gp-name {
+    font-size: 1em;
     font-weight: bold;
-    font-size: 1.1em;
-    display: inline-block;
-    box-shadow: 0 0 8px rgba(225, 6, 0, 0.5);
-}
-
-.team-name-cell {
-    font-weight: 700;
     color: #fff;
-    text-shadow: 0 0 4px rgba(255, 255, 255, 0.2);
 }
 
-.logo-cell {
-    width: 90px;
-    text-align: center;
-}
-
-.LogoBackground {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px;
-    border-radius: 500px;
-    box-shadow: 0 0 10px rgba(225, 6, 0, 0.3);
-    transition: transform 0.2s ease;
-}
-
-.LogoBackground:hover {
-    transform: scale(1.1);
-}
-
-.TeamLogo {
-    width: 60px;
-    height: 60px;
-    object-fit: contain;
-}
-
-.drivers-cell {
-    min-width: 250px;
-}
-
-/* === PUNTI E LIVREA === */
-.points-cell {
-    text-align: center;
-    width: 100px;
-}
-
-.points-badge {
-    background: var(--f1-red);
-    color: white;
-    padding: 8px 18px;
-    border-radius: 50px;
-    font-weight: bold;
-    font-size: 1.2em;
-    display: inline-block;
-    box-shadow: 0 0 10px rgba(225, 6, 0, 0.6);
-}
-
-.livrea-cell {
-    text-align: center;
-}
-
-.livrea-img {
-    width: 100px;
-    height: 50px;
-    border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    object-fit: cover;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.livrea-img:hover {
-    transform: scale(1.6);
-    box-shadow: 0 0 15px rgba(225, 6, 0, 0.5);
-    z-index: 10;
-}
-
-.no-livrea {
-    color: #999;
+.gp-official-name {
     font-style: italic;
+    font-size: 0.8em;
+    color: #aaa;
 }
 
-/* === RESPONSIVE TABLES === */
+/* Nessuna immagine */
+.no-image {
+    font-style: italic;
+    color: gray;
+    font-size: 0.9em;
+}
+
+/* ========== SESSIONI - LAYOUT COMPATTO MA STILE F1 ========== */
+.session-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3px;
+    align-items: start;
+}
+
+/* INFO SESSIONE SENZA RIQUADRO */
+.session-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    margin-top: 3px;
+}
+
+.session-date {
+    font-size: 0.90em;
+    color: #ebe83a;
+}
+
+.session-id {
+    font-size: 0.6em;
+    color: #999;
+}
+
+/* Session item più compatto */
+.session-item {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: 4px;
+    background: rgba(40, 40, 40, 0.85);
+    border: 1px solid #444;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.session-item:hover {
+    background-color: rgba(184, 19, 19, 0.25);
+    border-color: #e10600;
+}
+
+/* Bottoni SessionCard */
+.session-item .session-card-button {
+    width: 100% !important;
+    min-height: 32px !important;
+    padding: 4px 6px !important;
+    margin: 0 !important;
+    font-size: 0.8em !important;
+    font-weight: 500;
+    color: #fff;
+    background: linear-gradient(180deg, #b81313 0%, #7a0f0f 100%);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.session-item .session-card-button:hover {
+    background: linear-gradient(180deg, #e10600 0%, #b30b0b 100%);
+    transform: translateY(-1px);
+}
+
+.session-item .session-label {
+    font-weight: bold;
+    font-size: 0.8em;
+    color: #fff;
+}
+
+/* Nessuna sessione */
+.no-session {
+    font-style: italic;
+    color: #777;
+    font-size: 0.9em;
+    padding: 10px;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 1200px) {
+    .session-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
 @media (max-width: 1024px) {
-    .scuderie-table {
-        font-size: 0.9em;
+    /* Nasconde Paese e Location */
+    .gp-table th:nth-child(3),
+    .gp-table td:nth-child(3),
+    .gp-table th:nth-child(4),
+    .gp-table td:nth-child(4) {
+        display: none;
+    }
+
+    /* Allarga Sessioni */
+    .gp-table th:nth-child(5),
+    .gp-table td:nth-child(5) {
+        width: 50%;
     }
 }
 
 @media (max-width: 768px) {
-    .scuderie-table {
-        display: block;
-        overflow-x: auto;
+    /* Riduci larghezza Circuito */
+    .gp-table th:nth-child(1),
+    .gp-table td:nth-child(1) {
+        width: 90px;
+    }
+
+    /* Riduci immagini circuito */
+    .gp-table img {
+        width: 85px !important;
+    }
+
+    /* Layout sessioni in colonna singola */
+    .session-grid {
+        grid-template-columns: 1fr;
+        gap: 3px;
+    }
+
+    .session-item {
+        padding: 3px;
+    }
+
+    /* Riduci pulsanti sessione */
+    .session-item .session-card-button {
+        font-size: 0.75em !important;
+        padding: 3px 5px !important;
+        min-height: 28px !important;
     }
 }
 
+@media (max-width: 480px) {
+    /* Riduci padding e font size generale */
+    .gp-table th,
+    .gp-table td {
+        padding: 6px 3px;
+        font-size: 0.9em;
+    }
+
+    /* Riduci font size nomi GP */
+    .gp-name {
+        font-size: 0.9em;
+    }
+
+    .gp-official-name {
+        font-size: 0.75em;
+    }
+
+    .session-item .session-card-button {
+        font-size: 0.7em !important;
+        padding: 2px 4px !important;
+        min-height: 26px !important;
+    }
+}

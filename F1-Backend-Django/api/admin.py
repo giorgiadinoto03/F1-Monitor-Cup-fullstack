@@ -31,8 +31,8 @@ class RaceAdmin(admin.ModelAdmin):
     ordering = ('-year', 'meeting_name')
 
     def thumbnail(self, obj):
-        if obj.circuit_image:
-            return format_html('<img src="{}" style="height:30px;border-radius:4px;" />', obj.circuit_image.url)
+        if obj.circuit_image_url:
+            return format_html('<img src="{}" style="height:30px;border-radius:4px;" />', obj.circuit_image_url)
         return '-'
     thumbnail.short_description = 'Circuito'
     

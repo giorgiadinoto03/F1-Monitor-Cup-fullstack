@@ -5,6 +5,8 @@ import {
   TableCell, TableBody, CircularProgress, Alert
 } from "@mui/material";
 import { api } from "../services/api";
+import "../components/gp2025.css";
+import "../App.css";
 
 export default function SessionCard({ sessionKey, label, meetingName, dateStart }) {
   const [open, setOpen] = useState(false);
@@ -220,7 +222,7 @@ export default function SessionCard({ sessionKey, label, meetingName, dateStart 
         </DialogActions>
       </Dialog>
 
-      <div className="session-item">
+      <div className="session-date">
         <span>
           {dateStart ? new Date(dateStart).toLocaleDateString("it-IT", { 
             weekday: "short", 
