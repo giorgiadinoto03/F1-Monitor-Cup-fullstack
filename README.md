@@ -12,20 +12,20 @@ L'applicazione si compone di:
 ## Tecnologie e Architettura
 
 ### Frontend
-React 19.1.1 - Libreria UI
-Material-UI (MUI) 7.3.2 - Componenti UI
-React Router 7.9.1 - Routing
-Vite 7.1.6 - Build tool e dev server
+- React 19.1.1 - Libreria UI
+- Material-UI (MUI) 7.3.2 - Componenti UI
+- React Router 7.9.1 - Routing
+- Vite 7.1.6 - Build tool e dev server
 
 ### Backend
 Il backend è sviluppato con Django 5.2.7 e Django REST Framework 3.16.1, fornendo un'API RESTful completa per la gestione dei dati della stagione di Formula 1 2025.
 
-Django 5.2.7 - Framework web Python
-Django REST Framework 3.16.1 - API REST
-Django CORS Headers 4.9.0 - Gestione CORS
-Django Filter 25.2 - Sistema di filtri avanzati
-Requests 2.32.5 - HTTP client per OpenF1 API
-Pillow 12.0.0 - Gestione immagini
+- Django 5.2.7 - Framework web Python
+- Django REST Framework 3.16.1 - API REST
+- Django CORS Headers 4.9.0 - Gestione CORS
+- Django Filter 25.2 - Sistema di filtri avanzati
+- Requests 2.32.5 - HTTP client per OpenF1 API
+- Pillow 12.0.0 - Gestione immagini
 
 ## Struttura del Progetto
 ```
