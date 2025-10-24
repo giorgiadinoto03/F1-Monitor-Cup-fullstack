@@ -23,8 +23,8 @@ class Command(BaseCommand):
             "EMILIA": "Imola",            # Potrebbe essere "Emilia Romagna"
             "ROMAGNA": "Imola",           # Potrebbe essere "Emilia Romagna"
             "MONACO": "Montecarlo",
-            "SPAIN": "Barcellona",
-            "ESPAÑA": "Barcellona",
+            "SPAIN": "Barcelona",
+            "ESPAÑA": "Barcelona",
             "CANADIAN": "Montreal",
             "AUSTRIAN": "Red_Bull_Ring",
             "BRITISH": "Silverstone",
