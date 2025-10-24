@@ -37,10 +37,6 @@ class Command(BaseCommand):
         self.stdout.write("\n🏁 Calcolo punti piloti...")
         call_command('calculated_driver_points')
 
-        # 5️⃣ Calcola punti team
-        self.stdout.write("\n🏎️ Calcolo punti team...")
-        call_command('team_points')
-
         # 6️⃣ Export opzionale piloti in JSON
         if export_drivers:
             self.stdout.write("\n💾 Export piloti JSON...")

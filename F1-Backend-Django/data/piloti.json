@@ -1,6 +1,6 @@
 [
   {
-    "season_point": 325,
+    "season_point": 346,
     "driver_number": 81,
     "broadcast_name": "O PIASTRI",
     "full_name": "Oscar PIASTRI",
@@ -20,7 +20,7 @@
     "session_key": "9888"
   },
   {
-    "season_point": 317,
+    "season_point": 332,
     "driver_number": 4,
     "broadcast_name": "L NORRIS",
     "full_name": "Lando NORRIS",
@@ -40,7 +40,7 @@
     "session_key": "9888"
   },
   {
-    "season_point": 235,
+    "season_point": 252,
     "driver_number": 63,
     "broadcast_name": "G RUSSELL",
     "full_name": "George RUSSELL",
@@ -60,7 +60,7 @@
     "session_key": "9888"
   },
   {
-    "season_point": 84,
+    "season_point": 89,
     "driver_number": 12,
     "broadcast_name": "K ANTONELLI",
     "full_name": "Kimi ANTONELLI",
@@ -80,7 +80,7 @@
     "session_key": "9888"
   },
   {
-    "season_point": 179,
+    "season_point": 192,
     "driver_number": 16,
     "broadcast_name": "C LECLERC",
     "full_name": "Charles LECLERC",
@@ -100,7 +100,7 @@
     "session_key": "9888"
   },
   {
-    "season_point": 123,
+    "season_point": 142,
     "driver_number": 44,
     "broadcast_name": "L HAMILTON",
     "full_name": "Lewis HAMILTON",
@@ -120,7 +120,7 @@
     "session_key": "9888"
   },
   {
-    "season_point": 284,
+    "season_point": 306,
     "driver_number": 1,
     "broadcast_name": "M VERSTAPPEN",
     "full_name": "Max VERSTAPPEN",
@@ -140,7 +140,7 @@
     "session_key": "9888"
   },
   {
-    "season_point": 20,
+    "season_point": 28,
     "driver_number": 22,
     "broadcast_name": "Y TSUNODA",
     "full_name": "Yuki TSUNODA",
@@ -160,7 +160,7 @@
     "session_key": "9888"
   },
   {
-    "season_point": 70,
+    "season_point": 73,
     "driver_number": 23,
     "broadcast_name": "A ALBON",
     "full_name": "Alexander ALBON",
@@ -180,7 +180,7 @@
     "session_key": "9888"
   },
   {
-    "season_point": 29,
+    "season_point": 38,
     "driver_number": 55,
     "broadcast_name": "C SAINZ",
     "full_name": "Carlos SAINZ",
@@ -221,7 +221,7 @@
     "session_key": "9888"
   },
   {
-    "season_point": 38,
+    "season_point": 39,
     "driver_number": 6,
     "broadcast_name": "I HADJAR",
     "full_name": "Isack HADJAR",
@@ -241,7 +241,7 @@
     "session_key": "9888"
   },
   {
-    "season_point": 28,
+    "season_point": 32,
     "driver_number": 18,
     "broadcast_name": "L STROLL",
     "full_name": "Lance STROLL",
@@ -321,7 +321,7 @@
     "session_key": "9888"
   },
   {
-    "season_point": 24,
+    "season_point": 28,
     "driver_number": 31,
     "broadcast_name": "E OCON",
     "full_name": "Esteban OCON",
@@ -341,7 +341,7 @@
     "session_key": "9888"
   },
   {
-    "season_point": 18,
+    "season_point": 20,
     "driver_number": 87,
     "broadcast_name": "O BEARMAN",
     "full_name": "Oliver BEARMAN",
@@ -361,7 +361,7 @@
     "session_key": "9888"
   },
   {
-    "season_point": 19,
+    "season_point": 20,
     "driver_number": 10,
     "broadcast_name": "P GASLY",
     "full_name": "Pierre GASLY",

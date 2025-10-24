@@ -12,6 +12,7 @@ class Command(BaseCommand):
         circuit_map = {
             "PRE-SEASON": "Sakhir",
             "TESTING": "Sakhir",
+            "BAHRAIN": "Sakhir",
             "SAUDI": "Jeddah",
             "AUSTRALIAN": "Melbourne", 
             "JAPAN": "Suzuka",

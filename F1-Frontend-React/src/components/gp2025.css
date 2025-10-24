@@ -1,68 +1,107 @@
-/* ========== GP2025 - STILE CLASSICO + DIMENSIONI OTTIMIZZATE ========== */
+/* 🏎️ GP2025 - STILE F1 OTTIMIZZATO */
+
+:root {
+    /* Assicurati di definire queste variabili nel tuo file CSS globale o qui */
+    /* Esempio di variabili F1 comuni: */
+    --f1-shadow: rgba(230, 0, 0, 0.4); /* Rosso per l'ombra */
+    --f1-red: #e10600; /* Rosso F1 */
+    --f1-blue: #004d9c; /* Blu per l'hover */
+    --f1-yellow: #ebe83a; /* Giallo per le date */
+}
 
 .table-container {
     overflow-x: auto;
     margin-top: 20px;
 }
 
+/* Tabella principale - Stile Dark F1 */
 .gp-table {
     width: 100%;
     border-collapse: collapse;
+    /* Gradiente scuro più aggressivo */
     background: linear-gradient(180deg, #0d0d0d 0%, #1a1a1a 100%);
     border-radius: 10px;
     overflow: hidden;
+    /* Ombra prominente in stile F1 */
     box-shadow: 0 0 30px var(--f1-shadow);
     color: #f0f0f0;
     table-layout: fixed;
-    
 }
 
-/* Celle base */
+/* Celle base (TH e TD) */
 .gp-table th,
 .gp-table td {
     padding: 8px 6px;
     text-align: center;
     vertical-align: middle;
-    border-bottom: 1px solid #2c2c2c;
+    border-bottom: 1px solid #263745;
 }
 
-/* Colonne */
+/* 🏁 Stile per righe alternate e hover (Pulizia delle ripetizioni) */
+
+/* Righe pari (default trasparente, o leggermente scuro) */
+.gp-table tbody tr:nth-of-type(even) {
+    background-color: transparent;
+}
+
+/* Righe dispari */
+.gp-table tbody tr:nth-of-type(odd),
+.MuiTableBody-root .MuiTableRow-root:nth-of-type(odd) {
+    /* Un colore scuro e discreto */
+    background-color: rgba(11, 11, 11, 0.286);
+}
+
+/* Hover su tutte le righe - Blu dinamico per F1 */
+.gp-table tbody tr:hover,
+.MuiTableBody-root .MuiTableRow-root:hover {
+    background-color: rgba(0, 79, 225, 0.338) !important;
+    transition: background-color 0.2s ease;
+}
+
+/* 📏 Dimensioni Colonne (Consolidate) */
+
+/* Colonna Circuito (1) */
 .gp-table th:nth-child(1),
 .gp-table td:nth-child(1) {
-    width: 120px; /* Circuito */
+    width: 120px;
 }
 
+/* Colonna Nome GP (2) */
 .gp-table th:nth-child(2),
 .gp-table td:nth-child(2) {
-    width: 25%; /* Nome GP */
+    width: 25%;
 }
 
+/* Colonne Paese (3) e Location (4) - Consolidate */
 .gp-table th:nth-child(3),
 .gp-table td:nth-child(3),
 .gp-table th:nth-child(4),
 .gp-table td:nth-child(4) {
-    width: 8%; /* Paese e Location */
+    width: 8%;
     font-size: 0.9em;
     color: #ccc;
 }
 
+/* Colonna Sessioni (5) */
 .gp-table th:nth-child(5),
 .gp-table td:nth-child(5) {
-    width: 45%; /* Sessioni */
+    width: 45%;
     padding: 4px;
 }
 
-/* Immagini circuito */
+/* Immagini Circuito */
 .gp-table img {
     width: 110px !important;
     height: auto;
     border-radius: 6px;
+    /* Bordo iniziale Rosso F1 */
     border: 2px solid var(--f1-red);
     transition: transform 0.3s ease, border-color 0.3s ease;
 }
 
 .gp-table img:hover {
     transform: scale(1.04);
+    /* Bordo hover in Blu/Ciano per contrasto */
     border-color: #3056ff;
 }
 
@@ -87,31 +126,24 @@
 }
 
 /* ========== SESSIONI - LAYOUT COMPATTO MA STILE F1 ========== */
+
+
 .session-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 3px;
     align-items: start;
     justify-items: center;
-    margin-top: 20px;
-}
-.MuiTableRow-root:hover {
-    background-color: rgba(225, 6, 0, 0.15) !important;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
-/* INFO SESSIONE SENZA RIQUADRO */
-.session-info {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2px;
-    margin-top: 3px;
-    
-}
-
+/* INFO SESSIONE */
+/* Ho rimosso il selettore .session-info non usato nella SessionCard */
 .session-date {
     font-size: 0.90em;
-    color: #ebe83a;
+    /* Giallo per le date, come nei tempi sul giro */
+    color: var(--f1-yellow);
 }
 
 .session-id {
@@ -119,44 +151,52 @@
     color: #999;
 }
 
-/* Session item più compatto */
+/* Session item più compatto e stiloso */
 .session-item {
     display: inline-flex;
     flex-direction: column;
     align-items: center;
     gap: 3px;
     padding: 4px;
+    /* Sfondo scuro per dare risalto */
     background: rgba(40, 40, 40, 0.85);
     border: 1px solid #444;
     border-radius: 6px;
     transition: all 0.3s ease;
     text-align: center;
+    width: 100%; /* Occupare lo spazio della griglia */
+    box-sizing: border-box; /* Per includere padding e border nel width */
 }
 
 .session-item:hover {
+    /* Hover sottile e dinamico */
     background-color: rgba(19, 82, 184, 0.25);
     border-color: #009ae1;
 }
 
-/* Bottoni SessionCard */
+/* Bottoni SessionCard - Stile aggressivo F1 */
 .session-item .session-card-button {
     width: 100% !important;
     min-height: 32px !important;
     padding: 4px 6px !important;
     margin: 0 !important;
     font-size: 0.8em !important;
-    font-weight: 500;
+    font-weight: 600; /* Più audace */
     color: #fff;
-    background: linear-gradient(180deg, #b81313 0%, #7a0f0f 100%);
+    /* Gradiente Blu/Viola F1-like */
+    background: linear-gradient(180deg, #1318b8 0%, #1b0f7a 100%);
     border: none;
     border-radius: 4px;
     cursor: pointer;
     transition: all 0.25s ease;
+    text-transform: uppercase; /* Stile F1 */
 }
 
 .session-item .session-card-button:hover {
-    background: linear-gradient(180deg, #e10600 0%, #b30b0b 100%);
+    /* Gradiente hover più chiaro */
+    background: linear-gradient(180deg, #0031e1 0%, #0b21b3 100%);
     transform: translateY(-1px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .session-item .session-label {
@@ -173,7 +213,8 @@
     padding: 10px;
 }
 
-/* ========== RESPONSIVE ========== */
+/* ========== RESPONSIVE (Migliorato) ========== */
+
 @media (max-width: 1200px) {
     .session-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -181,7 +222,7 @@
 }
 
 @media (max-width: 1024px) {
-    /* Nasconde Paese e Location */
+    /* Nasconde Paese (3) e Location (4) - Consolidate */
     .gp-table th:nth-child(3),
     .gp-table td:nth-child(3),
     .gp-table th:nth-child(4),
@@ -189,7 +230,7 @@
         display: none;
     }
 
-    /* Allarga Sessioni */
+    /* Allarga Sessioni (5) */
     .gp-table th:nth-child(5),
     .gp-table td:nth-child(5) {
         width: 50%;
@@ -197,7 +238,7 @@
 }
 
 @media (max-width: 768px) {
-    /* Riduci larghezza Circuito */
+    /* Riduci larghezza Circuito (1) */
     .gp-table th:nth-child(1),
     .gp-table td:nth-child(1) {
         width: 90px;
@@ -211,7 +252,7 @@
     /* Layout sessioni in colonna singola */
     .session-grid {
         grid-template-columns: 1fr;
-        gap: 3px;
+        gap: 5px; /* Aumento leggero del gap */
     }
 
     .session-item {
@@ -248,4 +289,103 @@
         padding: 2px 4px !important;
         min-height: 26px !important;
     }
+}
+/* 🏁 AGGIUNTA STILE SESSIONCARD (Modale Risultati) 🏁 */
+
+/* Stile per il Dialog (Modale MUI) */
+.MuiDialog-paper {
+    background: var(--f1-dark-modal) !important;
+    color: white !important;
+    border: 1px solid rgba(225, 6, 0, 0.5); /* Bordo Rosso F1 */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.7) !important;
+    border-radius: 10px !important;
+}
+
+/* Titolo Dialog */
+.MuiDialogTitle-root {
+    background: linear-gradient(90deg, var(--f1-red), #8a0f0f);
+    color: white !important;
+    font-weight: 700 !important;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 15px 24px !important;
+    border-bottom: 2px solid #000;
+}
+
+/* Contenuto Dialog (dove è la tabella) */
+.MuiDialogContent-root {
+    padding: 20px !important;
+    background-color: #121212;
+}
+
+/* Tabella Risultati all'interno del Dialog */
+.MuiDialogContent-root table {
+    background: #0d0d0d;
+    border: none;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    overflow: hidden;
+    width: 100%;
+}
+
+/* Intestazione Tabella */
+.MuiTableHead-root th {
+    background-color: #333333 !important; /* Grigio scuro per le colonne */
+    color: #fff !important;
+    font-weight: 600 !important;
+    text-transform: uppercase;
+    font-size: 0.9em !important;
+    border-bottom: 2px solid var(--f1-red) !important;
+    padding: 10px 8px !important;
+}
+
+/* Celle del corpo della tabella */
+.MuiTableBody-root .MuiTableCell-root {
+    color: #e0e0e0 !important;
+    background-color: transparent !important;
+    border-bottom: 1px solid #2a2a2a !important;
+    padding: 10px 8px !important;
+    font-size: 0.95em !important;
+}
+
+/* Hover su riga dei risultati */
+.MuiTableBody-root .MuiTableRow-root:hover {
+    background-color: rgba(225, 6, 0, 0.1) !important;
+}
+
+/* Stile per la posizione (Pos) */
+.MuiTableBody-root .MuiTableRow-root .MuiTableCell-root:first-child {
+    font-weight: bold;
+    color: var(--f1-red);
+}
+
+/* Stile per Gap (tempi) */
+/* Rende i tempi gialli come i settori veloci */
+.MuiTableBody-root .MuiTableCell-root:nth-last-child(2),
+.MuiTableBody-root .MuiTableCell-root:nth-last-child(1) {
+    font-family: 'Roboto Mono', monospace;
+    color: var(--f1-yellow); 
+}
+
+/* Stile per Status (DNF/DSQ) */
+.MuiTableBody-root .MuiTableRow-root [style*="#e74c3c"] {
+    color: #e74c3c !important; /* Rosso per non classificati */
+}
+
+/* Azioni Dialog (Pulsanti Chiudi) */
+.MuiDialogActions-root {
+    background-color: #0d0d0d;
+    padding: 10px 20px !important;
+    border-top: 1px solid #333;
+}
+
+/* Pulsante Chiudi */
+.MuiDialogActions-root .MuiButton-outlined {
+    border-color: #555 !important;
+    color: #ccc !important;
+}
+
+.MuiDialogActions-root .MuiButton-outlined:hover {
+    background-color: #333 !important;
+    border-color: #fff !important;
 }
