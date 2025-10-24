@@ -127,12 +127,12 @@ python manage.py runserver
 
 ### API Principali
 
-Scuderie --> "http://127.0.0.1:8000/api/teams/",
-Piloti --> "http://127.0.0.1:8000/api/drivers/",
-Gare --> "http://127.0.0.1:8000/api/races/",
-Sessioni --> "http://127.0.0.1:8000/api/sessions/",
-Risultati --> "http://127.0.0.1:8000/api/results/",
-Prossima gara --> "http://127.0.0.1:8000/api/races/next/"
+- Scuderie --> "http://127.0.0.1:8000/api/teams/",
+- Piloti --> "http://127.0.0.1:8000/api/drivers/",
+- Gare --> "http://127.0.0.1:8000/api/races/",
+- Sessioni --> "http://127.0.0.1:8000/api/sessions/",
+- Risultati --> "http://127.0.0.1:8000/api/results/",
+- Prossima gara --> "http://127.0.0.1:8000/api/races/next/"
 
 
 ## Integrazioni Future 
@@ -157,4 +157,3 @@ Progetto sviluppato durante il corso Fullstack Developer
 
 **Versione:** demo 1.0
 **Aggioranto:** Ottobre 2025
-
