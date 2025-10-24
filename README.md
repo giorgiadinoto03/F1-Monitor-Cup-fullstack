@@ -18,6 +18,8 @@ React Router 7.9.1 - Routing
 Vite 7.1.6 - Build tool e dev server
 
 ### Backend
+Il backend è sviluppato con Django 5.2.7 e Django REST Framework 3.16.1, fornendo un'API RESTful completa per la gestione dei dati della stagione di Formula 1 2025.
+
 Django 5.2.7 - Framework web Python
 Django REST Framework 3.16.1 - API REST
 Django CORS Headers 4.9.0 - Gestione CORS
@@ -105,18 +107,18 @@ python manage.py migrate
 ```
 ##### Importazione dati Importanti
 ```
-python manange.py import_drivers
-python manange.py import_teams
+python manage.py import_drivers
+python manage.py import_teams
 
-python manange.py import_all_openf1 --year 2025 -> comando che serve a importare races, sessions, results e calcolo punti in un'unica volta
+python manage.py import_all_openf1 --year 2025 -> comando che serve a importare races, sessions, results e calcolo punti in un'unica volta
 
-python manange.py import_openf1_races
-python manange.py import_openf1_sessions
-python manange.py import_openf1_results
+python manage.py import_openf1_races
+python manage.py import_openf1_sessions
+python manage.py import_openf1_results
 
-python manange.py calculated_driver_points -> calcolo dei punti dei piloti e delle scuderie
+python manage.py calculated_driver_points -> calcolo dei punti dei piloti e delle scuderie
 
-python manange.py associate_circuit_images -> importa e associa le immagini dei circuiti
+python manage.py associate_circuit_images -> importa e associa le immagini dei circuiti
 
 python manage.py export_data ->  Esporta i dati in JSON 
 ```
