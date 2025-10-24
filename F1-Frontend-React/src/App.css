@@ -105,7 +105,7 @@ tbody tr:hover {
 .main-content {
     flex-grow: 1;
     text-align: center;
-    padding: 10px;
+    padding: 5px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -132,7 +132,7 @@ tbody tr:hover {
     border: 2px solid #b81313;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     margin-bottom: 15px;
-    padding: 10px;
+    padding: 25px;
 }
 
 /* ========== MEDIA QUERIES - RESPONSIVE ========== */
