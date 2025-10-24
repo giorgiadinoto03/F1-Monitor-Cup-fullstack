@@ -24,7 +24,10 @@ class Command(BaseCommand):
             "ROMAGNA": "Imola",           # Potrebbe essere "Emilia Romagna"
             "MONACO": "Montecarlo",
             "SPAIN": "Barcelona",
+            "SPANISH": "Barcelona",
             "ESPAÑA": "Barcelona",
+            "ESP": "Barcelona",
+            "GRAND PRIX OF SPAIN": "Barcelona",
             "CANADIAN": "Montreal",
             "AUSTRIAN": "Red_Bull_Ring",
             "BRITISH": "Silverstone",
