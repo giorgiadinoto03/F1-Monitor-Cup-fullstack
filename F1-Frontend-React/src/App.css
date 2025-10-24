@@ -105,7 +105,7 @@ tbody tr:hover {
 .main-content {
     flex-grow: 1;
     text-align: center;
-    padding: 20px;
+    padding: 10px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -115,12 +115,24 @@ tbody tr:hover {
 
 .main-content h1 {
     font-size: 2.5em;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
 .main-content img {
     max-width: 100%;
     height: auto;
+}
+
+.NextGP-info {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 10px;
+    height: auto;
+    border: 2px solid #b81313;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    margin-bottom: 15px;
+    padding: 10px;
 }
 
 /* ========== MEDIA QUERIES - RESPONSIVE ========== */

@@ -76,6 +76,12 @@ class Result(models.Model):
     q1 = models.CharField(max_length=50, blank=True, null=True)
     q2 = models.CharField(max_length=50, blank=True, null=True)
     q3 = models.CharField(max_length=50, blank=True, null=True)
+    
+    # Status flags from OpenF1 API
+    dnf = models.BooleanField(default=False)  # Did Not Finish
+    dns = models.BooleanField(default=False)  # Did Not Start
+    dsq = models.BooleanField(default=False)  # Disqualified
+    best_lap_time = models.CharField(max_length=50, blank=True, null=True)
 
     class Meta:
         # Aggiungi questi indici per migliorare le performance delle query comuni

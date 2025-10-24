@@ -8,7 +8,7 @@ import "../components/Piloti.css";
 
 export function Piloti() {
     const [drivers, setDrivers] = useState([]);
-    const [teams, setTeams] = useState([]); // Aggiungi stato per i team
+    const [teams, setTeams] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [filters, setFilters] = useState({
@@ -16,6 +16,23 @@ export function Piloti() {
         team: '',
         country: ''
     });
+
+    // 🔹 Trova il pilota con il punteggio più alto
+    const findTopDriver = () => {
+        if (drivers.length === 0) return null;
+        
+        let topDriver = drivers[0];
+        drivers.forEach(driver => {
+            const driverPoints = driver.points || 0;
+            const topPoints = topDriver.points || 0;
+            if (driverPoints > topPoints) {
+                topDriver = driver;
+            }
+        });
+        return topDriver;
+    };
+
+    const topDriver = findTopDriver();
 
     // 🔹 Fallback in caso di errore nel fetch
     const localFallback = () => {
@@ -42,7 +59,6 @@ export function Piloti() {
         }
     };
 
-
     // Fetch teams per il dropdown
     const fetchTeams = async () => {
         try {
@@ -55,7 +71,7 @@ export function Piloti() {
 
     useEffect(() => {
         fetchDrivers(filters);
-        fetchTeams(); // Carica i team all'avvio
+        fetchTeams();
     }, [filters]);
 
     console.log("Dati driver ricevuti:", drivers);
@@ -82,7 +98,6 @@ export function Piloti() {
     if (loading) return <div className="main-content"><h2>Caricamento piloti...</h2></div>;
     if (error && drivers.length === 0) return <div className="main-content"><h2>Errore: {error}</h2></div>;
 
-
     return (
         <div className="SideImage-container">
             <SideImage 
@@ -92,16 +107,17 @@ export function Piloti() {
             />
             
             <div className="Piloti">
-                <h1>Benvenuto nella sezione Piloti</h1>
+                <h1>Sezione Piloti</h1>
                 <h2>Informazioni sui piloti di Formula 1</h2>
-                <p>Qui potrai trovare tutte le informazioni sulla stagione di Formula 1 2025</p>
+                <p>Qui potrai trovare le informazioni relative ai piloti e i loro risultati.
+                    <br/>
+                </p>
 
-                {/* BARRA FILTRI MIGLIORATA */}
+                {/* BARRA FILTRI */}
                 <div className="filtri-container">
                     <h3>Filtra i piloti:</h3>
                     
                     <div className="filtri-grid">
-                        {/* Ordinamento */}
                         <div className="filtro-group">
                             <label>Ordina per:</label>
                             <div className="filtri-buttons">
@@ -126,7 +142,6 @@ export function Piloti() {
                             </div>
                         </div>
 
-                        {/* Filtro Team - DROPDOWN */}
                         <div className="filtro-group">
                             <label htmlFor="team-select">Filtra per Team:</label>
                             <select 
@@ -144,7 +159,6 @@ export function Piloti() {
                             </select>
                         </div>
 
-                        {/* Reset */}
                         <div className="filtro-group">
                             <label>&nbsp;</label>
                             <button 
@@ -155,21 +169,7 @@ export function Piloti() {
                             </button>
                         </div>
                     </div>
-
-                    {/* Mostra filtri attivi */}
-                    {filters.team && (
-                        <div className="active-filters">
-                            <small>
-                                Filtri attivi: 
-                                {filters.team && ` Team: ${filters.team}`}
-                                {filters.ordering === '-points' && ' (Ordine: Punti)'}
-                                {filters.ordering === 'full_name' && ' (Ordine: Nome)'}
-                                {filters.ordering === 'number' && ' (Ordine: Numero)'}
-                            </small>
-                        </div>
-                    )}
                 </div>
-
 
                 {/* Tabella piloti */}
                 <div className="piloti-table-container">
@@ -183,38 +183,81 @@ export function Piloti() {
                                 <th>Team</th>
                                 <th>Nazione</th>
                                 <th>Punti</th>
+                                <th>Azioni</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {drivers.map((driver) => (
-                                <tr key={driver.number}>
-                                    <td>{driver.number}</td>
-                                    <td>
-                                        <div
-                                            className='PilotiBackground'
-                                            style={{ backgroundColor: driver.team_colour }}
-                                        >
-                                            <img
-                                                className='PilotiImg'
-                                                src={driver.headshot_url}
-                                                alt={driver.full_name}
-                                                onError={(e) => {
-                                                    e.target.src = 'https://via.placeholder.com/50x50/333333/FFFFFF?text=DRIVER';
+                            {drivers.map((driver) => {
+                                const isTopDriver = topDriver && driver.number === topDriver.number && (driver.points || 0) > 0;
+                                
+                                return (
+                                    <tr 
+                                        key={driver.number} 
+                                        className="driver-row"
+                                        style={isTopDriver ? {
+                                            background: 'linear-gradient(90deg, rgba(255,215,0,0.15) 0%, rgba(255,165,0,0.05) 100%)',
+                                            borderLeft: '4px solid #FFD700'
+                                        } : {}}
+                                    >
+                                        <td className="number-cell">
+                                            <span 
+                                                className="driver-number-badge"
+                                                style={isTopDriver ? {
+                                                    background: 'linear-gradient(135deg, #FFD700, #FFA500)',
+                                                    color: '#000',
+                                                    fontWeight: 'bold',
+                                                    boxShadow: '0 0 15px rgba(255,215,0,0.5)'
+                                                } : {}}
+                                            >
+                                                {driver.number}
+                                            </span>
+                                        </td>
+                                        <td className="avatar-cell">
+                                            <div
+                                                className='PilotiBackground'
+                                                style={{ 
+                                                    backgroundColor: driver.team_colour,
+                                                    boxShadow: isTopDriver ? '0 0 20px rgba(255,215,0,0.6)' : 'none'
                                                 }}
-                                            />
-                                        </div>
-                                    </td>
-                                    <td><b>{driver.acronym}</b></td>
-                                    <td className='PilotiName'>
-                                        {driver.first_name} {driver.last_name}
-                                        <br />
-                                        <PilotiCard driver={driver} />
-                                    </td>
-                                    <td>{driver.team_name}</td>
-                                    <td>{driver.country_code}</td>
-                                    <td>{driver.points}</td>
-                                </tr>
-                            ))}
+                                            >
+                                                <img
+                                                    className='PilotiImg'
+                                                    src={driver.headshot_url}
+                                                    alt={driver.full_name}
+                                                    onError={(e) => {
+                                                        e.target.src = 'https://via.placeholder.com/50x50/333333/FFFFFF?text=DRIVER';
+                                                    }}
+                                                />
+                                            </div>
+                                        </td>
+                                        <td>
+                                            {isTopDriver && <span style={{ color: '#FFD700', marginLeft: '8px' }}>👑</span>}
+                                            <b>{driver.acronym}</b>
+                                        </td>
+                                        <td className='PilotiName'>
+                                            {driver.first_name} {driver.last_name}
+                                        </td>
+                                        <td>{driver.team_name}</td>
+                                        <td>{driver.country_code}</td>
+                                        <td className="points-cell">
+                                            <span 
+                                                className="points-badge"
+                                                style={isTopDriver ? {
+                                                    background: 'linear-gradient(135deg, #FFD700, #FFA500)',
+                                                    color: '#000',
+                                                    fontWeight: 'bold',
+                                                    boxShadow: '0 0 15px rgba(255,215,0,0.5)'
+                                                } : {}}
+                                            >
+                                                {driver.points}
+                                            </span>
+                                        </td>
+                                        <td className="actions-cell">
+                                            <PilotiCard driver={driver} />
+                                        </td>
+                                    </tr>
+                                );
+                            })}
                         </tbody>
                     </table>
                 </div>

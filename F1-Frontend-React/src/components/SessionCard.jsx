@@ -82,6 +82,46 @@ export default function SessionCard({ sessionKey, label, meetingName, dateStart 
     return "-";
   };
 
+// 🔥 NUOVA FUNZIONE: Determina lo status del pilota
+const getDriverStatus = (result) => {
+  if (result.dsq) return "DSQ";
+  if (result.dns) return "DNS";
+  if (result.dnf) return "DNF";
+  if (result.position) return result.position;
+  return "-";
+};
+
+// 🔥 NUOVA FUNZIONE: Determina se il pilota è classificato
+const isClassified = (result) => {
+  return !result.dnf && !result.dns && !result.dsq && result.position;
+};
+
+  // 🔥 NUOVA FUNZIONE: Ordina i risultati correttamente
+  const sortResults = (results) => {
+    if (!Array.isArray(results)) return [];
+    
+    return results.sort((a, b) => {
+      // Prima i piloti classificati (con posizione)
+      const aClassified = isClassified(a);
+      const bClassified = isClassified(b);
+      
+      if (aClassified && !bClassified) return -1;
+      if (!aClassified && bClassified) return 1;
+      
+      // Entrambi classificati: ordina per posizione
+      if (aClassified && bClassified) {
+        return a.position - b.position;
+      }
+      
+      // Entrambi non classificati: ordina per tipo di ritiro
+      const statusOrder = { "DSQ": 1, "DNS": 2, "DNF": 3, "-": 4 };
+      const aStatus = getDriverStatus(a);
+      const bStatus = getDriverStatus(b);
+      
+      return statusOrder[aStatus] - statusOrder[bStatus];
+    });
+  };
+
   const handleOpen = async () => {
     setOpen(true);
     setLoading(true);
@@ -89,14 +129,16 @@ export default function SessionCard({ sessionKey, label, meetingName, dateStart 
     
     try {
       const results = await api.getResults({ 
-        session: sessionKey,
-        ordering: 'position' 
+        session: sessionKey
+        // 🔥 RIMUOVI l'ordering per gestirlo localmente
       });
       
       const resultsData = results.results || results;
-      console.log("📊 Dati risultati ricevuti:", resultsData); // Debug
+      console.log("📊 Dati risultati ricevuti:", resultsData);
       
-      setPositions(Array.isArray(resultsData) ? resultsData : []);
+      // 🔥 APPLICA ORDINAMENTO CORRETTO
+      const sortedResults = sortResults(Array.isArray(resultsData) ? resultsData : []);
+      setPositions(sortedResults);
       
     } catch (err) {
       console.error("Errore fetch risultati:", err);
@@ -158,58 +200,76 @@ export default function SessionCard({ sessionKey, label, meetingName, dateStart 
                 </TableRow>
               </TableHead>
               <TableBody>
-                {positions.map((p, index) => (
-                  <TableRow key={index}>
-                    <TableCell>{p.position || "-"}</TableCell>
-                    <TableCell>
-                      <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                        <div style={{ 
-                          backgroundColor: p.team_colour, 
-                          borderRadius: "6px", 
-                          padding: "2px",
-                          width: "30px",
-                          height: "30px",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center"
-                        }}>
-                          {p.headshot_url ? (
-                            <img 
-                              src={p.headshot_url} 
-                              alt={p.full_name} 
-                              style={{ 
-                                width: "24px", 
-                                height: "24px", 
-                                borderRadius: "50%",
-                                objectFit: "cover"
-                              }} 
-                            />
-                          ) : (
-                            <span style={{ color: 'white', fontSize: '12px' }}>
-                              {p.name_acronym}
-                            </span>
-                          )}
+                {positions.map((p, index) => {
+                  const classified = isClassified(p);
+                  const status = getDriverStatus(p);
+                  
+                  return (
+                    <TableRow 
+                      key={index}
+                      style={{
+                        opacity: classified ? 1 : 0.6,
+                        backgroundColor: classified ? 'transparent' : 'rgba(128, 128, 128, 0.1)'
+                      }}
+                    >
+                      <TableCell 
+                        style={{ 
+                          color: classified ? 'inherit' : '#e74c3c',
+                          fontWeight: classified ? 'normal' : 'bold'
+                        }}
+                      >
+                        {status}
+                      </TableCell>
+                      <TableCell>
+                        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                          <div style={{ 
+                            backgroundColor: p.team_colour, 
+                            borderRadius: "6px", 
+                            padding: "2px",
+                            width: "10px",
+                            height: "30px",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center"
+                          }}>
+                            {p.headshot_url ? (
+                              <img 
+                                src={p.headshot_url} 
+                                alt={p.full_name} 
+                                style={{ 
+                                  objectPosition: "top",
+                                  width: "0px", 
+                                  height: "0px", 
+                                  objectFit: "cover"
+                                }} 
+                              />
+                            ) : (
+                              <span style={{ color: 'white', fontSize: '12px' }}>
+                                {p.name_acronym}
+                              </span>
+                            )}
+                          </div>
+                          <Typography>{p.name_acronym || p.full_name}</Typography>
                         </div>
-                        <Typography>{p.name_acronym || p.full_name}</Typography>
-                      </div>
-                    </TableCell>
-                    <TableCell>{p.driver_number}</TableCell>
-                    <TableCell>{p.team_name}</TableCell>
-                    {isQualifyingSession ? (
-                      <>
-                        <TableCell>{formatTime(p.q1)}</TableCell>
-                        <TableCell>{formatTime(p.q2)}</TableCell>
-                        <TableCell>{formatTime(p.q3)}</TableCell>
-                        <TableCell>{formatGap(p.gap_to_leader)}</TableCell>
-                      </>
-                    ) : (
-                      <>
-                        <TableCell>{formatTime(p.duration)}</TableCell>
-                        <TableCell>{formatGap(p.gap_to_leader)}</TableCell>
-                      </>
-                    )}
-                  </TableRow>
-                ))}
+                      </TableCell>
+                      <TableCell>{p.driver_number}</TableCell>
+                      <TableCell>{p.team_name}</TableCell>
+                      {isQualifyingSession ? (
+                        <>
+                          <TableCell>{classified ? formatTime(p.q1) : "-"}</TableCell>
+                          <TableCell>{classified ? formatTime(p.q2) : "-"}</TableCell>
+                          <TableCell>{classified ? formatTime(p.q3) : "-"}</TableCell>
+                          <TableCell>{classified ? formatGap(p.gap_to_leader) : "-"}</TableCell>
+                        </>
+                      ) : (
+                        <>
+                          <TableCell>{classified ? formatTime(p.duration) : "-"}</TableCell>
+                          <TableCell>{classified ? formatGap(p.gap_to_leader) : "-"}</TableCell>
+                        </>
+                      )}
+                    </TableRow>
+                  );
+                })}
               </TableBody>
             </Table>
           ) : (

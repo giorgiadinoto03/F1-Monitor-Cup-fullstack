@@ -58,9 +58,9 @@ export default function HomePage() {
                 </p>
 
                 <br />
-                <h2>Il prossimo GP è</h2>
-                <br />
+                <h2>La prossima gara è</h2>
 
+                <div className="NextGP-info">
                 {nextGp ? (
                     <>
                         {nextGp.circuit_image_url && (  
@@ -93,6 +93,7 @@ export default function HomePage() {
                 ) : (
                     <h3>Nessun GP in programma</h3>
                 )}
+                </div>
             </div>
 
             <SideImage

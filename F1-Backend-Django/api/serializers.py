@@ -1,4 +1,4 @@
-# api/serializers.py - MIGLIORATO
+# api/serializers.py - AGGIUNGI CAMPI DNF/DNS/DSQ
 from django.db.models import Min, Max
 from rest_framework import serializers
 from .models import Team, Driver, Race, Session, Result
@@ -14,7 +14,7 @@ class TeamSerializer(serializers.ModelSerializer):
     def get_logo_url(self, obj):
         if obj.logo_url:
             request = self.context.get('request')
-            if request and not obj.logo_url.startswith(('http', '/')):  
+            if request and not obj.logo_url.startswith(('http', '/')):
                 return request.build_absolute_uri(f'/media/{obj.logo_url}')
             return obj.logo_url
         return None
@@ -142,6 +142,10 @@ class ResultSerializer(serializers.ModelSerializer):
     headshot_url = serializers.CharField(source="driver.headshot_url", read_only=True)
     meeting_key = serializers.IntegerField(source="session.race.meeting_key", read_only=True)
     session_key = serializers.IntegerField(source="session.session_key", read_only=True)
+    # 🔥 AGGIUNGI CAMPI DNF/DNS/DSQ
+    dnf = serializers.BooleanField(read_only=True)
+    dns = serializers.BooleanField(read_only=True)
+    dsq = serializers.BooleanField(read_only=True)
 
     class Meta:
         model = Result
@@ -161,6 +165,9 @@ class ResultSerializer(serializers.ModelSerializer):
             "q3",
             "meeting_key",
             "session_key",
+            "dnf",  # 🔥 AGGIUNTO
+            "dns",  # 🔥 AGGIUNTO
+            "dsq",  # 🔥 AGGIUNTO
         ]
 
 class ResultListSerializer(serializers.ModelSerializer):
@@ -173,6 +180,10 @@ class ResultListSerializer(serializers.ModelSerializer):
     # Aggiungi campi mancanti per il frontend
     name_acronym = serializers.CharField(source="driver.acronym", read_only=True)
     headshot_url = serializers.CharField(source="driver.headshot_url", read_only=True)
+    # 🔥 AGGIUNGI CAMPI DNF/DNS/DSQ
+    dnf = serializers.BooleanField(read_only=True)
+    dns = serializers.BooleanField(read_only=True)
+    dsq = serializers.BooleanField(read_only=True)
 
     class Meta:
         model = Result
@@ -191,4 +202,7 @@ class ResultListSerializer(serializers.ModelSerializer):
             "q1",
             "q2",
             "q3",
+            "dnf",  # 🔥 AGGIUNTO
+            "dns",  # 🔥 AGGIUNTO
+            "dsq",  # 🔥 AGGIUNTO
         ]

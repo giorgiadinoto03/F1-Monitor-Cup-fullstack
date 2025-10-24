@@ -139,16 +139,42 @@ export function Scuderie() {
                         </thead>
 
                         <tbody>
-                            {teams.map((team, index) => (
-                                <tr key={team.id || team.team_name} className="team-row">
+                            {teams.map((team, index) => {
+                                const isLeader = index === 0 && team.points > 0;
+                                return (
+                                <tr 
+                                    key={team.id || team.team_name} 
+                                    className="team-row"
+                                    style={isLeader ? {
+                                        background: 'linear-gradient(90deg, rgba(255,215,0,0.15) 0%, rgba(255,165,0,0.05) 100%)',
+                                        borderLeft: '4px solid #FFD700'
+                                    } : {}}
+                                >
                                     <td className="position-cell">
-                                        <span className="position-badge">{index + 1}</span>
+                                        <span 
+                                            className="position-badge"
+                                            style={isLeader ? {
+                                                background: 'linear-gradient(135deg, #FFD700, #FFA500)',
+                                                color: '#000',
+                                                fontWeight: 'bold',
+                                                boxShadow: '0 0 15px rgba(255,215,0,0.5)'
+                                            } : {}}
+                                        >
+                                            {index + 1}
+                                        </span>
                                     </td>
                                     <td className="team-name-cell">
                                         <strong>{team.team_name}</strong>
+                                        {isLeader && <span style={{ color: '#FFD700', marginLeft: '8px' }}>👑</span>}
                                     </td>
                                     <td className="logo-cell">
-                                        <div className='LogoBackground' style={{ backgroundColor: team.team_colour }}>
+                                        <div 
+                                            className='LogoBackground' 
+                                            style={{ 
+                                                backgroundColor: team.team_colour,
+                                                boxShadow: isLeader ? '0 0 20px rgba(255,215,0,0.6)' : 'none'
+                                            }}
+                                        >
                                             <img 
                                                 className="TeamLogo"
                                                 src={team.logo_url || team.team_logo}
@@ -198,12 +224,21 @@ export function Scuderie() {
                                         )}
                                     </td>
                                     <td className="points-cell">
-                                        <span className="points-badge">
+                                        <span 
+                                            className="points-badge"
+                                            style={isLeader ? {
+                                                background: 'linear-gradient(135deg, #FFD700, #FFA500)',
+                                                color: '#000',
+                                                fontWeight: 'bold',
+                                                boxShadow: '0 0 15px rgba(255,215,0,0.5)'
+                                            } : {}}
+                                        >
                                             {team.points || team.season_point}
                                         </span>
                                     </td>
                                 </tr>
-                            ))}
+                                );
+                            })}
                         </tbody>
                     </table>
                 </div>

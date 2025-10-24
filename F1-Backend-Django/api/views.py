@@ -223,6 +223,7 @@ class ResultViewSet(viewsets.ModelViewSet):
                     output_field=IntegerField()
                 )
             ).order_by(
+                'position',
                 'session__race__meeting_key',
                 'session__session_key',
                 'sort_priority',

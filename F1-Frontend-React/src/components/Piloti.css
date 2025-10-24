@@ -13,7 +13,7 @@ image-rendering: auto;
 width: 130px;
 height: 130px;
 border-radius: 50%;
-margin: 0 auto 10px auto;
+margin: 0 auto px auto;
 padding: 2px;
 display: flex;
 align-items: center;
@@ -27,6 +27,7 @@ height: 180px;
 object-fit: cover;
 object-position: top;
 border: 1px solid white;
+
 }
 
 .PilotiBackgroundCard {
@@ -44,7 +45,6 @@ box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.75);
 width: 40px;
 height: 40px;
 border-radius: 50%;
-margin: 0 auto;
 display: flex;
 align-items: center;
 justify-content: center;
@@ -53,7 +53,6 @@ justify-content: center;
 .TeamLogo {
 width: 40px;
 height: 40px;
-object-fit: contain;
 border-radius: 50%;
 border: 1px solid rgba(255, 255, 255, 0.6);
 display: block;
@@ -98,7 +97,22 @@ color: white;
 flex-grow: 1;
 }
 
-/* Layout griglia per filtri */
+/* === FILTRI SOPRA TABELLA === */
+.filtri-container {
+    background: rgba(40, 40, 40, 0.5);
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px 0;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.filtri-container h3 {
+    margin-bottom: 15px;
+    color: #ffffff;
+    border-bottom: 2px solid #b81313;
+    padding-bottom: 8px;
+}
+
 .filtri-grid {
     display: grid;
     grid-template-columns: 1fr 1fr auto;
@@ -115,83 +129,11 @@ flex-grow: 1;
 .filtro-group label {
     font-weight: 600;
     color: #ffffff;
-    margin-bottom: 5px;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
-}
-
-/* Dropdown team */
-.team-dropdown {
-    padding: 10px 12px;
-    border: 2px solid #b81313;
-    border-radius: 8px;
-    background: #282828;
-    color: #ffffff;
-    font-size: 14px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    min-width: 200px;
-}
-
-.team-dropdown:focus {
-    outline: none;
-    border-color: #ff1801;
-    box-shadow: 0 0 0 3px rgba(184, 19, 19, 0.2);
-}
-
-.team-dropdown:hover {
-    border-color: #ff1801;
-}
-
-/* Filtri attivi */
-.active-filters {
-    margin-top: 10px;
-    padding: 8px 12px;
-    background: rgba(184, 19, 19, 0.1);
-    border-radius: 6px;
-    border-left: 4px solid #b81313;
-}
-
-.active-filters small {
-    color: #ffffff;
-    font-weight: 500;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .filtri-grid {
-        grid-template-columns: 1fr;
-        gap: 15px;
-    }
-    
-    .team-dropdown {
-        min-width: 100%;
-    }
-    
-    .filtri-buttons {
-        justify-content: flex-start;
-    }
-}
-
-/* Stili esistenti mantienili */
-.filtri-container {
-    background: rgba(40, 40, 40, 0.5);
-    padding: 20px;
-    border-radius: 10px;
-    margin: 20px 0;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.filtri-container h3 {
-    margin-bottom: 15px;
-    color: #ffffff;
-    border-bottom: 2px solid #b81313;
-    padding-bottom: 8px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    font-size: 0.9rem;
 }
 
 .filtri-buttons {
     display: flex;
-    flex-wrap: wrap;
     gap: 8px;
 }
 
@@ -205,7 +147,6 @@ flex-grow: 1;
     transition: all 0.3s ease;
     font-weight: 500;
     font-size: 14px;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 .filtro-btn:hover {
@@ -222,10 +163,285 @@ flex-grow: 1;
 
 .filtro-btn.reset {
     border-color: #8a8a8a;
-    color: #ffffff;
 }
 
 .filtro-btn.reset:hover {
     background: #5e5e5e;
+}
+
+.team-dropdown {
+    padding: 10px 12px;
+    border: 2px solid #b81313;
+    border-radius: 8px;
+    background: #282828;
+    color: #ffffff;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .filtri-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* === TABELLA PILOTI === */
+.piloti-table-container {
+    overflow-x: auto;
+    margin-top: 20px;
+}
+
+.piloti-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: linear-gradient(180deg, #121212 0%, #1e1e1e 100%);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.piloti-table th {
+    background: linear-gradient(90deg, #e10600, #8a0f0f);
     color: white;
+    padding: 12px 8px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.piloti-table td {
+    padding: 10px 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    vertical-align: middle;
+    text-align: center;
+}
+
+.piloti-table tr:hover {
+    background: rgba(225, 6, 0, 0.08);
+}
+
+.number-cell {
+    font-weight: bold;
+    color: #e10600;
+    font-size: 1.1rem;
+}
+
+.avatar-cell {
+    width: 80px;
+}
+
+.PilotiBackground {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto;
+}
+
+.PilotiImg {
+    width: 70px;
+    height: 70px;
+}
+
+.points-cell {
+    font-weight: bold;
+}
+
+.points-value {
+    background: #e10600;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 1rem;
+}
+
+.actions-cell {
+    text-align: center;
+}
+
+/* Responsive - nascondi i filtri laterali su mobile */
+@media (max-width: 1024px) {
+    .filtri-container-left {
+        position: static;
+        width: 100%;
+        margin: 20px 0;
+    }
+}
+/* === TABELLA PILOTI STILE F1 === */
+.piloti-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: linear-gradient(180deg, #121212 0%, #1e1e1e 100%);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.6);
+    color: #eaeaea;
+}
+
+.piloti-table th {
+    background: linear-gradient(90deg, #e10600, #8a0f0f);
+    color: white;
+    padding: 14px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    border-bottom: 2px solid #000;
+    letter-spacing: 1px;
+}
+
+.piloti-table td {
+    padding: 12px 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    vertical-align: middle;
+    background: linear-gradient(180deg, #111 0%, #0c0c0c 100%);
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.driver-row:hover {
+    background: rgba(225, 6, 0, 0.08);
+    transform: scale(1.01);
+}
+
+.number-cell {
+    text-align: center;
+    width: 80px;
+}
+
+.driver-number-badge {
+    background: #e10600;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 1rem;
+    display: inline-block;
+    box-shadow: 0 0 8px rgba(225, 6, 0, 0.5);
+}
+
+.avatar-cell {
+    width: 100px;
+    text-align: center;
+}
+
+.driver-name-cell {
+    min-width: 200px;
+}
+
+.driver-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.driver-acronym {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #fff;
+    text-shadow: 0 0 4px rgba(255, 255, 255, 0.2);
+}
+
+.driver-fullname {
+    font-size: 0.85rem;
+    color: #ccc;
+}
+
+.team-cell {
+    font-weight: 600;
+    color: #fff;
+}
+
+.country-cell {
+    text-align: center;
+}
+
+.country-badge {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 4px 12px;
+    border-radius: 15px;
+    color: #fff;
+    font-weight: 600;
+}
+
+.points-badge {
+    background: #e10600;
+    color: white;
+    padding: 8px 18px;
+    border-radius: 50px;
+    font-weight: bold;
+    font-size: 1.2em;
+    display: inline-block;
+    box-shadow: 0 0 10px rgba(225, 6, 0, 0.6);
+}
+
+.actions-cell {
+    text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .piloti-table {
+        font-size: 0.9em;
+    }
+}
+
+@media (max-width: 768px) {
+    .piloti-table {
+        display: block;
+        overflow-x: auto;
+    }
+}
+
+/* === PILOTI CARD STATS - DESIGN PROFESSIONALE === */
+.piloti-card-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 10px 0;
+}
+
+.stat-box {
+    background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
+    border: 1px solid rgba(225, 6, 0, 0.3);
+    border-radius: 8px;
+    padding: 20px 16px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.stat-box:hover {
+    border-color: rgba(225, 6, 0, 0.6);
+    box-shadow: 0 4px 12px rgba(225, 6, 0, 0.2);
+    transform: translateY(-2px);
+}
+
+.stat-label {
+    font-size: 0.75rem;
+    color: #999;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+}
+
+.stat-value {
+    font-size: 1.8rem;
+    color: #fff;
+    font-weight: 700;
+    font-family: 'Roboto Mono', monospace;
+}
+
+.stat-highlight {
+    color: #e10600;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .piloti-card-stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .piloti-card-stats {
+        grid-template-columns: 1fr;
+    }
 }

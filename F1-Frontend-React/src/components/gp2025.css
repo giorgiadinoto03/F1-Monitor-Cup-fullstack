@@ -14,6 +14,7 @@
     box-shadow: 0 0 30px var(--f1-shadow);
     color: #f0f0f0;
     table-layout: fixed;
+    
 }
 
 /* Celle base */
@@ -62,7 +63,7 @@
 
 .gp-table img:hover {
     transform: scale(1.04);
-    border-color: #ff3b30;
+    border-color: #3056ff;
 }
 
 /* Nomi GP */
@@ -91,6 +92,11 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 3px;
     align-items: start;
+    justify-items: center;
+    margin-top: 20px;
+}
+.MuiTableRow-root:hover {
+    background-color: rgba(225, 6, 0, 0.15) !important;
 }
 
 /* INFO SESSIONE SENZA RIQUADRO */
@@ -100,6 +106,7 @@
     align-items: center;
     gap: 2px;
     margin-top: 3px;
+    
 }
 
 .session-date {
@@ -127,8 +134,8 @@
 }
 
 .session-item:hover {
-    background-color: rgba(184, 19, 19, 0.25);
-    border-color: #e10600;
+    background-color: rgba(19, 82, 184, 0.25);
+    border-color: #009ae1;
 }
 
 /* Bottoni SessionCard */

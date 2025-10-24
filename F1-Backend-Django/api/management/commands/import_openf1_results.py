@@ -49,14 +49,14 @@ class Command(BaseCommand):
                     self.stdout.write(self.style.WARNING(f"  ⚠️ Driver {driver_number} non trovato, salto..."))
                     continue
 
-                # Controlla lo stato del pilota
+                # 🔥 CORREZIONE: Leggi i flag DNF/DNS/DSQ dall'API
                 dnf = item.get("dnf", False)
                 dns = item.get("dns", False)
                 dsq = item.get("dsq", False)
                 position = item.get("position")
 
                 # Determina se il pilota è classificato (posizione tra 1 e 20)
-                if position is not None and 1 <= position <= 20:
+                if position is not None and 1 <= position <= 20 and not dnf and not dns and not dsq:
                     classified_drivers.append((driver, item, position))
                 else:
                     # Pilota non classificato - determina lo stato
@@ -84,15 +84,19 @@ class Command(BaseCommand):
                 # DEBUG: Mostra i dati ricevuti
                 self.stdout.write(f"  🔍 Driver {driver.number} - {driver.full_name}: {item}")
 
+                # 🔥 CORREZIONE: Leggi di nuovo i flag per ogni pilota
+                dnf = item.get("dnf", False)
+                dns = item.get("dns", False)
+                dsq = item.get("dsq", False)
+                position = item.get("position")
+
                 # POSIZIONE FINALE
                 if isinstance(status_or_position, int):
                     # Pilota classificato - mantiene la posizione originale (1-20)
                     position_value = status_or_position
-                    status_display = f"P{position_value}"
                 else:
                     # Pilota non classificato - posizione None
                     position_value = None
-                    status_display = status_or_position
 
                 # GESTIONE DURATION E GAP - DISTINGUI TRA ARRAY E VALORI SINGOLI
                 duration_raw = item.get("duration")
@@ -137,7 +141,7 @@ class Command(BaseCommand):
                         q2_value = duration_raw[1] if len(duration_raw) > 1 else None
                         q3_value = duration_raw[2] if len(duration_raw) > 2 else None
 
-                # Crea o aggiorna il risultato
+                # 🔥 CORREZIONE: Crea o aggiorna il risultato con i flag DNF/DNS/DSQ
                 result, created = Result.objects.update_or_create(
                     session=session,
                     driver=driver,
@@ -147,13 +151,30 @@ class Command(BaseCommand):
                         "gap_to_leader": gap_value,
                         "q1": q1_value,
                         "q2": q2_value,
-                        "q3": q3_value
+                        "q3": q3_value,
+                        # 🔥 SALVA I FLAG DNF/DNS/DSQ
+                        "dnf": dnf,
+                        "dns": dns,
+                        "dsq": dsq
                     }
                 )
 
+                # Determina lo status per il log
+                if dsq:
+                    status_display = "DSQ"
+                elif dns:
+                    status_display = "DNS"
+                elif dnf:
+                    status_display = "DNF"
+                elif position_value:
+                    status_display = f"P{position_value}"
+                else:
+                    status_display = "NC"
+
                 action = "creato" if created else "aggiornato"
                 self.stdout.write(f"  ✅ Risultato {action} per {driver.full_name}: "
-                                f"{status_display}, durata={duration_value}, gap={gap_value}, "
+                                f"{status_display}, DNF={dnf}, DNS={dns}, DSQ={dsq}, "
+                                f"durata={duration_value}, gap={gap_value}, "
                                 f"q1={q1_value}, q2={q2_value}, q3={q3_value}")
 
                 final_position += 1

@@ -1,6 +1,6 @@
 [
   {
-    "season_point": 332,
+    "season_point": 325,
     "driver_number": 81,
     "broadcast_name": "O PIASTRI",
     "full_name": "Oscar PIASTRI",
@@ -16,10 +16,11 @@
     "poles": 5,
     "podiums": 14,
     "wins": 7,
+    "driver_id": "None",
     "session_key": "9888"
   },
   {
-    "season_point": 346,
+    "season_point": 317,
     "driver_number": 4,
     "broadcast_name": "L NORRIS",
     "full_name": "Lando NORRIS",
@@ -35,10 +36,11 @@
     "poles": 4,
     "podiums": 13,
     "wins": 5,
+    "driver_id": "None",
     "session_key": "9888"
   },
   {
-    "season_point": 252,
+    "season_point": 235,
     "driver_number": 63,
     "broadcast_name": "G RUSSELL",
     "full_name": "George RUSSELL",
@@ -54,10 +56,11 @@
     "poles": 1,
     "podiums": 7,
     "wins": 1,
+    "driver_id": "None",
     "session_key": "9888"
   },
   {
-    "season_point": 89,
+    "season_point": 84,
     "driver_number": 12,
     "broadcast_name": "K ANTONELLI",
     "full_name": "Kimi ANTONELLI",
@@ -73,10 +76,11 @@
     "poles": 0,
     "podiums": 1,
     "wins": 0,
+    "driver_id": "None",
     "session_key": "9888"
   },
   {
-    "season_point": 192,
+    "season_point": 179,
     "driver_number": 16,
     "broadcast_name": "C LECLERC",
     "full_name": "Charles LECLERC",
@@ -92,10 +96,11 @@
     "poles": 1,
     "podiums": 5,
     "wins": 0,
+    "driver_id": "None",
     "session_key": "9888"
   },
   {
-    "season_point": 142,
+    "season_point": 123,
     "driver_number": 44,
     "broadcast_name": "L HAMILTON",
     "full_name": "Lewis HAMILTON",
@@ -111,10 +116,11 @@
     "poles": 0,
     "podiums": 0,
     "wins": 0,
+    "driver_id": "None",
     "session_key": "9888"
   },
   {
-    "season_point": 306,
+    "season_point": 284,
     "driver_number": 1,
     "broadcast_name": "M VERSTAPPEN",
     "full_name": "Max VERSTAPPEN",
@@ -130,10 +136,11 @@
     "poles": 6,
     "podiums": 8,
     "wins": 4,
+    "driver_id": "None",
     "session_key": "9888"
   },
   {
-    "season_point": 28,
+    "season_point": 20,
     "driver_number": 22,
     "broadcast_name": "Y TSUNODA",
     "full_name": "Yuki TSUNODA",
@@ -149,10 +156,11 @@
     "poles": 0,
     "podiums": 0,
     "wins": 0,
+    "driver_id": "None",
     "session_key": "9888"
   },
   {
-    "season_point": 73,
+    "season_point": 70,
     "driver_number": 23,
     "broadcast_name": "A ALBON",
     "full_name": "Alexander ALBON",
@@ -168,10 +176,11 @@
     "poles": 0,
     "podiums": 0,
     "wins": 0,
+    "driver_id": "None",
     "session_key": "9888"
   },
   {
-    "season_point": 38,
+    "season_point": 29,
     "driver_number": 55,
     "broadcast_name": "C SAINZ",
     "full_name": "Carlos SAINZ",
@@ -187,6 +196,7 @@
     "poles": 0,
     "podiums": 1,
     "wins": 0,
+    "driver_id": "None",
     "session_key": "9888"
   },
   {
@@ -211,7 +221,7 @@
     "session_key": "9888"
   },
   {
-    "season_point": 39,
+    "season_point": 38,
     "driver_number": 6,
     "broadcast_name": "I HADJAR",
     "full_name": "Isack HADJAR",
@@ -227,10 +237,11 @@
     "poles": 0,
     "podiums": 1,
     "wins": 0,
+    "driver_id": "None",
     "session_key": "9888"
   },
   {
-    "season_point": 32,
+    "season_point": 28,
     "driver_number": 18,
     "broadcast_name": "L STROLL",
     "full_name": "Lance STROLL",
@@ -246,6 +257,7 @@
     "poles": 0,
     "podiums": 0,
     "wins": 0,
+    "driver_id": "None",
     "session_key": "9888"
   },
   {
@@ -265,6 +277,7 @@
     "poles": 0,
     "podiums": 0,
     "wins": 0,
+    "driver_id": "None",
     "session_key": "9888"
   },
   {
@@ -284,6 +297,7 @@
     "poles": 0,
     "podiums": 1,
     "wins": 0,
+    "driver_id": "None",
     "session_key": "9888"
   },
   {
@@ -303,10 +317,11 @@
     "poles": 0,
     "podiums": 0,
     "wins": 0,
+    "driver_id": "None",
     "session_key": "9888"
   },
   {
-    "season_point": 28,
+    "season_point": 24,
     "driver_number": 31,
     "broadcast_name": "E OCON",
     "full_name": "Esteban OCON",
@@ -322,10 +337,11 @@
     "poles": 0,
     "podiums": 0,
     "wins": 0,
+    "driver_id": "None",
     "session_key": "9888"
   },
   {
-    "season_point": 20,
+    "season_point": 18,
     "driver_number": 87,
     "broadcast_name": "O BEARMAN",
     "full_name": "Oliver BEARMAN",
@@ -341,10 +357,11 @@
     "poles": 0,
     "podiums": 0,
     "wins": 0,
+    "driver_id": "None",
     "session_key": "9888"
   },
   {
-    "season_point": 20,
+    "season_point": 19,
     "driver_number": 10,
     "broadcast_name": "P GASLY",
     "full_name": "Pierre GASLY",
@@ -360,6 +377,7 @@
     "poles": 0,
     "podiums": 0,
     "wins": 0,
+    "driver_id": "None",
     "session_key": "9888"
   },
   {

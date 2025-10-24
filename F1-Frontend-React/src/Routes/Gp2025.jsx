@@ -106,8 +106,9 @@ export function Gp2025() {
                 <p>Seleziona una sessione per vedere i dettagli e i risultati.</p>
 
                 <h3>
-                    <u>L'elenco mostra SOLO i GP già conclusi della stagione 2025</u>
+                    <u>L'elenco mostra SOLO le gare a fine sessione.</u>
                 </h3>
+                    <p>Le sessioni non ancora avvenute non sono visualizzate.</p>
 
                 {loading && <div className="loading-message">Caricamento...</div>}
                 {error && <div className="error-message">Errore: {error}</div>}
