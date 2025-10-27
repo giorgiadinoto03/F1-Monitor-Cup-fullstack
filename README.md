@@ -110,7 +110,7 @@ python manage.py migrate
 python manage.py import_drivers
 python manage.py import_teams
 
-python manage.py import_all_openf1 --year 2025 -> comando che serve a importare races, sessions, results e calcolo punti in un'unica volta
+python manage.py import_all_openf1 --year 2025 -> Serve a importare races, sessions, results, calcolo punti e associare immagini ai circuiti in un unico comando
 
 python manage.py import_openf1_races
 python manage.py import_openf1_sessions
