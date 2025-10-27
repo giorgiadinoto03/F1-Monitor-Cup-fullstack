@@ -19,8 +19,9 @@ class Command(BaseCommand):
         session_url = "https://api.openf1.org/v1/sessions?session_key=latest"
         session_data = requests.get(session_url).json()
         latest_session = session_data[0]['session_key']
+        meeting_key = session_data[0]['meeting_key']
 
-        driver_url = f"https://api.openf1.org/v1/drivers?session_key={latest_session}"
+        driver_url = f"https://api.openf1.org/v1/drivers?meeting_key={meeting_key}"
         drivers = requests.get(driver_url).json()
 
         for item in drivers:

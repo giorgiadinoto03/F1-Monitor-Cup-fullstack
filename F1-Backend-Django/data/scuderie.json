@@ -16,6 +16,12 @@
         "full_name": "Lando NORRIS",
         "name_acronym": "NOR",
         "headshot_url": "https://media.formula1.com/image/upload/c_lfill,w_440/q_auto/d_common:f1:2025:fallback:driver:2025fallbackdriverright.webp/v1740000000/common/f1/2025/mclaren/lannor01/2025mclarenlannor01right.webp"
+      },
+      {
+        "driver_number": 89,
+        "full_name": "Patricio O'Ward",
+        "name_acronym": "O'WA",
+        "headshot_url": "https://www.indycar.com/-/media/IndyCar/Drivers/IndyCar-Series/FullBody/PatoOWard.png"
       }
     ]
   },
@@ -36,6 +42,12 @@
         "full_name": "Yuki TSUNODA",
         "name_acronym": "TSU",
         "headshot_url": "https://media.formula1.com/image/upload/c_fill,w_720/q_auto/v1740000000/common/f1/2025/redbullracing/yuktsu01/2025redbullracingyuktsu01right.webp"
+      },
+      {
+        "driver_number": 36,
+        "full_name": "Arvid LINDBLAD",
+        "name_acronym": "LIN",
+        "headshot_url": "https://d12d6l12s3d372.cloudfront.net/Getty_Images_2159545175_0b1886b5b9.jpg"
       }
     ]
   },
@@ -56,6 +68,12 @@
         "full_name": "Kimi ANTONELLI",
         "name_acronym": "ANT",
         "headshot_url": "https://media.formula1.com/image/upload/c_fill,w_720/q_auto/v1740000000/common/f1/2025/mercedes/andant01/2025mercedesandant01right.webp"
+      },
+      {
+        "driver_number": 72,
+        "full_name": "Frederick VESTI",
+        "name_acronym": "VES",
+        "headshot_url": "https://images.ctfassets.net/1fvlg6xqnm65/gfLjWSE080B3ionFNTb9G/cbfe29834375667eb8fe7d311b913f27/Fred_Vesti.png?w=3840&q=75&fm=webp"
       }
     ]
   },
@@ -76,6 +94,12 @@
         "full_name": "Lewis HAMILTON",
         "name_acronym": "HAM",
         "headshot_url": "https://media.formula1.com/image/upload/c_lfill,w_440/q_auto/d_common:f1:2025:fallback:driver:2025fallbackdriverright.webp/v1740000000/common/f1/2025/ferrari/lewham01/2025ferrarilewham01right.webp"
+      },
+      {
+        "driver_number": 38,
+        "full_name": "Antonio FUOCO",
+        "name_acronym": "FUO",
+        "headshot_url": "https://cdn.ferrari.com/cms/network/media/img/resize/6842bdc369d8110020d9874e-stats_afuoco?width=750&height=0"
       }
     ]
   },
@@ -96,6 +120,12 @@
         "full_name": "Carlos SAINZ",
         "name_acronym": "SAI",
         "headshot_url": "https://media.formula1.com/image/upload/c_fill,w_720/q_auto/v1740000000/common/f1/2025/williams/carsai01/2025williamscarsai01right.webp"
+      },
+      {
+        "driver_number": 46,
+        "full_name": "Luke BROWING",
+        "name_acronym": "BRO",
+        "headshot_url": "https://cdn.williamsf1.tech/images/fnx611yr/production/bf36d3fed3bc26e49385436fb79e48efd9a2fd37-2013x2013.png?w=625&h=625&auto=format"
       }
     ]
   },
@@ -116,6 +146,12 @@
         "full_name": "Isack HADJAR",
         "name_acronym": "HAD",
         "headshot_url": "https://media.formula1.com/image/upload/c_fill,w_720/q_auto/v1740000000/common/f1/2025/racingbulls/isahad01/2025racingbullsisahad01right.webp"
+      },
+      {
+        "driver_number": 40,
+        "full_name": "Ayumu IWASA",
+        "name_acronym": "IWA",
+        "headshot_url": "https://res.cloudinary.com/prod-f2f3/ar_16:9,c_fill,dpr_1.0,f_auto,g_auto,h_563,w_1000/v1/f2/global/drivers/2023/BRYN2244_78d4956f-e901-4afc-a692-1962f5d2346a_ED_c0aa8eaf-e048-4d9e-8eb3-267fb5deac62"
       }
     ]
   },
@@ -136,6 +172,12 @@
         "full_name": "Fernando ALONSO",
         "name_acronym": "ALO",
         "headshot_url": "https://media.formula1.com/image/upload/c_fill,w_720/q_auto/v1740000000/common/f1/2025/astonmartin/feralo01/2025astonmartinferalo01right.webp"
+      },
+      {
+        "driver_number": 35,
+        "full_name": "Jak CRAWFORD",
+        "name_acronym": "CRA",
+        "headshot_url": "https://assets.astonmartinf1.com/public/cms/36Y2D25jTLJRXvWrAcfdUo/1444a3e02e0c67b9ab35cb36572fd2b1/Jak_page_header_image.jpg?&h=849&w=1440&fm=jpg&fit=thumb"
       }
     ]
   },
@@ -176,6 +218,12 @@
         "full_name": "Oliver BEARMAN",
         "name_acronym": "BEA",
         "headshot_url": "https://media.formula1.com/image/upload/c_fill,w_720/q_auto/v1740000000/common/f1/2025/haas/olibea01/2025haasolibea01right.webp"
+      },
+      {
+        "driver_number": 50,
+        "full_name": "Ryo HIRAKAWA",
+        "name_acronym": "HIR",
+        "headshot_url": "https://i.namu.wiki/i/_Ggfq2pPJxRENQdWlu_3IH5FsacHmc5vQiGPddT_8EpQ3seU8caxBtnveZDEzSPnCNgxw2zRFZwP6ouAA6CQsw.webp"
       }
     ]
   },
@@ -202,6 +250,12 @@
         "full_name": "Jack DOOHAN",
         "name_acronym": "DOO",
         "headshot_url": "https://media.formula1.com/image/upload/c_fill,w_720/q_auto/v1740000000/common/f1/2025/alpine/jacdoo01/2025alpinejacdoo01right.webp"
+      },
+      {
+        "driver_number": 61,
+        "full_name": "Paul ARON",
+        "name_acronym": "ARO",
+        "headshot_url": "https://alpinef1-assets.dropt.app/Paul_Aron_1x1_2025_final_e31c9a5150.png"
       }
     ]
   }
