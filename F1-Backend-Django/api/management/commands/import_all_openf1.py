@@ -42,4 +42,8 @@ class Command(BaseCommand):
             self.stdout.write("\n💾 Export piloti JSON...")
             call_command('import_openf1_drivers', '--export')
 
+        # 5️⃣ Calcola punti team
+        self.stdout.write("\n🏎️ Associa immagine al proprio circuito...")
+        call_command('associate_circuit_images')
+
         self.stdout.write(self.style.SUCCESS("\n✅ Pipeline OpenF1 completata con successo!\n"))
