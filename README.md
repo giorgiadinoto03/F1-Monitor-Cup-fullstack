@@ -213,7 +213,7 @@ docker-compose exec backend python manage.py import_openf1_results
 docker-compose exec backend python manage.py calculated_driver_points
 docker-compose exec backend python manage.py associate_circuit_images
 ```
-### API Principali
+### API Principali x Backend
 
 - Scuderie --> "http://127.0.0.1:8000/api/teams/",
 - Piloti --> "http://127.0.0.1:8000/api/drivers/",
