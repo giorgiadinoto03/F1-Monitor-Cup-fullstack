@@ -22,19 +22,19 @@ L'applicazione si compone di:
 ### Backend
 Il backend è sviluppato con Django 5.2.7 e Django REST Framework 3.16.1, fornendo un'API RESTful completa per la gestione dei dati della stagione di Formula 1 2025.
 
-Django 5.2.7 - Framework web Python
-Django REST Framework 3.16.1 - API REST
-PostgreSQL 15 - Database relazionale
-Django CORS Headers 4.9.0 - Gestione CORS
-Django Filter 25.2 - Sistema di filtri avanzati
-Requests 2.32.5 - HTTP client per OpenF1 API
-Pillow 12.0.0 - Gestione immagini
+- Django 5.2.7 - Framework web Python
+- Django REST Framework 3.16.1 - API REST
+- PostgreSQL 15 - Database relazionale
+- Django CORS Headers 4.9.0 - Gestione CORS
+- Django Filter 25.2 - Sistema di filtri avanzati
+- Requests 2.32.5 - HTTP client per OpenF1 API
+- Pillow 12.0.0 - Gestione immagini
 
 #### Infrastruttura
 
-Docker & Docker Compose - Containerizzazione e orchestrazione
-Vite Dev Server - Hot reload frontend
-Django Development Server - Backend development
+- Docker & Docker Compose - Containerizzazione e orchestrazione
+- Vite Dev Server - Hot reload frontend
+- Django Development Server - Backend development
 
 ## Struttura del Progetto
 ```
@@ -110,11 +110,11 @@ cd F1-Backend-Django
 # Creazione ambiente virtuale
 python -m venv .venv
 
-# Attivazione ambiente virtuale
-# Linux/Mac:
+# Attivazione ambiente virtuale 
+# Linux:
 source .venv/bin/activate
 # Windows:
-.venv\Scripts\activate
+source .venv\Scripts\activate
 
 # Installazione dipendenze
 pip install -r requirements.txt
