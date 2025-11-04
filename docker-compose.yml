@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: f1_database
+      POSTGRES_USER: f1_user
+      POSTGRES_PASSWORD: f1_password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  backend:
+    build: ./F1-Backend-Django
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgres://f1_user:f1_password@db:5432/f1_database
+      - DEBUG=True
+    depends_on:
+      - db
+    volumes:
+      - ./F1-Backend-Django:/app
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
+
+  frontend:
+    build: 
+      context: ./F1-Frontend-React
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    environment:
+      - REACT_APP_API_URL=http://backend:8000/api
+    depends_on:
+      - backend
+    volumes:
+      - ./F1-Frontend-React:/app
+      - /app/node_modules
+    stdin_open: true
+    tty: true
+
+volumes:
+  postgres_data:

@@ -12,7 +12,12 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import os
+import environ
 from dotenv import load_dotenv
+import dj_database_url
+
+env = environ.Env()
+environ.Env.read_env()
 
 load_dotenv()
 
@@ -113,10 +118,17 @@ WSGI_APPLICATION = 'F1_m_c.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': env('POSTGRES_DB', default='f1_database'),
+        'USER': env('POSTGRES_USER', default='f1_user'),
+        'PASSWORD': env('POSTGRES_PASSWORD', default='f1_password'),
+        'HOST': env('DB_HOST', default='db'),
+        'PORT': env('DB_PORT', default='5432'),
     }
 }
+
+ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "*").split(",")
+
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
