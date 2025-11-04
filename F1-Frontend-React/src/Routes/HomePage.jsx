@@ -80,7 +80,7 @@ export default function HomePage() {
                         )}
 
                         <h3>
-                            {nextGp.meeting_name} - {nextGp.location}
+                            {nextGp.meeting_name} - {nextGp.location} in {nextGp.country_name}
                             <br />
                             <i>{nextGp.meeting_official_name}</i>
                         </h3>
